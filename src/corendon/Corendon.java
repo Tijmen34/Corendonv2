@@ -99,6 +99,8 @@ public class Corendon extends Application {
                 }
             }
         });
+        
+        
         login.setOnAction(e ->{
             try{
                 String query = "select * from users where Username=? and Password=?";
@@ -156,6 +158,7 @@ public class Corendon extends Application {
         primaryStage.show();
     }
     
+    //check van tevoren de db verbinding
     public void CheckConnection() {
         conn = Sql.DbConnector();
         if (conn == null) {
