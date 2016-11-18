@@ -32,111 +32,119 @@ import javafx.stage.Stage;
  * @author JerryJerr
  */
 public class Corendon extends Application {
+
     Connection conn;
     ResultSet rs = null;
     PreparedStatement pst = null;
-    
+
     @Override
     public void start(Stage primaryStage) {
         CheckConnection(); //de methode CheckConnection() wordt uitgevoerd
-        
+
         GridPane mainScreen = new GridPane(); //het hoofdscherm wordt een gridpane
         Scene newscene = new Scene(mainScreen, 1200, 700, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
-        
-        Label label = new Label("Label");
+
+        Label loginLabel = new Label("Enter your details.");
         Button login = new Button("Log in"); //maak de loginknop aan
         Button help = new Button("Help"); //maak de help knop aan
-        
-        TextField userName = new TextField(); //maak het veld aan voor username
-        PasswordField password = new PasswordField(); //maak het password veld aan
+
+        TextField usr = new TextField(); //maak het veld aan voor username
+        PasswordField pwd = new PasswordField(); //maak het pwd veld aan
         BorderPane startScreen = new BorderPane(); //maak het startscherm aan
-        HBox startScreenTop = new HBox(); 
+        HBox startScreenTop = new HBox();
         HBox startScreenBottom = new HBox();
         GridPane loginScreen = new GridPane();
         Image logoCorendon = new Image("Corendon-Logo.jpg");
         Image logoLuggage = new Image("Luggage_white.png");
-        Label userNameLabel = new Label("User name:");
-        Label passwordLabel = new Label("Password:");
-        
+        Label usrLabel = new Label("Username:");
+        Label pwdLabel = new Label("Password:");
+
         ImageView logoCorendonView = new ImageView();
         ImageView logoLuggageView = new ImageView();
-        
+
         logoCorendonView.setImage(logoCorendon);
         logoLuggageView.setImage(logoLuggage);
-        
-        userNameLabel.setStyle("-fx-text-fill:#D81E05");
-        passwordLabel.setStyle("-fx-text-fill:#D81E05");
-        
-        userName.setPromptText("User name");
-        password.setPromptText("Password");
-        
-        password.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+        usrLabel.setStyle("-fx-text-fill:#D81E05");
+        pwdLabel.setStyle("-fx-text-fill:#D81E05");
+
+        usr.setPromptText("Username");
+        pwd.setPromptText("Password");
+
+        pwd.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            
+            //deze methode zorgt ervoor dat je met de Enter knop kunt submitten/inloggen
             @Override
             public void handle(KeyEvent e) {
-                if(e.getCode() == KeyCode.ENTER){
-                    try{
+                if (e.getCode() == KeyCode.ENTER) {
+                    try {
                         String query = "select * from users where Username=? and Password=?";
                         pst = conn.prepareStatement(query);
-                        pst.setString(1, userName.getText());
-                        pst.setString(2, password.getText());
+                        pst.setString(1, usr.getText());
+                        pst.setString(2, pwd.getText());
                         rs = pst.executeQuery();
-                        
-                        if(rs.next()){
+
+                        if (rs.next()) {
                             //label.setText("Login Successful");
                             primaryStage.setScene(newscene);
                             primaryStage.show();
-                        }else{
-                            label.setText("Login Failed");
+                        } else {
+                            loginLabel.setText("Error: Invalid username or password.");
                         }
-                        userName.clear();
-                        password.clear();
+                        usr.clear();
+                        pwd.clear();
                         pst.close();
                         rs.close();
-                    }catch(Exception e1){
-                        label.setText("SQL Error"); 
+                    } catch (Exception e1) {
+                        loginLabel.setText("SQL Error");
                         System.err.println(e1);
                     }
                 }
             }
         });
-        
-        
-        login.setOnAction(e ->{
-            try{
+
+        //de login knop backend
+        login.setOnAction(e -> {
+            try {
                 String query = "select * from users where Username=? and Password=?";
                 pst = conn.prepareStatement(query);
-                pst.setString(1, userName.getText());
-                pst.setString(2, password.getText());
+                pst.setString(1, usr.getText());
+                pst.setString(2, pwd.getText());
                 rs = pst.executeQuery();
-                
-                if(rs.next()){
+
+                if (rs.next()) {
                     //label.setText("Login Successful");
                     primaryStage.setScene(newscene);
                     primaryStage.show();
-                }else{
-                    label.setText("Login Failed");
-                } 
-                userName.clear();
-                password.clear();
+                } else {
+                    loginLabel.setText("Error: Invalid username or password.");
+                }
+                
+                usr.clear();
+                pwd.clear();
                 pst.close();
                 rs.close();
-            }catch(Exception e1){
-                label.setText("SQL Error");
+                
+            } catch (Exception e1) {
+                loginLabel.setText("SQL Error");
                 System.err.println(e1);
             }
         });
+        
+        
         loginScreen.setHgap(15);
         loginScreen.setVgap(15);
         loginScreen.setPadding(new Insets(50, 30, 50, 30));
-        
+
         //loginScreen.getChildren().add();
-        loginScreen.add(userNameLabel, 0, 0);
-        loginScreen.add(passwordLabel, 0, 1);
-        loginScreen.add(userName, 1, 0, 2, 1);
-        loginScreen.add(password, 1, 1, 2, 1);
+        loginScreen.add(loginLabel, 1, 2);
+        loginScreen.add(usrLabel, 0, 0);
+        loginScreen.add(pwdLabel, 0, 1);
+        loginScreen.add(usr, 1, 0, 2, 1);
+        loginScreen.add(pwd, 1, 1, 2, 1);
         loginScreen.add(login, 1, 3);
         loginScreen.add(help, 2, 3);
-        
+
         startScreenTop.setAlignment(Pos.CENTER);
         startScreenTop.setStyle("-fx-background-color:#D81E05");
         startScreenTop.getChildren().add(logoLuggageView);
@@ -148,27 +156,25 @@ public class Corendon extends Application {
         startScreenBottom.getChildren().add(logoCorendonView);
         loginScreen.setStyle("-fx-background-color:white");
         logoCorendonView.setStyle("-fx-background-color:white");
-        
-        //startScreen.getChildren().addAll(loginScreen, logo);
 
-        Scene scene = new Scene(startScreen, 300, 312);
+        //startScreen.getChildren().addAll(loginScreen, logo);
+        Scene scene = new Scene(startScreen, 400, 300);
 
         primaryStage.setTitle("Luggage - log in");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
+
     //check van tevoren de db verbinding
     public void CheckConnection() {
         conn = Sql.DbConnector();
         if (conn == null) {
             System.out.println("Connection not succesful");
             System.exit(1);
-        } else { 
+        } else {
             System.out.println("Connection Succesful");
         }
-        
-    }
 
+    }
 
 }
