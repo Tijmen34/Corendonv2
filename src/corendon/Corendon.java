@@ -48,8 +48,8 @@ public class Corendon extends Application {
         Button login = new Button("Log in"); //maak de loginknop aan
         Button help = new Button("Help"); //maak de help knop aan
 
-        TextField usr = new TextField(); //maak het veld aan voor username
-        PasswordField pwd = new PasswordField(); //maak het pwd veld aan
+        TextField usrField = new TextField(); //maak het veld aan voor username
+        PasswordField pwdField = new PasswordField(); //maak het pwd veld aan
         BorderPane startScreen = new BorderPane(); //maak het startscherm aan
         HBox startScreenTop = new HBox();
         HBox startScreenBottom = new HBox();
@@ -68,10 +68,10 @@ public class Corendon extends Application {
         usrLabel.setStyle("-fx-text-fill:#D81E05");
         pwdLabel.setStyle("-fx-text-fill:#D81E05");
 
-        usr.setPromptText("Username");
-        pwd.setPromptText("Password");
+        usrField.setPromptText("Username");
+        pwdField.setPromptText("Password");
 
-        pwd.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        pwdField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             
             //deze methode zorgt ervoor dat je met de Enter knop kunt submitten/inloggen
             @Override
@@ -80,8 +80,8 @@ public class Corendon extends Application {
                     try {
                         String query = "select * from users where Username=? and Password=?";
                         pst = conn.prepareStatement(query);
-                        pst.setString(1, usr.getText());
-                        pst.setString(2, pwd.getText());
+                        pst.setString(1, usrField.getText());
+                        pst.setString(2, pwdField.getText());
                         rs = pst.executeQuery();
 
                         if (rs.next()) {
@@ -89,10 +89,10 @@ public class Corendon extends Application {
                             primaryStage.setScene(newscene);
                             primaryStage.show();
                         } else {
-                            loginLabel.setText("Error: Invalid username or password.");
+                            loginLabel.setText("Invalid username/password");
                         }
-                        usr.clear();
-                        pwd.clear();
+                        usrField.clear();
+                        pwdField.clear();
                         pst.close();
                         rs.close();
                     } catch (Exception e1) {
@@ -108,8 +108,8 @@ public class Corendon extends Application {
             try {
                 String query = "select * from users where Username=? and Password=?";
                 pst = conn.prepareStatement(query);
-                pst.setString(1, usr.getText());
-                pst.setString(2, pwd.getText());
+                pst.setString(1, usrField.getText());
+                pst.setString(2, pwdField.getText());
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
@@ -117,11 +117,11 @@ public class Corendon extends Application {
                     primaryStage.setScene(newscene);
                     primaryStage.show();
                 } else {
-                    loginLabel.setText("Error: Invalid username or password.");
+                    loginLabel.setText("Invalid username/password.");
                 }
                 
-                usr.clear();
-                pwd.clear();
+                usrField.clear();
+                pwdField.clear();
                 pst.close();
                 rs.close();
                 
@@ -140,8 +140,8 @@ public class Corendon extends Application {
         loginScreen.add(loginLabel, 1, 2);
         loginScreen.add(usrLabel, 0, 0);
         loginScreen.add(pwdLabel, 0, 1);
-        loginScreen.add(usr, 1, 0, 2, 1);
-        loginScreen.add(pwd, 1, 1, 2, 1);
+        loginScreen.add(usrField, 1, 0, 2, 1);
+        loginScreen.add(pwdField, 1, 1, 2, 1);
         loginScreen.add(login, 1, 3);
         loginScreen.add(help, 2, 3);
 
@@ -158,7 +158,7 @@ public class Corendon extends Application {
         logoCorendonView.setStyle("-fx-background-color:white");
 
         //startScreen.getChildren().addAll(loginScreen, logo);
-        Scene scene = new Scene(startScreen, 400, 300);
+        Scene scene = new Scene(startScreen, 450, 400);
 
         primaryStage.setTitle("Luggage - log in");
         primaryStage.setScene(scene);
