@@ -137,7 +137,7 @@ public class Corendon extends Application {
         loginScreen.setPadding(new Insets(50, 30, 50, 30));
 
         //loginScreen.getChildren().add();
-        loginScreen.add(loginLabel, 1, 2);
+        loginScreen.add(loginLabel, 1, 2, 3, 1);
         loginScreen.add(usrLabel, 0, 0);
         loginScreen.add(pwdLabel, 0, 1);
         loginScreen.add(usrField, 1, 0, 2, 1);
