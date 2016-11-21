@@ -42,8 +42,9 @@ public class Corendon extends Application {
         CheckConnection(); //de methode CheckConnection() wordt uitgevoerd
 
         GridPane mainScreen = new GridPane(); //het hoofdscherm wordt een gridpane
-        Scene newscene = new Scene(mainScreen, 1200, 700, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
-
+        Scene newscene = new Scene(mainScreen, 500, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
+        
+        Label testLabel = new Label("Logged in!");
         Label loginLabel = new Label("Enter your details.");
         Button login = new Button("Log in"); //maak de loginknop aan
         Button help = new Button("Help"); //maak de help knop aan
@@ -144,6 +145,8 @@ public class Corendon extends Application {
         loginScreen.add(pwdField, 1, 1, 2, 1);
         loginScreen.add(login, 1, 3);
         loginScreen.add(help, 2, 3);
+        
+        mainScreen.add(testLabel, 1, 2, 3, 1);
 
         startScreenTop.setAlignment(Pos.CENTER);
         startScreenTop.setStyle("-fx-background-color:#D81E05");
@@ -158,7 +161,7 @@ public class Corendon extends Application {
         logoCorendonView.setStyle("-fx-background-color:white");
 
         //startScreen.getChildren().addAll(loginScreen, logo);
-        Scene scene = new Scene(startScreen, 450, 400);
+        Scene scene = new Scene(startScreen, 320, 335);
 
         primaryStage.setTitle("Luggage - log in");
         primaryStage.setScene(scene);
@@ -169,10 +172,10 @@ public class Corendon extends Application {
     public void CheckConnection() {
         conn = Sql.DbConnector();
         if (conn == null) {
-            System.out.println("Connection not succesful");
+            System.out.println("Connection to database failed.");
             System.exit(1);
         } else {
-            System.out.println("Connection Succesful");
+            System.out.println("Connected to Corendon database!");
         }
 
     }
