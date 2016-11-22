@@ -15,6 +15,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,10 +43,12 @@ public class Corendon extends Application {
     public void start(Stage primaryStage) {
         CheckConnection(); //de methode CheckConnection() wordt uitgevoerd
 
-        GridPane mainScreen = new GridPane(); //het hoofdscherm wordt een gridpane
-        Scene newscene = new Scene(mainScreen, 500, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
+        TabPane tabScreen = new TabPane(); //het hoofdscherm
+        Tab missing = new Tab("Missing");
+        GridPane missingContent = new GridPane();
         
-        Label testLabel = new Label("Logged in!");
+        Scene newscene = new Scene(tabScreen, 500, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
+        
         Label loginLabel = new Label("Enter your details.");
         Button login = new Button("Log in"); //maak de loginknop aan
         Button help = new Button("Help"); //maak de help knop aan
@@ -96,6 +100,7 @@ public class Corendon extends Application {
                         pwdField.clear();
                         pst.close();
                         rs.close();
+                        
                     } catch (Exception e1) {
                         loginLabel.setText("SQL Error");
                         System.err.println(e1);
@@ -137,6 +142,8 @@ public class Corendon extends Application {
         loginScreen.setVgap(15);
         loginScreen.setPadding(new Insets(50, 30, 50, 30));
 
+        
+
         //loginScreen.getChildren().add();
         loginScreen.add(loginLabel, 1, 2, 3, 1);
         loginScreen.add(usrLabel, 0, 0);
@@ -146,7 +153,9 @@ public class Corendon extends Application {
         loginScreen.add(login, 1, 3);
         loginScreen.add(help, 2, 3);
         
-        mainScreen.add(testLabel, 1, 2, 3, 1);
+
+        tabScreen.getTabs().add(missing);
+        missing.setContent(missingContent);  
 
         startScreenTop.setAlignment(Pos.CENTER);
         startScreenTop.setStyle("-fx-background-color:#D81E05");

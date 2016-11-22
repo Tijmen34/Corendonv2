@@ -18,7 +18,7 @@ public class Sql {
     public static Connection DbConnector() {
 
         try {
-            Connection conn = null;
+            Connection conn;
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(
                     "jdbc:mysql://77.160.21.146:3306/corendon", "root", "admin");
