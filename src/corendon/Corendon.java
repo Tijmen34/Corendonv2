@@ -45,8 +45,8 @@ public class Corendon extends Application {
 
         TabPane tabScreen = new TabPane(); //het hoofdscherm
         Tab missing = new Tab("Missing");
-        MissingForm missingContent = new MissingForm();
-        
+        MissingForm missingContent = new MissingForm(); //ipv gridpane maken we een instantie onze eigen versie van gridpane.
+        missingContent.initScreen(); //hier roepen we de methode aan die alle elementen van het formulier toevoegd.
         
         Scene newscene = new Scene(tabScreen, 500, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
         
@@ -93,7 +93,6 @@ public class Corendon extends Application {
                         if (rs.next()) {
                             //label.setText("Login Successful");
                             primaryStage.setScene(newscene);
-                            missingContent.initScreen();
                             primaryStage.show();
                         } else {
                             loginLabel.setText("Invalid username/password.");
@@ -122,7 +121,6 @@ public class Corendon extends Application {
 
                 if (rs.next()) {
                     //label.setText("Login Successful");
-                    missingContent.initScreen();
                     primaryStage.setScene(newscene);
                     primaryStage.show();
                 } else {

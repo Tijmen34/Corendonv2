@@ -38,7 +38,12 @@ import javafx.stage.Stage;
  */
 public class MissingForm extends GridPane{
     
+    
+    // Constructor overriden kan niet, en een eigen constructor maken ipv de originele
+    // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
+    // elementen meteen aan het scherm toe te voegen.
     public void initScreen() {
+        
         TextField naamKlant = new TextField();
         
         this.add(naamKlant, 1, 1);
