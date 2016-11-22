@@ -45,7 +45,8 @@ public class Corendon extends Application {
 
         TabPane tabScreen = new TabPane(); //het hoofdscherm
         Tab missing = new Tab("Missing");
-        GridPane missingContent = new GridPane();
+        MissingForm missingContent = new MissingForm();
+        
         
         Scene newscene = new Scene(tabScreen, 500, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
         
@@ -92,6 +93,7 @@ public class Corendon extends Application {
                         if (rs.next()) {
                             //label.setText("Login Successful");
                             primaryStage.setScene(newscene);
+                            missingContent.initScreen();
                             primaryStage.show();
                         } else {
                             loginLabel.setText("Invalid username/password.");
