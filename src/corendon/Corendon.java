@@ -94,7 +94,7 @@ public class Corendon extends Application {
                             primaryStage.setScene(newscene);
                             primaryStage.show();
                         } else {
-                            loginLabel.setText("Invalid username/password");
+                            loginLabel.setText("Invalid username/password.");
                         }
                         usrField.clear();
                         pwdField.clear();
