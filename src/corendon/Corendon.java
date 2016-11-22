@@ -122,6 +122,7 @@ public class Corendon extends Application {
 
                 if (rs.next()) {
                     //label.setText("Login Successful");
+                    missingContent.initScreen();
                     primaryStage.setScene(newscene);
                     primaryStage.show();
                 } else {
