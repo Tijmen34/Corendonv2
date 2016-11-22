@@ -51,31 +51,43 @@ public class Corendon extends Application {
         Scene newscene = new Scene(tabScreen, 500, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
         
         Label loginLabel = new Label("Enter your details.");
-        Button login = new Button("Log in"); //maak de loginknop aan
-        Button help = new Button("Help"); //maak de help knop aan
-
-        TextField usrField = new TextField(); //maak het veld aan voor username
-        PasswordField pwdField = new PasswordField(); //maak het pwd veld aan
-        BorderPane startScreen = new BorderPane(); //maak het startscherm aan
-        HBox startScreenTop = new HBox();
-        HBox startScreenBottom = new HBox();
-        GridPane loginScreen = new GridPane();
-        Image logoCorendon = new Image("Corendon-Logo.jpg");
-        Image logoLuggage = new Image("Luggage_white.png");
-        Label usrLabel = new Label("Username:");
-        Label pwdLabel = new Label("Password:");
-
-        ImageView logoCorendonView = new ImageView();
-        ImageView logoLuggageView = new ImageView();
-
-        logoCorendonView.setImage(logoCorendon);
-        logoLuggageView.setImage(logoLuggage);
-
-        usrLabel.setStyle("-fx-text-fill:#D81E05");
-        pwdLabel.setStyle("-fx-text-fill:#D81E05");
-
+        
+        //de knoppen op het login scherm
+        Button login = new Button("Log in");
+        Button help = new Button("Help");
+        
+        //de fields voor username en password
+        TextField usrField = new TextField();
+        PasswordField pwdField = new PasswordField();
+        
+        //de default tekst wat in de fields staat
         usrField.setPromptText("Username");
         pwdField.setPromptText("Password");
+        
+        BorderPane startScreen = new BorderPane(); //maak het startscherm aan
+        HBox startScreenTop = new HBox(); //"scherm" voor de luggage logo
+        HBox startScreenBottom = new HBox(); //"scherm" voor de corendon logo
+        GridPane loginScreen = new GridPane(); //het gedeelte voor het loginscherm
+        
+        //importeer de logo's
+        Image logoCorendon = new Image("Corendon-Logo.jpg");
+        Image logoLuggage = new Image("Luggage_white.png");
+        
+        //tekst naast de fields
+        Label usrLabel = new Label("Username:");
+        Label pwdLabel = new Label("Password:");
+                
+        //geef de tekst een kleur
+        usrLabel.setStyle("-fx-text-fill:#D81E05");
+        pwdLabel.setStyle("-fx-text-fill:#D81E05");
+        
+        //laat logo zien
+        ImageView logoCorendonView = new ImageView();
+        ImageView logoLuggageView = new ImageView();
+        
+        //geef logo
+        logoCorendonView.setImage(logoCorendon);
+        logoLuggageView.setImage(logoLuggage); 
 
         pwdField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             
@@ -91,7 +103,6 @@ public class Corendon extends Application {
                         rs = pst.executeQuery();
 
                         if (rs.next()) {
-                            //label.setText("Login Successful");
                             primaryStage.setScene(newscene);
                             primaryStage.show();
                         } else {
@@ -120,7 +131,6 @@ public class Corendon extends Application {
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
-                    //label.setText("Login Successful");
                     primaryStage.setScene(newscene);
                     primaryStage.show();
                 } else {
@@ -138,14 +148,18 @@ public class Corendon extends Application {
             }
         });
         
-        
+        /*
+        Jeroen wats dit kil
+        */
         loginScreen.setHgap(15);
         loginScreen.setVgap(15);
         loginScreen.setPadding(new Insets(50, 30, 50, 30));
-
-        
-
-        //loginScreen.getChildren().add();
+        /*
+        */
+       
+        /*
+        Het login schermpje
+        */
         loginScreen.add(loginLabel, 1, 2, 3, 1);
         loginScreen.add(usrLabel, 0, 0);
         loginScreen.add(pwdLabel, 0, 1);
@@ -153,29 +167,51 @@ public class Corendon extends Application {
         loginScreen.add(pwdField, 1, 1, 2, 1);
         loginScreen.add(login, 1, 3);
         loginScreen.add(help, 2, 3);
-        
-
-        tabScreen.getTabs().add(missing);
-        missing.setContent(missingContent);  
-
+        /*
+        */
+ 
+        /* 
+        Luggage logo
+        */
         startScreenTop.setAlignment(Pos.CENTER);
         startScreenTop.setStyle("-fx-background-color:#D81E05");
         startScreenTop.getChildren().add(logoLuggageView);
         startScreen.setTop(startScreenTop);
-        startScreen.setCenter(loginScreen);
-        startScreen.setBottom(startScreenBottom);
+        /*
+        */
+
+        startScreen.setCenter(loginScreen); //zet loginScreen in het midden
+        startScreen.setBottom(startScreenBottom); //zet luggage logo onderin
+        
+        /*
+        Corendon logo
+        */
         startScreenBottom.setAlignment(Pos.TOP_CENTER);
         startScreenBottom.setStyle("-fx-background-color:white");
         startScreenBottom.getChildren().add(logoCorendonView);
-        loginScreen.setStyle("-fx-background-color:white");
-        logoCorendonView.setStyle("-fx-background-color:white");
+        /*
+        */
 
-        //startScreen.getChildren().addAll(loginScreen, logo);
+        loginScreen.setStyle("-fx-background-color:white"); //achtergrond wit
+        logoCorendonView.setStyle("-fx-background-color:white"); //idem
+
+        /*
+        Het gehele loginscherm
+        */
         Scene scene = new Scene(startScreen, 320, 335);
-
         primaryStage.setTitle("Luggage - log in");
         primaryStage.setScene(scene);
         primaryStage.show();
+        /*
+        */
+        
+        /*
+        De tabs van het hoofdscherm
+        */
+        tabScreen.getTabs().add(missing);
+        missing.setContent(missingContent); 
+        /*
+        */
     }
 
     //check van tevoren de db verbinding
