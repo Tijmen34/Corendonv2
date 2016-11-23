@@ -198,7 +198,7 @@ public class Corendon extends Application {
         /*
         Het gehele loginscherm
         */
-        Scene scene = new Scene(startScreen, 320, 335);
+        Scene scene = new Scene(startScreen, 350, 350);
         primaryStage.setTitle("Luggage - log in");
         primaryStage.setScene(scene);
         primaryStage.show();
