@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -47,7 +48,7 @@ public class Corendon extends Application {
         MissingForm.java
          */
         TabPane tabScreen = new TabPane(); //het hoofdscherm
-        Tab missing = new Tab("Missing");
+        Tab missing = new Tab();
         MissingForm missingContent = new MissingForm(); //ipv gridpane maken we een instantie onze eigen versie van gridpane.
         missingContent.initScreen(); //hier roepen we de methode aan die alle elementen van het formulier toevoegd.
         Scene newscene = new Scene(tabScreen, 500, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
@@ -212,8 +213,16 @@ public class Corendon extends Application {
         /*
         De tabs van het hoofdscherm
          */
+        missing.setText("");
         tabScreen.getTabs().add(missing);
         missing.setContent(missingContent);
+        missing.setStyle("-fx-background-color:#D81E05");
+        missingContent.setStyle("-fx-background-color:white");
+        tabScreen.setSide(Side.LEFT);
+        missing.setGraphic(new Label("Missing"));
+        missing.getGraphic().setStyle("-fx-text-fill:white");
+        tabScreen.setStyle("-fx-tab-min-width:20px;-fx-tab-max-width:20px;-fx-tab-min-height:80px; -fx-tab-max-height:80px");
+        missing.setClosable(false);
         /*
          */
     }
