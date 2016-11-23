@@ -3,6 +3,7 @@
  */
 package corendon;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,16 +40,19 @@ public class Corendon extends Application {
     Connection conn;
     ResultSet rs = null;
     PreparedStatement pst = null;
+    
 
     @Override
     public void start(Stage primaryStage) {
         CheckConnection(); //de methode CheckConnection() wordt uitgevoerd
 
+        
+        
         /*
         MissingForm.java
          */
         TabPane tabScreen = new TabPane(); //het hoofdscherm
-        Tab missing = new Tab();
+        Tab missing = new Tab("Missing");
         MissingForm missingContent = new MissingForm(); //ipv gridpane maken we een instantie onze eigen versie van gridpane.
         missingContent.initScreen(); //hier roepen we de methode aan die alle elementen van het formulier toevoegd.
         Scene newscene = new Scene(tabScreen, 500, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
@@ -108,7 +112,8 @@ public class Corendon extends Application {
                         rs = pst.executeQuery();
 
                         if (rs.next()) {
-                            primaryStage.setScene(newscene);
+                            primaryStage.setScene(newscene);                        
+                            primaryStage.setTitle("Welcome");
                             primaryStage.show();
                         } else {
                             loginLabel.setText("Invalid username/password.");
@@ -137,6 +142,7 @@ public class Corendon extends Application {
 
                 if (rs.next()) {
                     primaryStage.setScene(newscene);
+                    primaryStage.setTitle("Welcome");
                     primaryStage.show();
                 } else {
                     loginLabel.setText("Invalid username/password.");
@@ -213,16 +219,12 @@ public class Corendon extends Application {
         /*
         De tabs van het hoofdscherm
          */
-        missing.setText("");
+        newscene.getStylesheets().add("resources/css/style.css");
         tabScreen.getTabs().add(missing);
-        missing.setContent(missingContent);
-        missing.setStyle("-fx-background-color:#D81E05");
-        missingContent.setStyle("-fx-background-color:white");
         tabScreen.setSide(Side.LEFT);
-        missing.setGraphic(new Label("Missing"));
-        missing.getGraphic().setStyle("-fx-text-fill:white");
-        tabScreen.setStyle("-fx-tab-min-width:20px;-fx-tab-max-width:20px;-fx-tab-min-height:80px; -fx-tab-max-height:80px");
+        missing.setContent(missingContent);
         missing.setClosable(false);
+        
         /*
          */
     }
