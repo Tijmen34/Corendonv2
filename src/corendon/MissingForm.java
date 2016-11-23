@@ -52,9 +52,23 @@ public class MissingForm extends GridPane{
         this.setPadding(new Insets(50, 30, 50, 30));
         
         
-        TextField naamKlant = new TextField();
+        TextField nameField = new TextField();
+        TextField locField = new TextField();
         
-        this.add(naamKlant, 1, 1);
+        Label name = new Label("Name");
+        Label loc = new Label("Location");
+        
+        Button sub = new Button("Submit");
+        
+        this.add(nameField, 3, 1);
+        this.add(locField, 3, 2);
+        
+        this.add(name, 2, 1);
+        this.add(loc, 2, 2);
+        
+        this.add(sub, 3, 10);
+        
+        
     }
 }
 
