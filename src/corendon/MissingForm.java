@@ -44,6 +44,14 @@ public class MissingForm extends GridPane{
     // elementen meteen aan het scherm toe te voegen.
     public void initScreen() {
         
+        /*
+        maten voor het grid
+        */
+        this.setHgap(15);
+        this.setVgap(15);
+        this.setPadding(new Insets(50, 30, 50, 30));
+        
+        
         TextField naamKlant = new TextField();
         
         this.add(naamKlant, 1, 1);
