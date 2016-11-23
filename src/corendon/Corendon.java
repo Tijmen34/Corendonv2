@@ -224,7 +224,6 @@ public class Corendon extends Application {
         tabScreen.setSide(Side.LEFT);
         missing.setContent(missingContent);
         missing.setClosable(false);
-        
         /*
          */
     }
