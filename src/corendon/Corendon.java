@@ -54,7 +54,7 @@ public class Corendon extends Application {
         TabPane tabScreen = new TabPane(); //het hoofdscherm
         Tab luggage = new Tab("Luggage");
         Tab missing = new Tab("Missing");
-        Tab found   = new Tab("found");
+        Tab found   = new Tab("Found");
         Tab users   = new Tab("Users");
         LuggageOverview luggageContent = new LuggageOverview();
         luggageContent.initScreen();
@@ -64,7 +64,7 @@ public class Corendon extends Application {
         foundContent.initScreen();
         UsersOverview usersContent = new UsersOverview();
         usersContent.initScreen();
-        Scene newscene = new Scene(tabScreen, 500, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
+        Scene newscene = new Scene(tabScreen, 800, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
         /*
          */
 
