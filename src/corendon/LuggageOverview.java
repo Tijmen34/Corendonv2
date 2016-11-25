@@ -65,8 +65,11 @@ public class LuggageOverview extends BorderPane{
         border1.setCenter(scroll2);
         scroll2.setContent(table3);
         
+        TextField searchBar = new TextField();
+        Button searchButton = new Button();
         
         topBar.setStyle("-fx-background-color:#D81E05");
+        
         
         
         
