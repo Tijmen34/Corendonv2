@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -36,7 +37,7 @@ import javafx.stage.Stage;
  *
  * @author JerryJerr
  */
-public class LuggageOverview extends GridPane{
+public class LuggageOverview extends BorderPane{
     
     
     // Constructor overriden kan niet, en een eigen constructor maken ipv de originele
@@ -44,9 +45,31 @@ public class LuggageOverview extends GridPane{
     // elementen meteen aan het scherm toe te voegen.
     public void initScreen() {
         
-        TextField naamKlant = new TextField();
+        HBox topBar = new HBox();
+        BorderPane border1 = new BorderPane();
+        GridPane tableSticky2 = new GridPane();
+        ScrollPane  scroll2 = new ScrollPane();
+        GridPane table3 = new GridPane();
         
-        this.add(naamKlant, 1, 1);
+        /*
+        hierarchie:
+                      LuggageOverview
+        border1,                        topBar
+        tableSticky2,scroll2
+                      table3
+        
+        */
+        this.setTop(topBar);
+        this.setCenter(border1);
+        border1.setTop(tableSticky2);
+        border1.setCenter(scroll2);
+        scroll2.setContent(table3);
+        
+        
+        topBar.setStyle("-fx-background-color:#D81E05");
+        
+        
+        
     }
 }
 
