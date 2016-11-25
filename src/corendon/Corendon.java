@@ -57,12 +57,12 @@ public class Corendon extends Application {
         Tab found   = new Tab("found");
         Tab users   = new Tab("Users");
         LuggageOverview luggageContent = new LuggageOverview();
-        LuggageOverview.initScreen();
+        luggageContent.initScreen();
         MissingForm missingContent = new MissingForm(); //ipv gridpane maken we een instantie onze eigen versie van gridpane.
         missingContent.initScreen(); //hier roepen we de methode aan die alle elementen van het formulier toevoegd.
-        FoundForm foundContent = new foundForm();
+        FoundForm foundContent = new FoundForm();
         foundContent.initScreen();
-        UsersOverview usersContent = new usersOverview();
+        UsersOverview usersContent = new UsersOverview();
         usersContent.initScreen();
         Scene newscene = new Scene(tabScreen, 500, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
         /*
