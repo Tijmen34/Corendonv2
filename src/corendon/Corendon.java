@@ -229,7 +229,7 @@ public class Corendon extends Application {
         De tabs van het hoofdscherm
          */
         newscene.getStylesheets().add("resources/css/style.css");
-        tabScreen.getTabs().add(luggage, missing, found, users);
+        tabScreen.getTabs().addAll(luggage, missing, found, users);
         tabScreen.setSide(Side.LEFT);
         luggage.setContent(luggageContent);
         luggage.setClosable(false);
