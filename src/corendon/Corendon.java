@@ -52,9 +52,18 @@ public class Corendon extends Application {
         MissingForm.java
          */
         TabPane tabScreen = new TabPane(); //het hoofdscherm
+        Tab luggage = new Tab("Luggage");
         Tab missing = new Tab("Missing");
+        Tab found   = new Tab("found");
+        Tab users   = new Tab("Users");
+        LuggageOverview luggageContent = new LuggageOverview();
+        LuggageOverview.initScreen();
         MissingForm missingContent = new MissingForm(); //ipv gridpane maken we een instantie onze eigen versie van gridpane.
         missingContent.initScreen(); //hier roepen we de methode aan die alle elementen van het formulier toevoegd.
+        FoundForm foundContent = new foundForm();
+        foundContent.initScreen();
+        UsersOverview usersContent = new usersOverview();
+        usersContent.initScreen();
         Scene newscene = new Scene(tabScreen, 500, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
         /*
          */
@@ -220,10 +229,17 @@ public class Corendon extends Application {
         De tabs van het hoofdscherm
          */
         newscene.getStylesheets().add("resources/css/style.css");
-        tabScreen.getTabs().add(missing);
+        tabScreen.getTabs().add(luggage, missing, found, users);
         tabScreen.setSide(Side.LEFT);
+        luggage.setContent(luggageContent);
+        luggage.setClosable(false);
         missing.setContent(missingContent);
         missing.setClosable(false);
+        found.setContent(foundContent);
+        found.setClosable(false);
+        users.setContent(usersContent);
+        users.setClosable(false);
+        
         /*
          */
     }
