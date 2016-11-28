@@ -45,3 +45,12 @@
 .tab:hover {
     -fx-background-color: #b54343;
 }
+
+.table-view .column-header-background{
+    -fx-background-color: #D81E05;
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: opaque;
+    -fx-text-fill: white;
+}
