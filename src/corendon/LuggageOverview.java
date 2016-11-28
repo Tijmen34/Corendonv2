@@ -46,6 +46,9 @@ public class LuggageOverview extends BorderPane{
     // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
     // elementen meteen aan het scherm toe te voegen.
     public void initScreen() {
+        int aantalRecords = 10;
+        int aantalStickies = 2;
+        int buttonIterator = 0;
         
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
@@ -68,27 +71,25 @@ public class LuggageOverview extends BorderPane{
         this.setCenter(border1);
         border1.setTop(tableSticky2);
         border1.setCenter(scroll2);
-        tableSticky2.add(tableViewSticky3, 2, 0);
+        tableSticky2.add(tableViewSticky3, 2, 0, aantalStickies, 10);
         scroll2.setContent(table3);
-        table3.add(tableView4, 2, 0);
+        table3.add(tableView4, 2, 0, aantalRecords, 10);
         //-------------------------------------------
         
         //buttons
-        int aantalRecords = 10;
-        int aantalStickies = 2;
-        int buttonIterator = 0;
+        
         Button[] sticky = new Button[aantalRecords];
         Button[] unSticky = new Button[aantalStickies];
         while (buttonIterator < aantalRecords) {
             sticky[buttonIterator] = new Button("^");
-            sticky[buttonIterator].setPrefSize(40, 40);
+            sticky[buttonIterator].setPrefSize(20, 20);
             table3.add(sticky[buttonIterator], 1, buttonIterator);
             buttonIterator++;
         }
         buttonIterator = 0;
         while (buttonIterator < aantalStickies) {
-            unSticky[aantalRecords] = new Button("v");
-            unSticky[buttonIterator].setPrefSize(40, 40);
+            unSticky[buttonIterator] = new Button("v");
+            unSticky[buttonIterator].setPrefSize(20, 20);
             tableSticky2.add(unSticky[buttonIterator], 1, buttonIterator);
             buttonIterator++;
         }
