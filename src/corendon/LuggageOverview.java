@@ -55,6 +55,7 @@ public class LuggageOverview extends BorderPane{
         TableView tableView4 = new TableView();
         TableView tableViewSticky3 = new TableView();
         
+        
         /*
         hierarchie:
                       LuggageOverview
@@ -70,6 +71,28 @@ public class LuggageOverview extends BorderPane{
         tableSticky2.add(tableViewSticky3, 2, 0);
         scroll2.setContent(table3);
         table3.add(tableView4, 2, 0);
+        //-------------------------------------------
+        
+        //buttons
+        int aantalRecords = 10;
+        int aantalStickies = 2;
+        int buttonIterator = 0;
+        Button[] sticky = new Button[aantalRecords];
+        Button[] unSticky = new Button[aantalStickies];
+        while (buttonIterator < aantalRecords) {
+            sticky[buttonIterator] = new Button("^");
+            sticky[buttonIterator].setPrefSize(40, 40);
+            table3.add(sticky[buttonIterator], 1, buttonIterator);
+            buttonIterator++;
+        }
+        buttonIterator = 0;
+        while (buttonIterator < aantalStickies) {
+            unSticky[aantalRecords] = new Button("v");
+            unSticky[buttonIterator].setPrefSize(40, 40);
+            tableSticky2.add(unSticky[buttonIterator], 1, buttonIterator);
+            buttonIterator++;
+        }
+        //-------------------------------------------
         
         //-------------------------------------------
         
@@ -93,6 +116,7 @@ public class LuggageOverview extends BorderPane{
         tableView4.getColumns().addAll(firstNameCol, surNameCol, townCol);
         tableView4.setPrefSize(800, 500);
         
+        
         //-------------------------------------------
         
         //Sticky Tabel
@@ -104,6 +128,7 @@ public class LuggageOverview extends BorderPane{
         tableViewSticky3.getColumns().addAll(firstNameColSt, surNameColSt, townColSt);
         tableViewSticky3.setPrefSize(800, 100);
         //--------------------------------------------
+        
         
         
         
