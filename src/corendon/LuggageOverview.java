@@ -21,6 +21,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -50,6 +52,8 @@ public class LuggageOverview extends BorderPane{
         GridPane tableSticky2 = new GridPane();
         ScrollPane  scroll2 = new ScrollPane();
         GridPane table3 = new GridPane();
+        TableView tableView4 = new TableView();
+        TableView tableViewSticky3 = new TableView();
         
         /*
         hierarchie:
@@ -63,8 +67,13 @@ public class LuggageOverview extends BorderPane{
         this.setCenter(border1);
         border1.setTop(tableSticky2);
         border1.setCenter(scroll2);
+        tableSticky2.add(tableViewSticky3, 2, 0);
         scroll2.setContent(table3);
+        table3.add(tableView4, 2, 0);
         
+        //-------------------------------------------
+        
+        //Rode balk bovenin het scherm
         TextField searchBar = new TextField();
         Button searchButton = new Button();
         
@@ -73,6 +82,29 @@ public class LuggageOverview extends BorderPane{
         topBar.setMinHeight(50);
         topBar.setAlignment(Pos.CENTER);
         topBar.setStyle("-fx-background-color:#D81E05");
+        // ------------------------------------------
+        
+        //Tabel
+        
+        TableColumn firstNameCol = new TableColumn("First Name");
+        TableColumn surNameCol = new TableColumn("Last Name");
+        TableColumn townCol = new TableColumn("Town/place");
+        
+        tableView4.getColumns().addAll(firstNameCol, surNameCol, townCol);
+        tableView4.setPrefSize(800, 500);
+        
+        
+        //-------------------------------------------
+        
+        //Sticky Tabel
+        
+        TableColumn firstNameColSt = new TableColumn("First Name");
+        TableColumn surNameColSt = new TableColumn("Last Name");
+        TableColumn townColSt = new TableColumn("Town/place");
+        
+        tableViewSticky3.getColumns().addAll(firstNameColSt, surNameColSt, townColSt);
+        tableViewSticky3.setPrefSize(800, 100);
+        //--------------------------------------------
         
         
         
