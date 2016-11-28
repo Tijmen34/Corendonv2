@@ -252,8 +252,8 @@ public class MissingForm extends GridPane{
         
         this.add(title,1,0);
         this.add(separator, 1, 1);
-        this.add(next,12, 14);
-        this.add(PassInfo, 1, 4);
+        this.add(next,8, 14);
+        this.add(PassInfo, 1, 4, 2, 1);
         this.add(iata, 1, 3);
         this.add(iataSearch, 2,3);
         this.add(gender,1,5);
