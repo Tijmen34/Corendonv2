@@ -93,7 +93,6 @@ public class LuggageOverview extends BorderPane{
         tableView4.getColumns().addAll(firstNameCol, surNameCol, townCol);
         tableView4.setPrefSize(800, 500);
         
-        
         //-------------------------------------------
         
         //Sticky Tabel
