@@ -14,6 +14,7 @@ public class CustomerRecord {
     private String customerId;
     private String gender;
     private String surname;
+    private String tussenVoegsel;
     private String firstName;
     private String dateOfBirth;
     private String street;
@@ -26,10 +27,11 @@ public class CustomerRecord {
     private String airPort;
     
     
-    public CustomerRecord(String customerId, String gender, String surname, 
+    public CustomerRecord(String customerId, String gender, String surname, String tussenvoegsel, 
             String firstName, String dateOfBirth, String street, String houseNr,
             String town, String zipCode, String country, String phoneNr,
             String eMail, String airPort) {
+        
         this.customerId = customerId;
         this.gender = gender;
         this.surname = surname;
@@ -43,6 +45,14 @@ public class CustomerRecord {
         this.phoneNr = phoneNr;
         this.eMail = eMail;
         this.airPort = airPort;
+    }
+
+    public String getTussenVoegsel() {
+        return tussenVoegsel;
+    }
+
+    public void setTussenVoegsel(String tussenVoegsel) {
+        this.tussenVoegsel = tussenVoegsel;
     }
 
     public String getCustomerId() {
