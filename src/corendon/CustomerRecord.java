@@ -5,6 +5,8 @@
  */
 package corendon;
 
+import java.sql.Date;
+
 /**
  *
  * @author Jeroen de Jong
@@ -16,7 +18,7 @@ public class CustomerRecord {
     private String surname;
     private String tussenVoegsel;
     private String firstName;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String street;
     private String houseNr;
     private String town;
