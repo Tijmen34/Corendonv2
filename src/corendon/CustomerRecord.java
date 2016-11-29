@@ -7,7 +7,7 @@ package corendon;
 
 /**
  *
- * @author JerryJerr
+ * @author Jeroen de Jong
  */
 public class CustomerRecord {
     
