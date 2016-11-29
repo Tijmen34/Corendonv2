@@ -110,9 +110,12 @@ public class LuggageOverview extends BorderPane{
         
         //Tabel
         
-        TableColumn firstNameCol = new TableColumn("First Name");
-        TableColumn surNameCol = new TableColumn("Last Name");
-        TableColumn townCol = new TableColumn("Town/place");
+        TableColumn lostIdCol = new TableColumn("Lost ID");
+        TableColumn labelNrCol = new TableColumn("Label nr");
+        TableColumn FlightNrCol = new TableColumn("Flight nr");
+        TableColumn TypeCol = new TableColumn("Flight nr");
+        TableColumn FliNrCol = new TableColumn("Flight nr");
+        TableColumn FlightNrCol = new TableColumn("Flight nr");
         
         tableView4.getColumns().addAll(firstNameCol, surNameCol, townCol);
         tableView4.setPrefSize(800, 500);
