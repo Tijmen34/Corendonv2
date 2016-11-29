@@ -12,12 +12,14 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
@@ -44,8 +46,8 @@ public class LuggageOverview extends BorderPane {
     // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
     // elementen meteen aan het scherm toe te voegen.
     public void initScreen() {
-        int aantalRecords = 10;
-        int aantalStickies = 2;
+        int aantalRecords = 20;
+        int aantalStickies = 8;
         int buttonIterator = 0;
 
         HBox topBar = new HBox();
@@ -68,27 +70,57 @@ public class LuggageOverview extends BorderPane {
         this.setCenter(border1);
         border1.setTop(tableSticky2);
         border1.setCenter(scroll2);
-        tableSticky2.add(tableViewSticky3, 2, 0, aantalStickies, 10);
+        tableSticky2.add(tableViewSticky3, 2, 0, aantalStickies + 1, 10);
         scroll2.setContent(table3);
-        table3.add(tableView4, 2, 0, aantalRecords, 10);
+        table3.add(tableView4, 2, 0, aantalRecords + 1, 10);
+        
+        Separator line = new Separator();
+        line.setOrientation(Orientation.VERTICAL);
+        table3.add(line, 0, 0, aantalRecords + 1, 10);
+        
+        
+                
         //-------------------------------------------
 
-        //buttons
+        //buttons, eerst de buttons om records te verplaatsen naar sticky tabel,
+        // en daarna de "unsticky" butons.
+        StackPane cell[] = new StackPane[aantalRecords + 1];
+        StackPane cellS[] = new StackPane[aantalStickies + 1];
         Button[] sticky = new Button[aantalRecords];
         Button[] unSticky = new Button[aantalStickies];
         while (buttonIterator < aantalRecords) {
+            cell[buttonIterator] = new StackPane();
+            cell[buttonIterator].setMaxSize(30.0, 30.0);
+            cell[buttonIterator].setMinSize(30.0, 30.0);
+            
             sticky[buttonIterator] = new Button("^");
-            sticky[buttonIterator].setPrefSize(20, 20);
-            table3.add(sticky[buttonIterator], 1, buttonIterator);
+            sticky[buttonIterator].setPrefSize(25, 25);
+            table3.add(cell[buttonIterator], 1, buttonIterator + 1);
+            cell[buttonIterator].getChildren().add(sticky[buttonIterator]);
             buttonIterator++;
+            
         }
+        cell[buttonIterator] = new StackPane();
+        cell[buttonIterator].setMaxSize(30.0, 30.0);
+        cell[buttonIterator].setMinSize(30.0, 30.0);
+        table3.add(cell[buttonIterator], 1, 0);
+        
         buttonIterator = 0;
         while (buttonIterator < aantalStickies) {
+            cellS[buttonIterator] = new StackPane();
+            cellS[buttonIterator].setMaxSize(30.0, 30.0);
+            cellS[buttonIterator].setMinSize(30.0, 30.0);
+            
             unSticky[buttonIterator] = new Button("v");
-            unSticky[buttonIterator].setPrefSize(20, 20);
-            tableSticky2.add(unSticky[buttonIterator], 1, buttonIterator);
+            unSticky[buttonIterator].setPrefSize(25, 25);
+            tableSticky2.add(cellS[buttonIterator], 1, buttonIterator + 1);
+            cellS[buttonIterator].getChildren().add(unSticky[buttonIterator]);
             buttonIterator++;
         }
+        cellS[buttonIterator] = new StackPane();
+        cellS[buttonIterator].setMaxSize(30.0, 30.0);
+        cellS[buttonIterator].setMinSize(30.0, 30.0);
+        tableSticky2.add(cellS[buttonIterator], 1, 0);
         //-------------------------------------------
 
         //-------------------------------------------
@@ -117,7 +149,7 @@ public class LuggageOverview extends BorderPane {
         tableView4.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
                 typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
                 customerIdCol);
-        tableView4.setPrefSize(800, 500);
+        tableView4.setPrefSize(800, (aantalRecords * 30) + 30);
 
         //-------------------------------------------
         //Sticky Tabel
