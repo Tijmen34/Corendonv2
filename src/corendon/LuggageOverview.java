@@ -5,7 +5,6 @@
  */
 package corendon;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,9 +38,8 @@ import javafx.stage.Stage;
  *
  * @author Jeroen de Jong
  */
-public class LuggageOverview extends BorderPane{
-    
-    
+public class LuggageOverview extends BorderPane {
+
     // Constructor overriden kan niet, en een eigen constructor maken ipv de originele
     // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
     // elementen meteen aan het scherm toe te voegen.
@@ -49,16 +47,15 @@ public class LuggageOverview extends BorderPane{
         int aantalRecords = 10;
         int aantalStickies = 2;
         int buttonIterator = 0;
-        
+
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
         GridPane tableSticky2 = new GridPane();
-        ScrollPane  scroll2 = new ScrollPane();
+        ScrollPane scroll2 = new ScrollPane();
         GridPane table3 = new GridPane();
         TableView tableView4 = new TableView();
         TableView tableViewSticky3 = new TableView();
-        
-        
+
         /*
         hierarchie:
                       LuggageOverview
@@ -66,7 +63,7 @@ public class LuggageOverview extends BorderPane{
         tableSticky2,scroll2
                       table3
         
-        */
+         */
         this.setTop(topBar);
         this.setCenter(border1);
         border1.setTop(tableSticky2);
@@ -75,9 +72,8 @@ public class LuggageOverview extends BorderPane{
         scroll2.setContent(table3);
         table3.add(tableView4, 2, 0, aantalRecords, 10);
         //-------------------------------------------
-        
+
         //buttons
-        
         Button[] sticky = new Button[aantalRecords];
         Button[] unSticky = new Button[aantalStickies];
         while (buttonIterator < aantalRecords) {
@@ -94,50 +90,52 @@ public class LuggageOverview extends BorderPane{
             buttonIterator++;
         }
         //-------------------------------------------
-        
+
         //-------------------------------------------
-        
         //Rode balk bovenin het scherm
         TextField searchBar = new TextField();
         Button searchButton = new Button();
-        
+
         topBar.getChildren().addAll(searchBar, searchButton);
         topBar.setSpacing(30);
         topBar.setMinHeight(50);
         topBar.setAlignment(Pos.CENTER);
         topBar.setStyle("-fx-background-color:#D81E05");
         // ------------------------------------------
-        
+
         //Tabel
-        
         TableColumn lostIdCol = new TableColumn("Lost ID");
         TableColumn labelNrCol = new TableColumn("Label nr");
-        TableColumn FlightNrCol = new TableColumn("Flight nr");
-        TableColumn TypeCol = new TableColumn("Flight nr");
-        TableColumn FliNrCol = new TableColumn("Flight nr");
-        TableColumn FlightNrCol = new TableColumn("Flight nr");
-        
-        tableView4.getColumns().addAll(firstNameCol, surNameCol, townCol);
+        TableColumn flightNrCol = new TableColumn("Flight nr");
+        TableColumn typeCol = new TableColumn("Type");
+        TableColumn brandCol = new TableColumn("Brand Name");
+        TableColumn primaryColorCol = new TableColumn("Color 1");
+        TableColumn secondaryColorCol = new TableColumn("Color 2");
+        TableColumn infoCol = new TableColumn("Add. info");
+        TableColumn customerIdCol = new TableColumn("Customer ID");
+
+        tableView4.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
+                typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
+                customerIdCol);
         tableView4.setPrefSize(800, 500);
-        
-        
+
         //-------------------------------------------
-        
         //Sticky Tabel
-        
-        TableColumn firstNameColSt = new TableColumn("First Name");
-        TableColumn surNameColSt = new TableColumn("Last Name");
-        TableColumn townColSt = new TableColumn("Town/place");
-        
-        tableViewSticky3.getColumns().addAll(firstNameColSt, surNameColSt, townColSt);
+        TableColumn lostIdColSt = new TableColumn("Lost ID");
+        TableColumn labelNrColSt = new TableColumn("Label nr");
+        TableColumn flightNrColSt = new TableColumn("Flight nr");
+        TableColumn typeColSt = new TableColumn("Type");
+        TableColumn brandColSt = new TableColumn("Brand Name");
+        TableColumn primaryColorColSt = new TableColumn("Color 1");
+        TableColumn secondaryColorColSt = new TableColumn("Color 2");
+        TableColumn infoColSt = new TableColumn("Add. info");
+        TableColumn customerIdColSt = new TableColumn("Customer ID");
+
+        tableViewSticky3.getColumns().addAll(lostIdColSt, labelNrColSt, flightNrColSt,
+                typeColSt, brandColSt, primaryColorColSt, secondaryColorColSt, infoColSt,
+                customerIdColSt);
         tableViewSticky3.setPrefSize(800, 100);
         //--------------------------------------------
-        
-        
-        
-        
-        
+
     }
 }
-
-
