@@ -30,7 +30,7 @@ public class CustomerRecord {
     
     
     public CustomerRecord(String customerId, String gender, String surname, String tussenvoegsel, 
-            String firstName, String dateOfBirth, String street, String houseNr,
+            String firstName, Date dateOfBirth, String street, String houseNr,
             String town, String zipCode, String country, String phoneNr,
             String eMail, String airPort) {
         
