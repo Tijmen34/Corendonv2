@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author JerryJerr
+ * @author Jeroen de Jong
  */
 public class LuggageOverview extends BorderPane{
     
