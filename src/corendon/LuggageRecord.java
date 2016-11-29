@@ -10,7 +10,8 @@ package corendon;
  * @author JerryJerr
  */
 public class LuggageRecord {
-
+    
+    private String lostId;
     private String labelNr;
     private String flightNr;
     private String type;
@@ -20,8 +21,8 @@ public class LuggageRecord {
     private String info;
     private String customerId;
 
-    public LuggageRecord(String labelNr, String flightNr, String type,
-            String brandName, String primaryColor, String secondaryColor,
+    public LuggageRecord(String lostId, String labelNr, String flightNr, 
+            String type, String brandName, String primaryColor, String secondaryColor,
             String info, String customerId) {
 
         this.labelNr = labelNr;
@@ -31,6 +32,14 @@ public class LuggageRecord {
         this.secondaryColor = secondaryColor;
         this.info = info;
         this.customerId = customerId;
+    }
+
+    public String getLostId() {
+        return lostId;
+    }
+
+    public void setLostId(String lostId) {
+        this.lostId = lostId;
     }
 
     public String getLabelNr() {
