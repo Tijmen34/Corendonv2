@@ -47,7 +47,7 @@ public class LuggageOverview extends BorderPane {
     // elementen meteen aan het scherm toe te voegen.
     public void initScreen() {
         int aantalRecords = 20;
-        int aantalStickies = 8;
+        int aantalStickies = 4;
         int buttonIterator = 0;
 
         HBox topBar = new HBox();
@@ -70,13 +70,11 @@ public class LuggageOverview extends BorderPane {
         this.setCenter(border1);
         border1.setTop(tableSticky2);
         border1.setCenter(scroll2);
-        tableSticky2.add(tableViewSticky3, 2, 0, aantalStickies + 1, 10);
+        tableSticky2.add(tableViewSticky3, 2, 0, 10, aantalStickies+ 1);
         scroll2.setContent(table3);
-        table3.add(tableView4, 2, 0, aantalRecords + 1, 10);
+        table3.add(tableView4, 2, 0, 10, (aantalRecords + 1));
 
-        Separator line = new Separator();
-        line.setOrientation(Orientation.VERTICAL);
-        table3.add(line, 0, 0, aantalRecords + 1, 10);
+        
 
         //-------------------------------------------
         //buttons, eerst de buttons om records te verplaatsen naar sticky tabel,
@@ -128,6 +126,7 @@ public class LuggageOverview extends BorderPane {
         //Rode balk bovenin het scherm
         TextField searchBar = new TextField();
         Button searchButton = new Button();
+        
 
         topBar.getChildren().addAll(searchBar, searchButton);
         topBar.setSpacing(30);
@@ -153,6 +152,7 @@ public class LuggageOverview extends BorderPane {
         tableView4.setPrefSize(800, (aantalRecords * 30) + 30);
 
         //-------------------------------------------
+        
         //Sticky Tabel
         TableColumn lostIdColSt = new TableColumn("Lost ID");
         TableColumn labelNrColSt = new TableColumn("Label nr");
