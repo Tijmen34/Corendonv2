@@ -73,51 +73,52 @@ public class LuggageOverview extends BorderPane {
         tableSticky2.add(tableViewSticky3, 2, 0, aantalStickies + 1, 10);
         scroll2.setContent(table3);
         table3.add(tableView4, 2, 0, aantalRecords + 1, 10);
-        
+
         Separator line = new Separator();
         line.setOrientation(Orientation.VERTICAL);
         table3.add(line, 0, 0, aantalRecords + 1, 10);
-        
-        
-                
-        //-------------------------------------------
 
+        //-------------------------------------------
         //buttons, eerst de buttons om records te verplaatsen naar sticky tabel,
         // en daarna de "unsticky" butons.
-        StackPane cell[] = new StackPane[aantalRecords + 1];
-        StackPane cellS[] = new StackPane[aantalStickies + 1];
+        //StackPanes zijn er om de rijen in het grid de juiste grootte en plek te geven.
+        
+        StackPane cell[] = new StackPane[aantalRecords + 1];    //Maak 1 extra voor lege plek naar header van tabel.
+        StackPane cellS[] = new StackPane[aantalStickies + 1];  //Maak 1 extra voor lege plek naar header van tabel.
         Button[] sticky = new Button[aantalRecords];
         Button[] unSticky = new Button[aantalStickies];
+        
+        
         while (buttonIterator < aantalRecords) {
             cell[buttonIterator] = new StackPane();
             cell[buttonIterator].setMaxSize(30.0, 30.0);
             cell[buttonIterator].setMinSize(30.0, 30.0);
-            
+
             sticky[buttonIterator] = new Button("^");
             sticky[buttonIterator].setPrefSize(25, 25);
             table3.add(cell[buttonIterator], 1, buttonIterator + 1);
             cell[buttonIterator].getChildren().add(sticky[buttonIterator]);
             buttonIterator++;
-            
+
         }
-        cell[buttonIterator] = new StackPane();
+        cell[buttonIterator] = new StackPane();         //laatste StackPane moet bovenin zonder button.
         cell[buttonIterator].setMaxSize(30.0, 30.0);
         cell[buttonIterator].setMinSize(30.0, 30.0);
         table3.add(cell[buttonIterator], 1, 0);
-        
+
         buttonIterator = 0;
         while (buttonIterator < aantalStickies) {
             cellS[buttonIterator] = new StackPane();
             cellS[buttonIterator].setMaxSize(30.0, 30.0);
             cellS[buttonIterator].setMinSize(30.0, 30.0);
-            
+
             unSticky[buttonIterator] = new Button("v");
             unSticky[buttonIterator].setPrefSize(25, 25);
             tableSticky2.add(cellS[buttonIterator], 1, buttonIterator + 1);
             cellS[buttonIterator].getChildren().add(unSticky[buttonIterator]);
             buttonIterator++;
         }
-        cellS[buttonIterator] = new StackPane();
+        cellS[buttonIterator] = new StackPane();        //laatste StackPane moet bovenin zonder button.
         cellS[buttonIterator].setMaxSize(30.0, 30.0);
         cellS[buttonIterator].setMinSize(30.0, 30.0);
         tableSticky2.add(cellS[buttonIterator], 1, 0);
