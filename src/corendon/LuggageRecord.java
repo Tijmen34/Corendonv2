@@ -20,10 +20,13 @@ public class LuggageRecord {
     private String secondaryColor;
     private String info;
     private String customerId;
+    private String status;
+    private boolean sticky;
+    
 
     public LuggageRecord(String lostId, String labelNr, String flightNr, 
             String type, String brandName, String primaryColor, String secondaryColor,
-            String info, String customerId) {
+            String info, String customerId, String status, boolean sticky) {
 
         this.labelNr = labelNr;
         this.flightNr = flightNr;
@@ -32,7 +35,27 @@ public class LuggageRecord {
         this.secondaryColor = secondaryColor;
         this.info = info;
         this.customerId = customerId;
+        this.status = status;
+        this.sticky = false;
     }
+
+    public boolean isSticky() {
+        return sticky;
+    }
+
+    public void setIsSticky(boolean isSticky) {
+        this.sticky = sticky;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    
 
     public String getLostId() {
         return lostId;
