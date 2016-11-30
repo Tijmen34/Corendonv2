@@ -49,6 +49,12 @@ public class LuggageOverview extends BorderPane {
         int aantalRecords = 20;
         int aantalStickies = 4;
         int buttonIterator = 0;
+        
+        //test record
+        LuggageRecord test1 = new LuggageRecord("0001", "3R5F2", "MH370", 
+            "Suitcase", "jemoeder", "Red", "Black",
+            "NULL", "12324", "Missing", false);
+        -------------------------------------------
 
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
