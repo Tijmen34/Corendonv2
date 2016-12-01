@@ -248,5 +248,5 @@ public class LuggageOverview extends BorderPane {
 //    public static ObservableList moveToSticky(int buttonIterator) {
 //        data.remove(buttonIterator);
 //        
-//    }
+    }
 }
