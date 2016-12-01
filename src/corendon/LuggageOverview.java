@@ -54,6 +54,7 @@ public class LuggageOverview extends BorderPane {
         int aantalRecords = 20;
         int aantalStickies = 4;
         int buttonIterator = 0;
+        int recordIterator = 0;
 
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
@@ -81,49 +82,6 @@ public class LuggageOverview extends BorderPane {
         table3.add(tableView4, 2, 0, 10, (aantalRecords + 1));
 
         //-------------------------------------------
-        //buttons, eerst de buttons om records te verplaatsen naar sticky tabel,
-        // en daarna de "unsticky" butons.
-        //StackPanes zijn er om de rijen in het grid de juiste grootte en plek te geven.
-        StackPane cell[] = new StackPane[aantalRecords + 1];    //Maak 1 extra voor lege plek naar header van tabel.
-        StackPane cellS[] = new StackPane[aantalStickies + 1];  //Maak 1 extra voor lege plek naar header van tabel.
-        Button[] sticky = new Button[aantalRecords];
-        Button[] unSticky = new Button[aantalStickies];
-
-        while (buttonIterator < aantalRecords) {
-            cell[buttonIterator] = new StackPane();
-            cell[buttonIterator].setMaxSize(30.0, 25.0);
-            cell[buttonIterator].setMinSize(30.0, 25.0);
-
-            sticky[buttonIterator] = new Button("^");
-            sticky[buttonIterator].setPrefSize(25, 25);
-            table3.add(cell[buttonIterator], 1, buttonIterator + 1);
-            cell[buttonIterator].getChildren().add(sticky[buttonIterator]);
-            buttonIterator++;
-
-        }
-        cell[buttonIterator] = new StackPane();         //laatste StackPane moet bovenin zonder button.
-        cell[buttonIterator].setMaxSize(30.0, 25.0);
-        cell[buttonIterator].setMinSize(30.0, 25.0);
-        table3.add(cell[buttonIterator], 1, 0);
-
-        buttonIterator = 0;
-        while (buttonIterator < aantalStickies) {
-            cellS[buttonIterator] = new StackPane();
-            cellS[buttonIterator].setMaxSize(30.0, 25.0);
-            cellS[buttonIterator].setMinSize(30.0, 25.0);
-
-            unSticky[buttonIterator] = new Button("v");
-            unSticky[buttonIterator].setPrefSize(25, 25);
-            tableSticky2.add(cellS[buttonIterator], 1, buttonIterator + 1);
-            cellS[buttonIterator].getChildren().add(unSticky[buttonIterator]);
-            buttonIterator++;
-        }
-        cellS[buttonIterator] = new StackPane();        //laatste StackPane moet bovenin zonder button.
-        cellS[buttonIterator].setMaxSize(30.0, 25.0);
-        cellS[buttonIterator].setMinSize(30.0, 25.0);
-        tableSticky2.add(cellS[buttonIterator], 1, 0);
-        //-------------------------------------------
-
         //-------------------------------------------
         //Rode balk bovenin het scherm
         TextField searchBar = new TextField();
@@ -146,7 +104,7 @@ public class LuggageOverview extends BorderPane {
         TableColumn secondaryColorCol = new TableColumn("Color 2");
         TableColumn infoCol = new TableColumn("Add. info");
         TableColumn customerIdCol = new TableColumn("Customer ID");
-        
+
         lostIdCol.setCellValueFactory(
                 new PropertyValueFactory<>("lostId"));
         labelNrCol.setCellValueFactory(
@@ -183,6 +141,25 @@ public class LuggageOverview extends BorderPane {
         TableColumn infoColSt = new TableColumn("Add. info");
         TableColumn customerIdColSt = new TableColumn("Customer ID");
 
+        lostIdColSt.setCellValueFactory(
+                new PropertyValueFactory<>("lostId"));
+        labelNrColSt.setCellValueFactory(
+                new PropertyValueFactory<>("labelNr"));
+        flightNrColSt.setCellValueFactory(
+                new PropertyValueFactory<>("flightNr"));
+        typeColSt.setCellValueFactory(
+                new PropertyValueFactory<>("type"));
+        brandColSt.setCellValueFactory(
+                new PropertyValueFactory<>("brandName"));
+        primaryColorColSt.setCellValueFactory(
+                new PropertyValueFactory<>("primaryColor"));
+        secondaryColorColSt.setCellValueFactory(
+                new PropertyValueFactory<>("secondaryColor"));
+        infoColSt.setCellValueFactory(
+                new PropertyValueFactory<>("info"));
+        customerIdColSt.setCellValueFactory(
+                new PropertyValueFactory<>("customerId"));
+
         tableViewSticky3.getColumns().addAll(lostIdColSt, labelNrColSt, flightNrColSt,
                 typeColSt, brandColSt, primaryColorColSt, secondaryColorColSt, infoColSt,
                 customerIdColSt);
@@ -190,25 +167,86 @@ public class LuggageOverview extends BorderPane {
         //--------------------------------------------
 
         //test record
-//        LuggageRecord testRecord = new LuggageRecord2("0001", "3R5F2", "MH370",
-//                "Suitcase", "jemoeder", "Red", "Black",
-//                "NULL", "12324", "Missing", false);
+        LuggageRecord2 testRecord = new LuggageRecord2("0001", "3R5F2", "MH370",
+                "Suitcase", "jemoeder", "Red", "Black",
+                "NULL", "12324", "Missing", false);
         //-------------------------------------------
-
         //tabel vullen
+        
         final ObservableList<LuggageRecord2> data
-                = FXCollections.observableArrayList(
+                = FXCollections.observableArrayList();
+        
                         new LuggageRecord2("0001", "3R5F2", "MH370",
                                 "Suitcase", "jemoeder", "Red", "Black",
-                                "NULL", "12324", "Missing", false)
-        //                    new Person("Jacob", "Smith", "jacob.smith@example.com"),
-        //                    new Person("Isabella", "Johnson", "isabella.johnson@example.com"),
-        //                    new Person("Ethan", "Williams", "ethan.williams@example.com"),
-        //                    new Person("Emma", "Jones", "emma.jones@example.com"),
-        //                    new Person("Michael", "Brown", "michael.brown@example.com")
-        );
+                                "NULL", "12324", "Missing", false);
+                //                    new Person("Jacob", "Smith", "jacob.smith@example.com"),
+                //                    new Person("Isabella", "Johnson", "isabella.johnson@example.com"),
+                //                    new Person("Ethan", "Williams", "ethan.williams@example.com"),
+                //                    new Person("Emma", "Jones", "emma.jones@example.com"),
+                //                    new Person("Michael", "Brown", "michael.brown@example.com")
+                //);
+                
         tableView4.setItems(data);
         //--------------------------------------------
 
-    }
+        //buttons, eerst de buttons om records te verplaatsen naar sticky tabel,
+        // en daarna de "unsticky" butons.
+        //StackPanes zijn er om de rijen in het grid de juiste grootte en plek te geven.
+        StackPane cell[] = new StackPane[tableView4.getItems().size() + 1];    //Maak 1 extra voor lege plek naar header van tabel.
+        StackPane cellS[] = new StackPane[aantalStickies + 1];  //Maak 1 extra voor lege plek naar header van tabel.
+        Button[] sticky = new Button[tableView4.getItems().size()];
+        Button[] unSticky = new Button[aantalStickies];
+
+        while (buttonIterator < tableView4.getItems().size()) {
+            cell[buttonIterator] = new StackPane();
+            cell[buttonIterator].setMaxSize(30.0, 24.0);
+            cell[buttonIterator].setMinSize(30.0, 24.0);
+
+            sticky[buttonIterator] = new Button("^");
+            sticky[buttonIterator].setPrefSize(24, 24);
+            table3.add(cell[buttonIterator], 1, buttonIterator + 1);
+            cell[buttonIterator].getChildren().add(sticky[buttonIterator]);
+
+            buttonIterator++;
+
+        }
+        cell[buttonIterator] = new StackPane();         //laatste StackPane moet bovenin zonder button.
+        cell[buttonIterator].setMaxSize(30.0, 24.0);
+        cell[buttonIterator].setMinSize(30.0, 24.0);
+        table3.add(cell[buttonIterator], 1, 0);
+
+        buttonIterator = 0;
+        while (buttonIterator < aantalStickies) {
+            cellS[buttonIterator] = new StackPane();
+            cellS[buttonIterator].setMaxSize(30.0, 24.0);
+            cellS[buttonIterator].setMinSize(30.0, 24.0);
+
+            unSticky[buttonIterator] = new Button("v");
+            unSticky[buttonIterator].setPrefSize(24, 24);
+            tableSticky2.add(cellS[buttonIterator], 1, buttonIterator + 1);
+            cellS[buttonIterator].getChildren().add(unSticky[buttonIterator]);
+            buttonIterator++;
+        }
+        cellS[buttonIterator] = new StackPane();        //laatste StackPane moet bovenin zonder button.
+        cellS[buttonIterator].setMaxSize(30.0, 24.0);
+        cellS[buttonIterator].setMinSize(30.0, 24.0);
+        tableSticky2.add(cellS[buttonIterator], 1, 0);
+        //-------------------------------------------
+
+        //Buttons functioneel
+//        buttonIterator = 0;
+//        while (buttonIterator < tableView4.getItems().size()) {
+//            final int tmpIterator = buttonIterator;
+//            sticky[buttonIterator].setOnAction((ActionEvent e) -> {
+//                
+//                moveToSticky(tmpIterator, data);
+//            });
+//        }
+//    }
+//    
+//    
+//    public static ObservableList moveToSticky(int buttonIterator) {
+//        data.remove(buttonIterator);
+//        
+//    }
 }
