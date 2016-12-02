@@ -44,7 +44,7 @@ public class FoundForm extends GridPane{
     // elementen meteen aan het scherm toe te voegen.
     public void initScreen() {
         
-        TextField naamKlant = new TextField();
+        Label naamKlant = new Label("naamKlant");
         
         this.add(naamKlant, 1, 1);
     }

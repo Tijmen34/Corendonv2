@@ -85,7 +85,7 @@ public class LuggageOverview extends BorderPane {
         //-------------------------------------------
         //Rode balk bovenin het scherm
         TextField searchBar = new TextField();
-        Button searchButton = new Button();
+        Button searchButton = new Button("Search");
 
         topBar.getChildren().addAll(searchBar, searchButton);
         topBar.setSpacing(30);
