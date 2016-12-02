@@ -44,9 +44,9 @@ public class UsersOverview extends GridPane{
     // elementen meteen aan het scherm toe te voegen.
     public void initScreen() {
         
-        TextField naamKlant = new TextField();
+        Label label = new Label("Coming soon");
         
-        this.add(naamKlant, 1, 1);
+        this.add(label, 1, 1);
     }
 }
 
