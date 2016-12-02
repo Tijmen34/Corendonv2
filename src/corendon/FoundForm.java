@@ -44,9 +44,9 @@ public class FoundForm extends GridPane{
     // elementen meteen aan het scherm toe te voegen.
     public void initScreen() {
         
-        Label naamKlant = new Label("naamKlant");
+        Label label = new Label("Coming soon");
         
-        this.add(naamKlant, 1, 1);
+        this.add(label, 5, 5);
     }
 }
 
