@@ -348,6 +348,8 @@ public class MissingForm extends GridPane{
 
                     pst.executeUpdate();
                     pst2.executeUpdate();
+                    
+                    System.out.println("Information submitted.");
                 }
                 catch (Exception e1) {
                 System.out.println("SQL Error");
