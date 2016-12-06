@@ -9,6 +9,8 @@ package corendon;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -45,13 +47,15 @@ import javafx.stage.Stage;
  * @author JerryJerr
  */
 public class MissingForm extends GridPane{
-    
-    
+       ResultSet rs = null;
+       PreparedStatement pst = null; 
+       Connection conn;
+       Statement stmt;
     // Constructor overriden kan niet, en een eigen constructor maken ipv de originele
     // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
     // elementen meteen aan het scherm toe te voegen.
     public void initScreen() {
-        
+        CheckConnection();
         
         //Formulier
         GridPane lostForm = new GridPane();
@@ -307,16 +311,38 @@ public class MissingForm extends GridPane{
 //        primaryStage.resizableProperty().setValue(Boolean.FALSE);
 //        primaryStage.show();
         
-        next.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                
-            }
-        });
-        
-        
-        
-    }
-}
 
+
+        next.setOnAction((ActionEvent e) -> {
+                try {
+                    String query = "INSERT INTO bagage"
+				+ "(labelnr, vlucht) VALUES"
+				+ "(?,?)";
+                    pst = conn.prepareStatement(query);
+                    pst.setString(1, labelInput.getText());
+                    pst.setString(2, flightInput.getText());
+                    pst.executeUpdate();
+                }
+                catch (Exception e1) {
+                System.out.println("SQL Error");
+                System.err.println(e1);
+            }
+            });
+        }
+    
+    
+    //check van tevoren de db verbinding
+    public void CheckConnection() {
+        conn = Sql.DbConnector();
+        if (conn == null) {
+            System.out.println("Connection lost.");
+            System.exit(1);
+        }
+    }
+    
+    }
+
+        
+        
+        
+ 
