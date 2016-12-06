@@ -81,25 +81,21 @@ public class LuggageOverview extends BorderPane {
         int buttonIterator = 0;
         int recordIterator = 0;
         
-        System.out.println(this.data.size());
-        this.tableData.add(this.data.get(recordIterator));
-        recordIterator++;
-        System.out.println(this.tableData.size());
-        this.tableData.add(this.data.get(recordIterator));
-        System.out.println(this.tableData.get(recordIterator).toString());
-        System.out.println(this.tableData.size());
-        
-//        try {
-//            while (recordIterator < this.data.size()) {
-//                if (this.data.get(recordIterator).isSticky() == false) {
-//                    this.tableData.add(this.data.get(recordIterator));
-//                } else if (this.data.get(recordIterator).isSticky() == true) {
-//                    this.stickyData.add(this.data.get(recordIterator));
-//                }
-//            }
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
+  
+        try {
+            while (recordIterator < this.data.size()) {
+                if (this.data.get(recordIterator).isSticky() == false) {
+                    this.tableData.add(this.data.get(recordIterator));
+                    System.out.println(this.tableData.size());
+                } else if (this.data.get(recordIterator).isSticky() == true) {
+                    this.stickyData.add(this.data.get(recordIterator));
+                    System.out.println(this.tableData.size());
+                }
+                recordIterator++;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
