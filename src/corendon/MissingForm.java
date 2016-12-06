@@ -322,10 +322,10 @@ public class MissingForm extends GridPane{
                     pst.setString(1, labelInput.getText());
                     pst.setString(2, flightInput.getText());
                     pst.setString(3, iataSearch.getText());
-                    pst.setString(5, countryList.getTypeSelector());
+                    pst.setString(5, brandList.getTypeSelector());
                     pst.setString(6, priColorList.getTypeSelector());
                     pst.setString(7, secColorList.getTypeSelector());
-                    pst.setString(4, brandList.getTypeSelector());
+                    pst.setString(4, bagType.getTypeSelector());
                     pst.executeUpdate();
                 }
                 catch (Exception e1) {
