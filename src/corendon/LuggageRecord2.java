@@ -128,6 +128,11 @@ public class LuggageRecord2 {
     public void setSticky(boolean sticky) {
         this.sticky = sticky;
     }
+
+    @Override
+    public String toString() {
+        return "LuggageRecord2{" + "lostId=" + lostId + ", labelNr=" + labelNr + ", flightNr=" + flightNr + ", type=" + type + ", brandName=" + brandName + ", primaryColor=" + primaryColor + ", secondaryColor=" + secondaryColor + ", info=" + info + ", customerId=" + customerId + ", status=" + status + ", sticky=" + sticky + '}';
+    }
     
     
 }
