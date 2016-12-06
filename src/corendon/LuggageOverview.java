@@ -46,15 +46,48 @@ import javafx.stage.Stage;
  * @author Jeroen de Jong
  */
 public class LuggageOverview extends BorderPane {
-
-    // Constructor overriden kan niet, en een eigen constructor maken ipv de originele
-    // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
-    // elementen meteen aan het scherm toe te voegen.
+    
+    private ObservableList<LuggageRecord2> data
+                = FXCollections.observableArrayList(
+                        new LuggageRecord2("0001", "3R5F2", "MH370",
+                                "Suitcase", "jemoeder", "Red", "Black",
+                                "NULL", "12324", "Missing", false),
+                        new LuggageRecord2("0002", "T43RS", "MH370",
+                                "Suitcase", "jeopa", "Red", "Pink",
+                                "lelijk", "12743", "Missing", false),
+                        new LuggageRecord2("0003", "TXZ35", "MH18",
+                                "sportsbag", "nike", "Yellow", "Null",
+                                "Null", "85394", "Missing", false),
+                        new LuggageRecord2("0004", "P05YR", "MH18",
+                                "sportsbag", "jema", "Blue", "Null",
+                                "Null", "81254", "Missing", true)
+                );
+    private ObservableList<LuggageRecord2> tableData
+                = FXCollections.observableArrayList();
+    private ObservableList<LuggageRecord2> stickyData
+                = FXCollections.observableArrayList();
+    private ObservableList<Button> sticky
+                = FXCollections.observableArrayList();
+    private ObservableList<Button> unSticky
+                = FXCollections.observableArrayList();
+    private ObservableList<StackPane> cell
+                = FXCollections.observableArrayList();
+    private ObservableList<StackPane> cellS
+                = FXCollections.observableArrayList();
+    
+    
+    
     public void initScreen() {
-        int aantalRecords = 20;
-        int aantalStickies = 4;
+        
         int buttonIterator = 0;
         int recordIterator = 0;
+        
+        while (recordIterator < data.size()) {
+            if (data.get(recordIterator).isSticky() == false)
+                tableData.add(data.get(recordIterator));
+            else if(data.get(recordIterator).isSticky() == true)
+                stickyData.add(data.get(recordIterator));
+        }
 
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
@@ -77,15 +110,15 @@ public class LuggageOverview extends BorderPane {
         this.setCenter(border1);
         border1.setTop(tableSticky2);
         border1.setCenter(scroll2);
-        tableSticky2.add(tableViewSticky3, 2, 0, 10, aantalStickies + 1);
+        tableSticky2.add(tableViewSticky3, 2, 0, 10, stickyData.size() + 1);
         scroll2.setContent(table3);
-        table3.add(tableView4, 2, 0, 10, (aantalRecords + 1));
+        table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
 
         //-------------------------------------------
         //-------------------------------------------
         //Rode balk bovenin het scherm
         TextField searchBar = new TextField();
-        Button searchButton = new Button("Search");
+        Button searchButton = new Button();
 
         topBar.getChildren().addAll(searchBar, searchButton);
         topBar.setSpacing(30);
@@ -127,7 +160,7 @@ public class LuggageOverview extends BorderPane {
         tableView4.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
                 typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
                 customerIdCol);
-        tableView4.setPrefSize(800, (aantalRecords * 30) + 30);
+        tableView4.setPrefSize(800, (tableData.size() * 30) + 30);
 
         //-------------------------------------------
         //Sticky Tabel
@@ -167,37 +200,25 @@ public class LuggageOverview extends BorderPane {
         //--------------------------------------------
 
         //test record
-        LuggageRecord2 testRecord = new LuggageRecord2("0001", "3R5F2", "MH370",
-                "Suitcase", "jemoeder", "Red", "Black",
-                "NULL", "12324", "Missing", false);
+//        LuggageRecord2 testRecord = new LuggageRecord2("0001", "3R5F2", "MH370",
+//                "Suitcase", "jemoeder", "Red", "Black",
+//                "NULL", "12324", "Missing", false);
         //-------------------------------------------
         //tabel vullen
         
-        final ObservableList<LuggageRecord2> data
-                = FXCollections.observableArrayList();
-        
-                        new LuggageRecord2("0001", "3R5F2", "MH370",
-                                "Suitcase", "jemoeder", "Red", "Black",
-                                "NULL", "12324", "Missing", false);
-                //                    new Person("Jacob", "Smith", "jacob.smith@example.com"),
-                //                    new Person("Isabella", "Johnson", "isabella.johnson@example.com"),
-                //                    new Person("Ethan", "Williams", "ethan.williams@example.com"),
-                //                    new Person("Emma", "Jones", "emma.jones@example.com"),
-                //                    new Person("Michael", "Brown", "michael.brown@example.com")
-                //);
-                
-        tableView4.setItems(data);
+
+        tableView4.setItems(this.data);
         //--------------------------------------------
 
         //buttons, eerst de buttons om records te verplaatsen naar sticky tabel,
         // en daarna de "unsticky" butons.
         //StackPanes zijn er om de rijen in het grid de juiste grootte en plek te geven.
-        StackPane cell[] = new StackPane[tableView4.getItems().size() + 1];    //Maak 1 extra voor lege plek naar header van tabel.
-        StackPane cellS[] = new StackPane[aantalStickies + 1];  //Maak 1 extra voor lege plek naar header van tabel.
-        Button[] sticky = new Button[tableView4.getItems().size()];
-        Button[] unSticky = new Button[aantalStickies];
+        StackPane cell[] = new StackPane[tableData.size() + 1];    //Maak 1 extra voor lege plek naar header van tabel.
+        StackPane cellS[] = new StackPane[stickyData.size() + 1];  //Maak 1 extra voor lege plek naar header van tabel.
+        Button[] sticky = new Button[tableData.size()];
+        Button[] unSticky = new Button[stickyData.size()];
 
-        while (buttonIterator < tableView4.getItems().size()) {
+        while (buttonIterator < tableData.size()) {
             cell[buttonIterator] = new StackPane();
             cell[buttonIterator].setMaxSize(30.0, 24.0);
             cell[buttonIterator].setMinSize(30.0, 24.0);
@@ -216,7 +237,7 @@ public class LuggageOverview extends BorderPane {
         table3.add(cell[buttonIterator], 1, 0);
 
         buttonIterator = 0;
-        while (buttonIterator < aantalStickies) {
+        while (buttonIterator < stickyData.size()) {
             cellS[buttonIterator] = new StackPane();
             cellS[buttonIterator].setMaxSize(30.0, 24.0);
             cellS[buttonIterator].setMinSize(30.0, 24.0);
