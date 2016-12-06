@@ -45,6 +45,7 @@ import javafx.stage.Stage;
  *
  * @author Jeroen de Jong
  */
+
 public class LuggageOverview extends BorderPane {
     
     private ObservableList<LuggageRecord2> data
@@ -115,6 +116,7 @@ public class LuggageOverview extends BorderPane {
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
 
         //-------------------------------------------
+        
         //-------------------------------------------
         //Rode balk bovenin het scherm
         TextField searchBar = new TextField();
@@ -213,45 +215,43 @@ public class LuggageOverview extends BorderPane {
         //buttons, eerst de buttons om records te verplaatsen naar sticky tabel,
         // en daarna de "unsticky" butons.
         //StackPanes zijn er om de rijen in het grid de juiste grootte en plek te geven.
-        StackPane cell[] = new StackPane[tableData.size() + 1];    //Maak 1 extra voor lege plek naar header van tabel.
-        StackPane cellS[] = new StackPane[stickyData.size() + 1];  //Maak 1 extra voor lege plek naar header van tabel.
-        Button[] sticky = new Button[tableData.size()];
-        Button[] unSticky = new Button[stickyData.size()];
+        
 
         while (buttonIterator < tableData.size()) {
-            cell[buttonIterator] = new StackPane();
-            cell[buttonIterator].setMaxSize(30.0, 24.0);
-            cell[buttonIterator].setMinSize(30.0, 24.0);
-
-            sticky[buttonIterator] = new Button("^");
-            sticky[buttonIterator].setPrefSize(24, 24);
-            table3.add(cell[buttonIterator], 1, buttonIterator + 1);
-            cell[buttonIterator].getChildren().add(sticky[buttonIterator]);
+            cell.add(new StackPane());
+            cell.get(buttonIterator).setMaxSize(30.0, 24.0);
+            cell.get(buttonIterator).setMinSize(30.0, 24.0);
+            
+            sticky.add(new Button("^"));
+            sticky.get(buttonIterator).setPrefSize(24, 24);
+            table3.add(cell.get(buttonIterator), 1, buttonIterator + 1);
+            cell.get(buttonIterator).getChildren().add(sticky.get(buttonIterator));
 
             buttonIterator++;
 
         }
-        cell[buttonIterator] = new StackPane();         //laatste StackPane moet bovenin zonder button.
-        cell[buttonIterator].setMaxSize(30.0, 24.0);
-        cell[buttonIterator].setMinSize(30.0, 24.0);
-        table3.add(cell[buttonIterator], 1, 0);
+        cell.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
+        cell.get(buttonIterator).setMaxSize(30.0, 24.0);
+        cell.get(buttonIterator).setMinSize(30.0, 24.0);
+        table3.add(cell.get(buttonIterator), 1, 0);
 
         buttonIterator = 0;
         while (buttonIterator < stickyData.size()) {
-            cellS[buttonIterator] = new StackPane();
-            cellS[buttonIterator].setMaxSize(30.0, 24.0);
-            cellS[buttonIterator].setMinSize(30.0, 24.0);
-
-            unSticky[buttonIterator] = new Button("v");
-            unSticky[buttonIterator].setPrefSize(24, 24);
-            tableSticky2.add(cellS[buttonIterator], 1, buttonIterator + 1);
-            cellS[buttonIterator].getChildren().add(unSticky[buttonIterator]);
+            cellS.add(new StackPane());
+            cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
+            cellS.get(buttonIterator).setMinSize(30.0, 24.0);
+            
+            unSticky.add(new Button("^"));
+            unSticky.get(buttonIterator).setPrefSize(24, 24);
+            tableSticky2.add(cellS.get(buttonIterator), 1, buttonIterator + 1);
+            cellS.get(buttonIterator).getChildren().add(unSticky.get(buttonIterator));
+            
             buttonIterator++;
         }
-        cellS[buttonIterator] = new StackPane();        //laatste StackPane moet bovenin zonder button.
-        cellS[buttonIterator].setMaxSize(30.0, 24.0);
-        cellS[buttonIterator].setMinSize(30.0, 24.0);
-        tableSticky2.add(cellS[buttonIterator], 1, 0);
+        cellS.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
+        cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
+        cellS.get(buttonIterator).setMinSize(30.0, 24.0);
+        tableSticky2.add(cellS.get(buttonIterator), 1, 0);
         //-------------------------------------------
 
         //Buttons functioneel
