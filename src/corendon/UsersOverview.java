@@ -47,9 +47,6 @@ public class UsersOverview extends BorderPane {
     public void initScreen() {
 
         int aantalRecords = 20;
-        int aantalStickies = 4;
-        int buttonIterator = 0;
-        int recordIterator = 0;
 
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
@@ -66,8 +63,7 @@ public class UsersOverview extends BorderPane {
 
         TextField searchBar = new TextField();
         Button searchButton = new Button("Search");
-        
-        
+
         //SEARCH BAR RED TOP
         topBar.getChildren().addAll(searchBar, searchButton);
         topBar.setSpacing(30);
@@ -75,23 +71,21 @@ public class UsersOverview extends BorderPane {
         topBar.setAlignment(Pos.CENTER);
         topBar.setStyle("-fx-background-color:#D81E05");
 
-        
-        TableColumn lostIdCol = new TableColumn("Lost ID");
-        TableColumn labelNrCol = new TableColumn("Label nr");
-        TableColumn flightNrCol = new TableColumn("Flight nr");
+        TableColumn userIdCol = new TableColumn("User ID");
+        TableColumn usernameCol = new TableColumn("Username");
+        TableColumn passwordCol = new TableColumn("Password");
 
-        lostIdCol.setCellValueFactory(
+        userIdCol.setCellValueFactory(
                 new PropertyValueFactory<>("lostId"));
-        labelNrCol.setCellValueFactory(
+        usernameCol.setCellValueFactory(
                 new PropertyValueFactory<>("labelNr"));
-        flightNrCol.setCellValueFactory(
-                new PropertyValueFactory<>("flightNr"));        
-        
-        tableView4.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol);
+        passwordCol.setCellValueFactory(
+                new PropertyValueFactory<>("flightNr"));
+        tableView4.getColumns().addAll(userIdCol, usernameCol, passwordCol);
+
+        tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
         tableView4.setPrefSize(800, (aantalRecords * 30) + 30);
-        
 
     }
 }
-
-
