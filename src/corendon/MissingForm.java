@@ -316,11 +316,16 @@ public class MissingForm extends GridPane{
         next.setOnAction((ActionEvent e) -> {
                 try {
                     String query = "INSERT INTO bagage"
-				+ "(labelnr, vlucht) VALUES"
-				+ "(?,?)";
+				+ "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur) VALUES"
+				+ "(?,?,?,?,?,?,?)";
                     pst = conn.prepareStatement(query);
                     pst.setString(1, labelInput.getText());
                     pst.setString(2, flightInput.getText());
+                    pst.setString(3, iataSearch.getText());
+                    pst.setString(5, countryList.getTypeSelector());
+                    pst.setString(6, priColorList.getTypeSelector());
+                    pst.setString(7, secColorList.getTypeSelector());
+                    pst.setString(4, brandList.getTypeSelector());
                     pst.executeUpdate();
                 }
                 catch (Exception e1) {
