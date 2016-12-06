@@ -6,9 +6,15 @@
 package corendon;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javafx.application.Application;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -44,6 +50,10 @@ public class UsersOverview extends BorderPane {
     // Constructor overriden kan niet, en een eigen constructor maken ipv de originele
     // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
     // elementen meteen aan het scherm toe te voegen.
+    
+    private ObservableList<UserRecord> data;
+    private Connection conn;
+
     public void initScreen() {
 
         int aantalRecords = 20;
@@ -52,7 +62,7 @@ public class UsersOverview extends BorderPane {
         BorderPane border1 = new BorderPane();
         ScrollPane scroll2 = new ScrollPane();
         GridPane table3 = new GridPane();
-        final TableView<LuggageRecord2> tableView4 = new TableView();
+        final TableView<UsersOverview> tableView4 = new TableView();
 
         this.setTop(topBar);
         this.setCenter(border1);
@@ -86,6 +96,28 @@ public class UsersOverview extends BorderPane {
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         tableView4.setPrefSize(800, (aantalRecords * 30) + 30);
+        
+        
+            data = FXCollections.observableArrayList();
+            conn = Sql.DbConnector();
+    try{      
+        String SQL = "Select * from users";            
+        ResultSet rs = conn.createStatement().executeQuery(SQL);  
+        while(rs.next()){
+            UserRecord cm = new UserRecord();
+            cm.userId.set(rs.getInt("UserId"));                                      
+            cm.userName.set(rs.getString("Username"));
+            cm.userPassword.set(rs.getString("Password"));
+
+            data.add(cm);                  
+        }
+        //tableView4.setItems(data);
+    }
+    catch(Exception e){
+          e.printStackTrace();
+          System.out.println("Error on Building Data");            
+    }
 
     }
+
 }

@@ -5,74 +5,76 @@
  */
 package corendon;
 
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  *
  * @author Jeroen de Jong
  */
 public class UserRecord {
-    private String userId;
-    private String userName;
-    private String firstName;
-    private String tussenVoegsel;
-    private String surName;
-    private String function;
+    private final SimpleStringProperty userId;
+    private final SimpleStringProperty userName;
+    private final SimpleStringProperty firstName;
+    private final SimpleStringProperty tussenVoegsel;
+    private final SimpleStringProperty surName;
+    private final SimpleStringProperty function;
 
     public UserRecord(String userId, String userName, String firstName, 
             String tussenVoegsel, String surName, String function) {
-        this.userId = userId;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.tussenVoegsel = tussenVoegsel;
-        this.surName = surName;
-        this.function = function;
+        this.userId = new SimpleStringProperty(userId);
+        this.userName = new SimpleStringProperty(userName);
+        this.firstName = new SimpleStringProperty(firstName);
+        this.tussenVoegsel = new SimpleStringProperty(tussenVoegsel);
+        this.surName = new SimpleStringProperty(surName);
+        this.function = new SimpleStringProperty(function);
     }
 
     public String getUserId() {
-        return userId;
+        return userId.get();
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.userId.set(userId);
     }
 
     public String getUserName() {
-        return userName;
+        return userName.get();
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.userName.set(userName);
     }
 
     public String getFirstName() {
-        return firstName;
+        return firstName.get();
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName.set(firstName);
     }
 
     public String getTussenVoegsel() {
-        return tussenVoegsel;
+        return tussenVoegsel.get();
     }
 
     public void setTussenVoegsel(String tussenVoegsel) {
-        this.tussenVoegsel = tussenVoegsel;
+        this.tussenVoegsel.set(tussenVoegsel);
     }
 
     public String getSurName() {
-        return surName;
+        return surName.get();
     }
 
     public void setSurName(String surName) {
-        this.surName = surName;
+        this.surName.set(surName);
     }
 
     public String getFunction() {
-        return function;
+        return function.get();
     }
 
     public void setFunction(String function) {
-        this.function = function;
+        this.function.set(function);
     }
 
     @Override
