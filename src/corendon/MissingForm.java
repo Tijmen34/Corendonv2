@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -62,8 +64,6 @@ public class MissingForm extends GridPane{
         Label lostTitle= new Label("Lost Luggage form: ");
         
         //Corendon Logo
-        
-        
         HBox pictureRegion = new HBox();
         //Corendon Fonts
           Font UniSans = 
@@ -314,10 +314,15 @@ public class MissingForm extends GridPane{
 
 
         next.setOnAction((ActionEvent e) -> {
+            PreparedStatement pst2 = null;
                 try {
                     String query = "INSERT INTO bagage"
 				+ "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur) VALUES"
 				+ "(?,?,?,?,?,?,?)";
+                    String query2 = "INSERT INTO klant"
+				+ "(geslacht, naam, achternaam, gebdatum, straat, huisnummer,"
+                            + " plaats, postcode, land, telnr, mail) VALUES"
+				+ "(?,?,?,?,?,?,?,?,?,?,?)";
                     pst = conn.prepareStatement(query);
                     pst.setString(1, labelInput.getText());
                     pst.setString(2, flightInput.getText());
@@ -326,7 +331,23 @@ public class MissingForm extends GridPane{
                     pst.setString(6, (String) priColorList.getSelectionModel().getSelectedItem());
                     pst.setString(7, (String) secColorList.getSelectionModel().getSelectedItem());
                     pst.setString(4, (String) typeInput.getSelectionModel().getSelectedItem());
+                    
+                    
+                    pst2 = conn.prepareStatement(query2);
+                    pst2.setString(1, (String) genderSet.getSelectionModel().getSelectedItem());
+                    pst2.setString(2, NameInput.getText());
+                    pst2.setString(3, SurnameInput.getText());
+                    pst2.setString(4, ((TextField)datePick.getEditor()).getText());
+                    pst2.setString(5, streetInput.getText());
+                    pst2.setString(6, hnumberInput.getText());
+                    pst2.setString(7, placeInput.getText());
+                    pst2.setString(8, zipcodeInput.getText());
+                    pst2.setString(9, (String) countryList.getSelectionModel().getSelectedItem());
+                    pst2.setString(10, phonenrInput.getText());
+                    pst2.setString(11, emailInput.getText());
+
                     pst.executeUpdate();
+                    pst2.executeUpdate();
                 }
                 catch (Exception e1) {
                 System.out.println("SQL Error");
