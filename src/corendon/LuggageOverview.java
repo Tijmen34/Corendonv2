@@ -260,7 +260,9 @@ public class LuggageOverview extends BorderPane {
             sticky.get(tmpIterator).setOnAction((ActionEvent e) -> {
                 
                 moveToSticky(tmpIterator, tableData.get(tmpIterator));
+                
             });
+            buttonIterator++;
         }
     }
     
