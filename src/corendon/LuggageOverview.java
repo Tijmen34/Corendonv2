@@ -40,55 +40,66 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import java.lang.Exception;
 
 /**
  *
  * @author Jeroen de Jong
  */
-
 public class LuggageOverview extends BorderPane {
-    
+
     private ObservableList<LuggageRecord2> data
-                = FXCollections.observableArrayList(
-                        new LuggageRecord2("0001", "3R5F2", "MH370",
-                                "Suitcase", "jemoeder", "Red", "Black",
-                                "NULL", "12324", "Missing", false),
-                        new LuggageRecord2("0002", "T43RS", "MH370",
-                                "Suitcase", "jeopa", "Red", "Pink",
-                                "lelijk", "12743", "Missing", false),
-                        new LuggageRecord2("0003", "TXZ35", "MH18",
-                                "sportsbag", "nike", "Yellow", "Null",
-                                "Null", "85394", "Missing", false),
-                        new LuggageRecord2("0004", "P05YR", "MH18",
-                                "sportsbag", "jema", "Blue", "Null",
-                                "Null", "81254", "Missing", true)
-                );
+            = FXCollections.observableArrayList(
+                    new LuggageRecord2("0001", "3R5F2", "MH370",
+                            "Suitcase", "jemoeder", "Red", "Black",
+                            "NULL", "12324", "Missing", false),
+                    new LuggageRecord2("0002", "T43RS", "MH370",
+                            "Suitcase", "jeopa", "Red", "Pink",
+                            "lelijk", "12743", "Missing", false),
+                    new LuggageRecord2("0003", "TXZ35", "MH18",
+                            "sportsbag", "nike", "Yellow", "Null",
+                            "Null", "85394", "Missing", false),
+                    new LuggageRecord2("0004", "P05YR", "MH18",
+                            "sportsbag", "jema", "Blue", "Null",
+                            "Null", "81254", "Missing", true)
+            );
     private ObservableList<LuggageRecord2> tableData
-                = FXCollections.observableArrayList();
+            = FXCollections.observableArrayList();
     private ObservableList<LuggageRecord2> stickyData
-                = FXCollections.observableArrayList();
+            = FXCollections.observableArrayList();
     private ObservableList<Button> sticky
-                = FXCollections.observableArrayList();
+            = FXCollections.observableArrayList();
     private ObservableList<Button> unSticky
-                = FXCollections.observableArrayList();
+            = FXCollections.observableArrayList();
     private ObservableList<StackPane> cell
-                = FXCollections.observableArrayList();
+            = FXCollections.observableArrayList();
     private ObservableList<StackPane> cellS
-                = FXCollections.observableArrayList();
-    
-    
-    
+            = FXCollections.observableArrayList();
+
     public void initScreen() {
-        
+
         int buttonIterator = 0;
         int recordIterator = 0;
         
-        while (recordIterator < data.size()) {
-            if (data.get(recordIterator).isSticky() == false)
-                tableData.add(data.get(recordIterator));
-            else if(data.get(recordIterator).isSticky() == true)
-                stickyData.add(data.get(recordIterator));
-        }
+        System.out.println(this.data.size());
+        this.tableData.add(this.data.get(recordIterator));
+        recordIterator++;
+        System.out.println(this.tableData.size());
+        this.tableData.add(this.data.get(recordIterator));
+        System.out.println(this.tableData.get(recordIterator).toString());
+        System.out.println(this.tableData.size());
+        
+//        try {
+//            while (recordIterator < this.data.size()) {
+//                if (this.data.get(recordIterator).isSticky() == false) {
+//                    this.tableData.add(this.data.get(recordIterator));
+//                } else if (this.data.get(recordIterator).isSticky() == true) {
+//                    this.stickyData.add(this.data.get(recordIterator));
+//                }
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
 
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
@@ -116,7 +127,6 @@ public class LuggageOverview extends BorderPane {
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
 
         //-------------------------------------------
-        
         //-------------------------------------------
         //Rode balk bovenin het scherm
         TextField searchBar = new TextField();
@@ -207,51 +217,52 @@ public class LuggageOverview extends BorderPane {
 //                "NULL", "12324", "Missing", false);
         //-------------------------------------------
         //tabel vullen
-        
-
-        tableView4.setItems(this.data);
+        //tableView4.setItems(this.tableData);
         //--------------------------------------------
-
         //buttons, eerst de buttons om records te verplaatsen naar sticky tabel,
         // en daarna de "unsticky" butons.
         //StackPanes zijn er om de rijen in het grid de juiste grootte en plek te geven.
-        
+        try {
+            while (buttonIterator < tableData.size()) {
+                cell.add(new StackPane());
+                cell.get(buttonIterator).setMaxSize(30.0, 24.0);
+                cell.get(buttonIterator).setMinSize(30.0, 24.0);
 
-        while (buttonIterator < tableData.size()) {
-            cell.add(new StackPane());
+                sticky.add(new Button("^"));
+                sticky.get(buttonIterator).setPrefSize(24, 24);
+                table3.add(cell.get(buttonIterator), 1, buttonIterator + 1);
+                cell.get(buttonIterator).getChildren().add(sticky.get(buttonIterator));
+
+                buttonIterator++;
+
+            }
+
+            cell.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
             cell.get(buttonIterator).setMaxSize(30.0, 24.0);
             cell.get(buttonIterator).setMinSize(30.0, 24.0);
-            
-            sticky.add(new Button("^"));
-            sticky.get(buttonIterator).setPrefSize(24, 24);
-            table3.add(cell.get(buttonIterator), 1, buttonIterator + 1);
-            cell.get(buttonIterator).getChildren().add(sticky.get(buttonIterator));
+            table3.add(cell.get(buttonIterator), 1, 0);
 
-            buttonIterator++;
+            buttonIterator = 0;
+            while (buttonIterator < stickyData.size()) {
+                cellS.add(new StackPane());
+                cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
+                cellS.get(buttonIterator).setMinSize(30.0, 24.0);
 
-        }
-        cell.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
-        cell.get(buttonIterator).setMaxSize(30.0, 24.0);
-        cell.get(buttonIterator).setMinSize(30.0, 24.0);
-        table3.add(cell.get(buttonIterator), 1, 0);
+                unSticky.add(new Button("^"));
+                unSticky.get(buttonIterator).setPrefSize(24, 24);
+                tableSticky2.add(cellS.get(buttonIterator), 1, buttonIterator + 1);
+                cellS.get(buttonIterator).getChildren().add(unSticky.get(buttonIterator));
 
-        buttonIterator = 0;
-        while (buttonIterator < stickyData.size()) {
-            cellS.add(new StackPane());
+                buttonIterator++;
+            }
+            cellS.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
             cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
             cellS.get(buttonIterator).setMinSize(30.0, 24.0);
-            
-            unSticky.add(new Button("^"));
-            unSticky.get(buttonIterator).setPrefSize(24, 24);
-            tableSticky2.add(cellS.get(buttonIterator), 1, buttonIterator + 1);
-            cellS.get(buttonIterator).getChildren().add(unSticky.get(buttonIterator));
-            
-            buttonIterator++;
+            tableSticky2.add(cellS.get(buttonIterator), 1, 0);
+
+        } catch (Exception e1) {
+            System.out.println(e1.getMessage());
         }
-        cellS.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
-        cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
-        cellS.get(buttonIterator).setMinSize(30.0, 24.0);
-        tableSticky2.add(cellS.get(buttonIterator), 1, 0);
         //-------------------------------------------
 
         //Buttons functioneel
