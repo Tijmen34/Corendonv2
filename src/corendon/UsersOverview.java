@@ -104,12 +104,12 @@ public class UsersOverview extends BorderPane {
         String SQL = "Select * from users";            
         ResultSet rs = conn.createStatement().executeQuery(SQL);  
         while(rs.next()){
-            UserRecord cm = new UserRecord();
-            cm.userId.set(rs.getInt("UserId"));                                      
-            cm.userName.set(rs.getString("Username"));
-            cm.userPassword.set(rs.getString("Password"));
+            //UserRecord cm = new UserRecord();
+           // cm.userId.set(rs.getInt("UserId"));                                      
+            //cm.userName.set(rs.getString("Username"));
+            //cm.userPassword.set(rs.getString("Password"));
 
-            data.add(cm);                  
+            //data.add(cm);                  
         }
         //tableView4.setItems(data);
     }
