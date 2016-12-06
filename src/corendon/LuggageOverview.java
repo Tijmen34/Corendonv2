@@ -80,21 +80,16 @@ public class LuggageOverview extends BorderPane {
 
         int buttonIterator = 0;
         int recordIterator = 0;
-        
-  
-        try {
-            while (recordIterator < this.data.size()) {
-                if (this.data.get(recordIterator).isSticky() == false) {
-                    this.tableData.add(this.data.get(recordIterator));
-                    System.out.println(this.tableData.size());
-                } else if (this.data.get(recordIterator).isSticky() == true) {
-                    this.stickyData.add(this.data.get(recordIterator));
-                    System.out.println(this.stickyData.size());
-                }
-                recordIterator++;
+
+        while (recordIterator < this.data.size()) {
+            if (this.data.get(recordIterator).isSticky() == false) {
+                this.tableData.add(this.data.get(recordIterator));
+                System.out.println(this.tableData.size());
+            } else if (this.data.get(recordIterator).isSticky() == true) {
+                this.stickyData.add(this.data.get(recordIterator));
+                System.out.println(this.stickyData.size());
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            recordIterator++;
         }
 
         HBox topBar = new HBox();
@@ -212,70 +207,70 @@ public class LuggageOverview extends BorderPane {
 //                "Suitcase", "jemoeder", "Red", "Black",
 //                "NULL", "12324", "Missing", false);
         //-------------------------------------------
-        //tabel vullen
+        //tabellen vullen
         tableViewSticky3.setItems(this.stickyData);
         tableView4.setItems(this.tableData);
         //--------------------------------------------
         //buttons, eerst de buttons om records te verplaatsen naar sticky tabel,
         // en daarna de "unsticky" butons.
         //StackPanes zijn er om de rijen in het grid de juiste grootte en plek te geven.
-        try {
-            while (buttonIterator < tableData.size()) {
-                cell.add(new StackPane());
-                cell.get(buttonIterator).setMaxSize(30.0, 24.0);
-                cell.get(buttonIterator).setMinSize(30.0, 24.0);
 
-                sticky.add(new Button("^"));
-                sticky.get(buttonIterator).setPrefSize(24, 24);
-                table3.add(cell.get(buttonIterator), 1, buttonIterator + 1);
-                cell.get(buttonIterator).getChildren().add(sticky.get(buttonIterator));
-
-                buttonIterator++;
-
-            }
-
-            cell.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
+        while (buttonIterator < tableData.size()) {
+            cell.add(new StackPane());
             cell.get(buttonIterator).setMaxSize(30.0, 24.0);
             cell.get(buttonIterator).setMinSize(30.0, 24.0);
-            table3.add(cell.get(buttonIterator), 1, 0);
 
-            buttonIterator = 0;
-            while (buttonIterator < stickyData.size()) {
-                cellS.add(new StackPane());
-                cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
-                cellS.get(buttonIterator).setMinSize(30.0, 24.0);
+            sticky.add(new Button("^"));
+            sticky.get(buttonIterator).setPrefSize(24, 24);
+            table3.add(cell.get(buttonIterator), 1, buttonIterator + 1);
+            cell.get(buttonIterator).getChildren().add(sticky.get(buttonIterator));
 
-                unSticky.add(new Button("^"));
-                unSticky.get(buttonIterator).setPrefSize(24, 24);
-                tableSticky2.add(cellS.get(buttonIterator), 1, buttonIterator + 1);
-                cellS.get(buttonIterator).getChildren().add(unSticky.get(buttonIterator));
+            buttonIterator++;
 
-                buttonIterator++;
-            }
-            cellS.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
+        }
+
+        cell.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
+        cell.get(buttonIterator).setMaxSize(30.0, 24.0);
+        cell.get(buttonIterator).setMinSize(30.0, 24.0);
+        table3.add(cell.get(buttonIterator), 1, 0);
+
+        buttonIterator = 0;
+        while (buttonIterator < stickyData.size()) {
+            cellS.add(new StackPane());
             cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
             cellS.get(buttonIterator).setMinSize(30.0, 24.0);
-            tableSticky2.add(cellS.get(buttonIterator), 1, 0);
 
-        } catch (Exception e1) {
-            System.out.println(e1.getMessage());
+            unSticky.add(new Button("^"));
+            unSticky.get(buttonIterator).setPrefSize(24, 24);
+            tableSticky2.add(cellS.get(buttonIterator), 1, buttonIterator + 1);
+            cellS.get(buttonIterator).getChildren().add(unSticky.get(buttonIterator));
+
+            buttonIterator++;
         }
-        //-------------------------------------------
+        cellS.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
+        cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
+        cellS.get(buttonIterator).setMinSize(30.0, 24.0);
+        tableSticky2.add(cellS.get(buttonIterator), 1, 0);
 
+        //-------------------------------------------
         //Buttons functioneel
-//        buttonIterator = 0;
-//        while (buttonIterator < tableView4.getItems().size()) {
-//            final int tmpIterator = buttonIterator;
-//            sticky[buttonIterator].setOnAction((ActionEvent e) -> {
-//                
-//                moveToSticky(tmpIterator, data);
-//            });
-//        }
-//    }
-//    
-//    
-//    public static ObservableList moveToSticky(int buttonIterator) {
-//        data.remove(buttonIterator);
-//        
+        buttonIterator = 0;
+        while (buttonIterator < tableView4.getItems().size()) {
+            final int tmpIterator = buttonIterator;
+            sticky.get(tmpIterator).setOnAction((ActionEvent e) -> {
+                
+                moveToSticky(tmpIterator, tableData.get(tmpIterator));
+            });
+        }
+    }
+    
+    
+    public void moveToSticky(int buttonIterator, LuggageRecord2 record) {
+        this.stickyData.add(record);
+        this.tableData.remove(buttonIterator);
+        //this.unSticky.add(this.sticky)
+        //this.sticky.remove(this.sticky.get(buttonIterator));
+        
+        
     }
 }
