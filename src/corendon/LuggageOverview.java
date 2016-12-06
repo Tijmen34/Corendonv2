@@ -75,6 +75,9 @@ public class LuggageOverview extends BorderPane {
             = FXCollections.observableArrayList();
     private ObservableList<StackPane> cellS
             = FXCollections.observableArrayList();
+    
+    private GridPane table3 = new GridPane();
+    private GridPane tableSticky2 = new GridPane();
 
     public void initScreen() {
 
@@ -94,11 +97,11 @@ public class LuggageOverview extends BorderPane {
 
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
-        GridPane tableSticky2 = new GridPane();
+        
         ScrollPane scroll2 = new ScrollPane();
-        GridPane table3 = new GridPane();
-        //TableView tableView4 = new TableView();
-        TableView tableViewSticky3 = new TableView();
+        
+        
+        final TableView<LuggageRecord2> tableViewSticky3 = new TableView();
         final TableView<LuggageRecord2> tableView4 = new TableView();
 
         /*
@@ -199,7 +202,7 @@ public class LuggageOverview extends BorderPane {
         tableViewSticky3.getColumns().addAll(lostIdColSt, labelNrColSt, flightNrColSt,
                 typeColSt, brandColSt, primaryColorColSt, secondaryColorColSt, infoColSt,
                 customerIdColSt);
-        tableViewSticky3.setPrefSize(800, 100);
+        tableViewSticky3.setPrefSize(800, 90 + 30);
         //--------------------------------------------
 
         //test record
@@ -260,6 +263,7 @@ public class LuggageOverview extends BorderPane {
             sticky.get(tmpIterator).setOnAction((ActionEvent e) -> {
                 
                 moveToSticky(tmpIterator, tableData.get(tmpIterator));
+                addButtons();
                 
             });
             buttonIterator++;
@@ -271,8 +275,50 @@ public class LuggageOverview extends BorderPane {
         this.stickyData.add(record);
         this.tableData.remove(buttonIterator);
         //this.unSticky.add(this.sticky)
-        //this.sticky.remove(this.sticky.get(buttonIterator));
+        //this.sticky.remove(this.sticky.get(buttonIterator));    
+    }
+    
+    public void addButtons() {
+        sticky.clear();
         
+        int buttonIterator = 0;
+        while (buttonIterator < tableData.size()) {
+            cell.add(new StackPane());
+            cell.get(buttonIterator).setMaxSize(30.0, 24.0);
+            cell.get(buttonIterator).setMinSize(30.0, 24.0);
+
+            sticky.add(new Button("^"));
+            sticky.get(buttonIterator).setPrefSize(24, 24);
+            table3.add(cell.get(buttonIterator), 1, buttonIterator + 1);
+            cell.get(buttonIterator).getChildren().add(sticky.get(buttonIterator));
+
+            buttonIterator++;
+
+        }
+
+        cell.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
+        cell.get(buttonIterator).setMaxSize(30.0, 24.0);
+        cell.get(buttonIterator).setMinSize(30.0, 24.0);
+        table3.add(cell.get(buttonIterator), 1, 0);
         
+        unSticky.clear();
+        
+        buttonIterator = 0;
+        while (buttonIterator < stickyData.size()) {
+            cellS.add(new StackPane());
+            cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
+            cellS.get(buttonIterator).setMinSize(30.0, 24.0);
+
+            unSticky.add(new Button("^"));
+            unSticky.get(buttonIterator).setPrefSize(24, 24);
+            tableSticky2.add(cellS.get(buttonIterator), 1, buttonIterator + 1);
+            cellS.get(buttonIterator).getChildren().add(unSticky.get(buttonIterator));
+
+            buttonIterator++;
+        }
+        cellS.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
+        cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
+        cellS.get(buttonIterator).setMinSize(30.0, 24.0);
+        tableSticky2.add(cellS.get(buttonIterator), 1, 0);
     }
 }
