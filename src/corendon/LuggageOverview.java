@@ -89,7 +89,7 @@ public class LuggageOverview extends BorderPane {
                     System.out.println(this.tableData.size());
                 } else if (this.data.get(recordIterator).isSticky() == true) {
                     this.stickyData.add(this.data.get(recordIterator));
-                    System.out.println(this.tableData.size());
+                    System.out.println(this.stickyData.size());
                 }
                 recordIterator++;
             }
@@ -213,7 +213,8 @@ public class LuggageOverview extends BorderPane {
 //                "NULL", "12324", "Missing", false);
         //-------------------------------------------
         //tabel vullen
-        //tableView4.setItems(this.tableData);
+        tableViewSticky3.setItems(this.stickyData);
+        tableView4.setItems(this.tableData);
         //--------------------------------------------
         //buttons, eerst de buttons om records te verplaatsen naar sticky tabel,
         // en daarna de "unsticky" butons.
