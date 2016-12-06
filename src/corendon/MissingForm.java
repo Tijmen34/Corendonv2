@@ -317,8 +317,8 @@ public class MissingForm extends GridPane{
             PreparedStatement pst2 = null;
                 try {
                     String query = "INSERT INTO bagage"
-				+ "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur) VALUES"
-				+ "(?,?,?,?,?,?,?)";
+				+ "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, status) VALUES"
+				+ "(?,?,?,?,?,?,?,'lost')";
                     String query2 = "INSERT INTO klant"
 				+ "(geslacht, naam, achternaam, gebdatum, straat, huisnummer,"
                             + " plaats, postcode, land, telnr, mail) VALUES"
