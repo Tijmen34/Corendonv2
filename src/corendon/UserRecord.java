@@ -12,17 +12,20 @@ import javafx.beans.property.SimpleStringProperty;
  * @author Jeroen de Jong
  */
 public class UserRecord {
+
     private final SimpleStringProperty userId;
     private final SimpleStringProperty userName;
+    private final SimpleStringProperty passWord;
     private final SimpleStringProperty firstName;
     private final SimpleStringProperty tussenVoegsel;
     private final SimpleStringProperty surName;
     private final SimpleStringProperty function;
 
-    public UserRecord(String userId, String userName, String firstName, 
+    public UserRecord(String userId, String userName, String passWord, String firstName,
             String tussenVoegsel, String surName, String function) {
         this.userId = new SimpleStringProperty(userId);
         this.userName = new SimpleStringProperty(userName);
+        this.passWord = new SimpleStringProperty(passWord);
         this.firstName = new SimpleStringProperty(firstName);
         this.tussenVoegsel = new SimpleStringProperty(tussenVoegsel);
         this.surName = new SimpleStringProperty(surName);
@@ -43,6 +46,14 @@ public class UserRecord {
 
     public void setUserName(String userName) {
         this.userName.set(userName);
+    }
+
+    public String getPassWord() {
+        return passWord.get();
+    }
+
+    public void setPassWord(String passWord) {
+        this.passWord.set(passWord);
     }
 
     public String getFirstName() {
@@ -79,15 +90,10 @@ public class UserRecord {
 
     @Override
     public String toString() {
-        return "UserRecord{" + "userId=" + userId + ", userName=" 
-                + userName + ", firstName=" + firstName + ", tussenVoegsel=" 
-                + tussenVoegsel + ", surName=" + surName + ", function=" 
+        return "UserRecord{" + "userId=" + userId + ", userName="
+                + userName + ", firstName=" + firstName + ", tussenVoegsel="
+                + tussenVoegsel + ", surName=" + surName + ", function="
                 + function + '}';
     }
-    
-    
-    
-    
+
 }
-
-
