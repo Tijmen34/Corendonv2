@@ -64,7 +64,7 @@ public class Corendon extends Application {
         foundContent.initScreen();
         UsersOverview usersContent = new UsersOverview();
         usersContent.initScreen();
-        Scene newscene = new Scene(tabScreen, 1200, 700, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven
+        Scene newscene = new Scene(tabScreen, 1200, 700, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven.
         /*
          */
 
