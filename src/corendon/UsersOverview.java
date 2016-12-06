@@ -51,7 +51,7 @@ public class UsersOverview extends BorderPane {
     // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
     // elementen meteen aan het scherm toe te voegen.
     
-    private ObservableList<UserRecord> data;
+    private ObservableList<UserRecord> data = FXCollections.observableArrayList(new UserRecord("001", "Burak", "Karos", "Burak","Karos", "Inan", "Administrateur")) ;
     private Connection conn;
 
     public void initScreen() {
@@ -62,7 +62,7 @@ public class UsersOverview extends BorderPane {
         BorderPane border1 = new BorderPane();
         ScrollPane scroll2 = new ScrollPane();
         GridPane table3 = new GridPane();
-        final TableView<UsersOverview> tableView4 = new TableView();
+        final TableView<UserRecord> tableView4 = new TableView();
 
         this.setTop(topBar);
         this.setCenter(border1);
@@ -98,20 +98,20 @@ public class UsersOverview extends BorderPane {
         tableView4.setPrefSize(800, (aantalRecords * 30) + 30);
         
         
-            data = FXCollections.observableArrayList();
+//            data = FXCollections.observableArrayList(new UserRecord("001", "Burak", "Karos", "Burak","Karos", "Inan", "Administrateur"));
             conn = Sql.DbConnector();
     try{      
         String SQL = "Select * from users";            
         ResultSet rs = conn.createStatement().executeQuery(SQL);  
         while(rs.next()){
-            //UserRecord cm = new UserRecord();
-           // cm.userId.set(rs.getInt("UserId"));                                      
-            //cm.userName.set(rs.getString("Username"));
-            //cm.userPassword.set(rs.getString("Password"));
-
-            //data.add(cm);                  
+//            UserRecord cm = new UserRecord();
+//            cm.userId.set(rs.getInt("UserId"));                                      
+//            cm.userName.set(rs.getString("Username"));
+//            cm.passWord.set(rs.getString("Password"));
+//            cm.firstName.set(rs.getString("firstName"));
+ //           data.add(cm);                  
         }
-        //tableView4.setItems(data);
+        tableView4.setItems(data);
     }
     catch(Exception e){
           e.printStackTrace();
