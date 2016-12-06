@@ -228,7 +228,7 @@ public class MissingForm extends GridPane{
         birthDate.setTextFill(Color.web("#333333"));
         DatePicker datePick = new DatePicker();
         datePick.setShowWeekNumbers(false);
-        Label dateSet = new Label("(DD-MM-JJJJ)");
+        Label dateSet = new Label("(MM-DD-YYYY)");
         //dateSet.setFont(OpenSans);
         dateSet.setTextFill(Color.web("#D81E05"));
         datePick.setStyle("-fx-base:white;");
