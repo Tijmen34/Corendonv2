@@ -21,6 +21,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -229,6 +231,7 @@ public class MissingForm extends GridPane{
         DatePicker datePick = new DatePicker();
         datePick.setShowWeekNumbers(false);
         Label dateSet = new Label("(MM-DD-YYYY)");
+       
         //dateSet.setFont(OpenSans);
         dateSet.setTextFill(Color.web("#D81E05"));
         datePick.setStyle("-fx-base:white;");
@@ -317,12 +320,12 @@ public class MissingForm extends GridPane{
             PreparedStatement pst2 = null;
                 try {
                     String query = "INSERT INTO bagage"
-				+ "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, status) VALUES"
-				+ "(?,?,?,?,?,?,?,'lost')";
+				+ "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, status, datum_bevestiging) VALUES"
+				+ "(?,?,?,?,?,?,?,'lost',NOW())";
                     String query2 = "INSERT INTO klant"
 				+ "(geslacht, naam, achternaam, gebdatum, straat, huisnummer,"
-                            + " plaats, postcode, land, telnr, mail) VALUES"
-				+ "(?,?,?,?,?,?,?,?,?,?,?)";
+                            + " plaats, postcode, land, telnr, mail, datum_bevestiging) VALUES"
+				+ "(?,?,?,?,?,?,?,?,?,?,?, NOW())";
                     pst = conn.prepareStatement(query);
                     pst.setString(1, labelInput.getText());
                     pst.setString(2, flightInput.getText());
@@ -348,6 +351,14 @@ public class MissingForm extends GridPane{
 
                     pst.executeUpdate();
                     pst2.executeUpdate();
+                    
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Corendon - Luggage");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Information successfully submitted");
+                    alert.showAndWait();
+                    
+                    
                     
                     System.out.println("Information submitted.");
                 }
