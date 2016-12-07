@@ -109,7 +109,7 @@ public class MissingForm extends GridPane{
         // Submit knop
         Button next = new Button();
         //next.setFont(UniSansItalicbig);
-        next.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;");
+        next.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 18");
         next.setTextFill(Color.web("#ffffff"));
        
         next.setText("Submit");
@@ -218,7 +218,7 @@ public class MissingForm extends GridPane{
         priColorList.setPromptText("Primary Color");
         priColorList.setStyle("-fx-base:white");
         
-        Label secondaryColor= new Label("Secondary Color: ");
+        Label secondaryColor= new Label("Secondary Color(optional): ");
         secondaryColor.setTextFill(Color.web("#333333"));
         ComboBox secColorList = new ComboBox (FXCollections.observableArrayList("Black", "White", "Blue", "Red", "Silver", "Grey", "Green", "Yellow", "Purple"));
         //secondaryColor.setFont(OpenSans);
@@ -303,8 +303,12 @@ public class MissingForm extends GridPane{
         
         
         
+        
+        
        
         this.setStyle("-fx-background-color: white");
+        
+        
        
 //        Scene scene = new Scene(lostForm, 1350, 700);
 //        primaryStage.setTitle("Luggage - Lost Form");
@@ -352,6 +356,7 @@ public class MissingForm extends GridPane{
                     pst.executeUpdate();
                     pst2.executeUpdate();
                     
+                    
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Corendon - Luggage");
                     alert.setHeaderText(null);
@@ -363,6 +368,13 @@ public class MissingForm extends GridPane{
                     System.out.println("Information submitted.");
                 }
                 catch (Exception e1) {
+                    
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setTitle("Corendon - Luggage");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Some information is not filled in, please try again.");
+                    alert.showAndWait();
+                    
                 System.out.println("SQL Error");
                 System.err.println(e1);
             }
