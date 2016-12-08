@@ -13,86 +13,78 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class UserRecord {
 
-    private final SimpleStringProperty userId;
-    private final SimpleStringProperty userName;
-    private final SimpleStringProperty passWord;
-    private final SimpleStringProperty firstName;
-    private final SimpleStringProperty tussenVoegsel;
-    private final SimpleStringProperty surName;
-    private final SimpleStringProperty function;
+    public final SimpleStringProperty user_id = new SimpleStringProperty();
+    public final SimpleStringProperty username = new SimpleStringProperty();
+    public final SimpleStringProperty password = new SimpleStringProperty();
+    public final SimpleStringProperty firstname = new SimpleStringProperty();
+    public final SimpleStringProperty tussenvoegsel = new SimpleStringProperty();
+    public final SimpleStringProperty surname = new SimpleStringProperty();
+    public final SimpleStringProperty function = new SimpleStringProperty();
 
-    public UserRecord(String userId, String userName, String passWord, String firstName,
-            String tussenVoegsel, String surName, String function) {
-        this.userId = new SimpleStringProperty(userId);
-        this.userName = new SimpleStringProperty(userName);
-        this.passWord = new SimpleStringProperty(passWord);
-        this.firstName = new SimpleStringProperty(firstName);
-        this.tussenVoegsel = new SimpleStringProperty(tussenVoegsel);
-        this.surName = new SimpleStringProperty(surName);
-        this.function = new SimpleStringProperty(function);
+
+    
+
+    public String getuser_id() {
+        return user_id.get();
     }
 
-    public String getUserId() {
-        return userId.get();
+    public void setuser_id(String user_id) {
+        this.user_id.set(user_id);
     }
 
-    public void setUserId(String userId) {
-        this.userId.set(userId);
+    public String getusername() {
+        return username.get();
     }
 
-    public String getUserName() {
-        return userName.get();
+    public void setusername(String username) {
+        this.username.set(username);
     }
 
-    public void setUserName(String userName) {
-        this.userName.set(userName);
+    public String getpassword() {
+        return password.get();
     }
 
-    public String getPassWord() {
-        return passWord.get();
+    public void setpassword(String password) {
+        this.password.set(password);
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord.set(passWord);
+    public String getfirstname() {
+        return firstname.get();
     }
 
-    public String getFirstName() {
-        return firstName.get();
+    public void setfirstname(String firstname) {
+        this.firstname.set(firstname);
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName.set(firstName);
+    public String gettussenvoegsel() {
+        return tussenvoegsel.get();
     }
 
-    public String getTussenVoegsel() {
-        return tussenVoegsel.get();
+    public void settussenvoegsel(String tussenvoegsel) {
+        this.tussenvoegsel.set(tussenvoegsel);
     }
 
-    public void setTussenVoegsel(String tussenVoegsel) {
-        this.tussenVoegsel.set(tussenVoegsel);
+    public String getsurname() {
+        return surname.get();
     }
 
-    public String getSurName() {
-        return surName.get();
+    public void setsurname(String surname) {
+        this.surname.set(surname);
     }
 
-    public void setSurName(String surName) {
-        this.surName.set(surName);
-    }
-
-    public String getFunction() {
+    public String getfunction() {
         return function.get();
     }
 
-    public void setFunction(String function) {
+    public void setfunction(String function) {
         this.function.set(function);
     }
 
     @Override
     public String toString() {
-        return "UserRecord{" + "userId=" + userId + ", userName="
-                + userName + ", firstName=" + firstName + ", tussenVoegsel="
-                + tussenVoegsel + ", surName=" + surName + ", function="
+        return "UserRecord{" + "user_id=" + user_id + ", userName="
+                + username + ", firstname=" + firstname + ", tussenvoegsel="
+                + tussenvoegsel + ", surname=" + surname + ", function="
                 + function + '}';
     }
 

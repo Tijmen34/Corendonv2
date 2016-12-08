@@ -51,7 +51,7 @@ public class UsersOverview extends BorderPane {
     // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
     // elementen meteen aan het scherm toe te voegen.
     
-    private final ObservableList<UserRecord> data = FXCollections.observableArrayList(new UserRecord("001", "Burak", "Karos", "Burak","Karos", "Inan", "Administrateur")) ;
+    private ObservableList<UserRecord> data;
     private Connection conn;
 
     public void initScreen() {
@@ -90,17 +90,17 @@ public class UsersOverview extends BorderPane {
         TableColumn functionCol = new TableColumn("Function");
 
         userIdCol.setCellValueFactory(
-                new PropertyValueFactory<>("userId"));
+                new PropertyValueFactory<>("user_id"));
         usernameCol.setCellValueFactory(
-                new PropertyValueFactory<>("userName"));
+                new PropertyValueFactory<>("username"));
         passwordCol.setCellValueFactory(
-                new PropertyValueFactory<>("passWord"));
+                new PropertyValueFactory<>("password"));
         firstnameCol.setCellValueFactory(
-                new PropertyValueFactory<>("firstName"));
+                new PropertyValueFactory<>("firstname"));
         tussenvoegselCol.setCellValueFactory(
-                new PropertyValueFactory<>("tussenVoegsel"));
+                new PropertyValueFactory<>("tussenvoegsel"));
         surnameCol.setCellValueFactory(
-                new PropertyValueFactory<>("surName"));
+                new PropertyValueFactory<>("surname"));
         functionCol.setCellValueFactory(
                 new PropertyValueFactory<>("function"));
         tableView4.getColumns().addAll(userIdCol, usernameCol, passwordCol, firstnameCol, tussenvoegselCol,
@@ -111,24 +111,27 @@ public class UsersOverview extends BorderPane {
         tableView4.setPrefSize(800, (aantalRecords * 30) + 30);
 
 //            data = FXCollections.observableArrayList(new UserRecord("001", "Burak", "Karos", "Burak","Karos", "Inan", "Administrateur"));
-        conn = Sql.DbConnector();
-        try {
-            String SQL = "Select * from users";
+        data = FXCollections.observableArrayList();
+        try (Connection conn = Sql.DbConnector();) {
+            String SQL = "SELECT * FROM users";
             ResultSet rs = conn.createStatement().executeQuery(SQL);
             while (rs.next()) {
-//            UserRecord cm = new UserRecord();
-//            cm.userId.set(rs.getInt("UserId"));                                      
-//            cm.userName.set(rs.getString("Username"));
-//            cm.passWord.set(rs.getString("Password"));
-//            cm.firstName.set(rs.getString("firstName"));
-                //           data.add(cm);                  
+                UserRecord cm = new UserRecord();
+                cm.user_id.set(rs.getString("user_id"));
+                cm.username.set(rs.getString("username"));
+                cm.password.set(rs.getString("password"));
+                cm.firstname.set(rs.getString("firstname"));
+                cm.tussenvoegsel.set(rs.getString("tussenvoegsel"));
+                cm.surname.set(rs.getString("surname"));
+                cm.function.set(rs.getString("function"));
+                data.add(cm);
+                System.out.println(cm.getsurname());
             }
             tableView4.setItems(data);
-    }
-    catch(Exception e){
-          e.printStackTrace();
-          System.out.println("Error on Building Data");            
-    }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
 
     }
 
