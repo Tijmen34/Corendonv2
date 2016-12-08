@@ -23,11 +23,11 @@ public class LuggageRecord2 {
     private final SimpleStringProperty info;
     private final SimpleStringProperty customerId;
     private final SimpleStringProperty status;
-    private boolean sticky;
+    
 
     public LuggageRecord2(String lostId, String labelNr, String flightNr,
             String type, String brandName, String primaryColor, String secondaryColor,
-            String info, String customerId, String status, boolean sticky) {
+            String info, String customerId, String status) {
         this.lostId = new SimpleStringProperty(lostId);
         this.labelNr = new SimpleStringProperty(labelNr);
         this.flightNr = new SimpleStringProperty(flightNr);
@@ -38,7 +38,7 @@ public class LuggageRecord2 {
         this.info = new SimpleStringProperty(info);
         this.customerId = new SimpleStringProperty(customerId);
         this.status = new SimpleStringProperty(status);
-        this.sticky = false;
+        
     }
 
     public String getLostId() {
@@ -121,17 +121,9 @@ public class LuggageRecord2 {
         this.status.set(status);
     }
 
-    public boolean isSticky() {
-        return sticky;
-    }
-
-    public void setSticky(boolean sticky) {
-        this.sticky = sticky;
-    }
-
     @Override
     public String toString() {
-        return "LuggageRecord2{" + "lostId=" + lostId + ", labelNr=" + labelNr + ", flightNr=" + flightNr + ", type=" + type + ", brandName=" + brandName + ", primaryColor=" + primaryColor + ", secondaryColor=" + secondaryColor + ", info=" + info + ", customerId=" + customerId + ", status=" + status + ", sticky=" + sticky + '}';
+        return "LuggageRecord2{" + "lostId=" + lostId + ", labelNr=" + labelNr + ", flightNr=" + flightNr + ", type=" + type + ", brandName=" + brandName + ", primaryColor=" + primaryColor + ", secondaryColor=" + secondaryColor + ", info=" + info + ", customerId=" + customerId + ", status=" + status + '}';
     }
     
     
