@@ -41,6 +41,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.lang.Exception;
+import javafx.event.EventType;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -61,27 +63,106 @@ public class LuggageOverview extends BorderPane {
                             "Null", "85394", "Missing", false),
                     new LuggageRecord2("0004", "P05YR", "MH18",
                             "sportsbag", "jema", "Blue", "Null",
+                            "Null", "81254", "Missing", true),
+                    new LuggageRecord2("0001", "3R5F2", "MH370",
+                            "Suitcase", "jemoeder", "Red", "Black",
+                            "NULL", "12324", "Missing", false),
+                    new LuggageRecord2("0002", "T43RS", "MH370",
+                            "Suitcase", "jeopa", "Red", "Pink",
+                            "lelijk", "12743", "Missing", false),
+                    new LuggageRecord2("0003", "TXZ35", "MH18",
+                            "sportsbag", "nike", "Yellow", "Null",
+                            "Null", "85394", "Missing", false),
+                    new LuggageRecord2("0004", "P05YR", "MH18",
+                            "sportsbag", "jema", "Blue", "Null",
+                            "Null", "81254", "Missing", true),
+                    new LuggageRecord2("0001", "3R5F2", "MH370",
+                            "Suitcase", "jemoeder", "Red", "Black",
+                            "NULL", "12324", "Missing", false),
+                    new LuggageRecord2("0002", "T43RS", "MH370",
+                            "Suitcase", "jeopa", "Red", "Pink",
+                            "lelijk", "12743", "Missing", false),
+                    new LuggageRecord2("0003", "TXZ35", "MH18",
+                            "sportsbag", "nike", "Yellow", "Null",
+                            "Null", "85394", "Missing", false),
+                    new LuggageRecord2("0004", "P05YR", "MH18",
+                            "sportsbag", "jema", "Blue", "Null",
+                            "Null", "81254", "Missing", true),
+                    new LuggageRecord2("0001", "3R5F2", "MH370",
+                            "Suitcase", "jemoeder", "Red", "Black",
+                            "NULL", "12324", "Missing", false),
+                    new LuggageRecord2("0002", "T43RS", "MH370",
+                            "Suitcase", "jeopa", "Red", "Pink",
+                            "lelijk", "12743", "Missing", false),
+                    new LuggageRecord2("0003", "TXZ35", "MH18",
+                            "sportsbag", "nike", "Yellow", "Null",
+                            "Null", "85394", "Missing", false),
+                    new LuggageRecord2("0004", "P05YR", "MH18",
+                            "sportsbag", "jema", "Blue", "Null",
+                            "Null", "81254", "Missing", true),
+                    new LuggageRecord2("0001", "3R5F2", "MH370",
+                            "Suitcase", "jemoeder", "Red", "Black",
+                            "NULL", "12324", "Missing", false),
+                    new LuggageRecord2("0002", "T43RS", "MH370",
+                            "Suitcase", "jeopa", "Red", "Pink",
+                            "lelijk", "12743", "Missing", false),
+                    new LuggageRecord2("0003", "TXZ35", "MH18",
+                            "sportsbag", "nike", "Yellow", "Null",
+                            "Null", "85394", "Missing", false),
+                    new LuggageRecord2("0004", "P05YR", "MH18",
+                            "sportsbag", "jema", "Blue", "Null",
+                            "Null", "81254", "Missing", true),
+                    new LuggageRecord2("0002", "T43RS", "MH370",
+                            "Suitcase", "jeopa", "Red", "Pink",
+                            "lelijk", "12743", "Missing", false),
+                    new LuggageRecord2("0003", "TXZ35", "MH18",
+                            "sportsbag", "nike", "Yellow", "Null",
+                            "Null", "85394", "Missing", false),
+                    new LuggageRecord2("0004", "P05YR", "MH18",
+                            "sportsbag", "jema", "Blue", "Null",
+                            "Null", "81254", "Missing", true),
+                    new LuggageRecord2("0001", "3R5F2", "MH370",
+                            "Suitcase", "jemoeder", "Red", "Black",
+                            "NULL", "12324", "Missing", false),
+                    new LuggageRecord2("0002", "T43RS", "MH370",
+                            "Suitcase", "jeopa", "Red", "Pink",
+                            "lelijk", "12743", "Missing", false),
+                    new LuggageRecord2("0003", "TXZ35", "MH18",
+                            "sportsbag", "nike", "Yellow", "Null",
+                            "Null", "85394", "Missing", false),
+                    new LuggageRecord2("0004", "P05YR", "MH18",
+                            "sportsbag", "jema", "Blue", "Null",
+                            "Null", "81254", "Missing", true),
+                    new LuggageRecord2("0001", "3R5F2", "MH370",
+                            "Suitcase", "jemoeder", "Red", "Black",
+                            "NULL", "12324", "Missing", false),
+                    new LuggageRecord2("0002", "T43RS", "MH370",
+                            "Suitcase", "jeopa", "Red", "Pink",
+                            "lelijk", "12743", "Missing", false),
+                    new LuggageRecord2("0003", "TXZ35", "MH18",
+                            "sportsbag", "nike", "Yellow", "Null",
+                            "Null", "85394", "Missing", false),
+                    new LuggageRecord2("0004", "P05YR", "MH18",
+                            "sportsbag", "jema", "Blue", "Null",
                             "Null", "81254", "Missing", true)
             );
     private ObservableList<LuggageRecord2> tableData
             = FXCollections.observableArrayList();
     private ObservableList<LuggageRecord2> stickyData
             = FXCollections.observableArrayList();
-    private ObservableList<Button> sticky
-            = FXCollections.observableArrayList();
-    private ObservableList<Button> unSticky
-            = FXCollections.observableArrayList();
-    private ObservableList<StackPane> cell
-            = FXCollections.observableArrayList();
-    private ObservableList<StackPane> cellS
-            = FXCollections.observableArrayList();
     
-    private GridPane table3 = new GridPane();
-    private GridPane tableSticky2 = new GridPane();
+    
+    //private GridPane table3 = new GridPane();
+    //private GridPane tableSticky2 = new GridPane();
+    private VBox controlBox = new VBox();
+    private Button selToStickyBtn = new Button("^^");
+    private Button selUnStickyBtn = new Button("vv");
+    private ScrollPane tableScroll = new ScrollPane();
+    private StackPane stickyBox = new StackPane();
 
     public void initScreen() {
 
-        int buttonIterator = 0;
+        
         int recordIterator = 0;
 
         while (recordIterator < this.data.size()) {
@@ -98,7 +179,7 @@ public class LuggageOverview extends BorderPane {
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
         
-        ScrollPane scroll2 = new ScrollPane();
+        //ScrollPane scroll2 = new ScrollPane();
         
         
         final TableView<LuggageRecord2> tableViewSticky3 = new TableView();
@@ -113,14 +194,22 @@ public class LuggageOverview extends BorderPane {
         
          */
         this.setTop(topBar);
+        this.setRight(controlBox);
         this.setCenter(border1);
-        border1.setTop(tableSticky2);
-        border1.setCenter(scroll2);
-        tableSticky2.add(tableViewSticky3, 2, 0, 10, stickyData.size() + 1);
-        scroll2.setContent(table3);
-        table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
+        border1.setTop(stickyBox);
+        stickyBox.getChildren().add(tableViewSticky3);
+        border1.setCenter(tableView4);
+        //tableScroll.setContent(tableView4);
+        //tableScroll.setPrefSize(1000, 600);
+        //tableSticky2.add(tableViewSticky3, 2, 0, 10, stickyData.size() + 1);
+        //scroll2.setContent(table3);
+        //table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
 
         //-------------------------------------------
+        //balk met controls voor tabel rechts
+        controlBox.getChildren().addAll(selUnStickyBtn, selToStickyBtn);
+        
+        
         //-------------------------------------------
         //Rode balk bovenin het scherm
         TextField searchBar = new TextField();
@@ -166,7 +255,10 @@ public class LuggageOverview extends BorderPane {
         tableView4.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
                 typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
                 customerIdCol);
-        tableView4.setPrefSize(800, (tableData.size() * 30) + 30);
+        tableView4.setMinSize(1000, (30 * 24) + 26);
+        tableView4.setMaxSize(1000, (30 * 24) + 26);
+        
+        
 
         //-------------------------------------------
         //Sticky Tabel
@@ -202,7 +294,11 @@ public class LuggageOverview extends BorderPane {
         tableViewSticky3.getColumns().addAll(lostIdColSt, labelNrColSt, flightNrColSt,
                 typeColSt, brandColSt, primaryColorColSt, secondaryColorColSt, infoColSt,
                 customerIdColSt);
-        tableViewSticky3.setPrefSize(800, 90 + 30);
+        tableViewSticky3.setMinSize(1000, 24 + 26);
+        tableViewSticky3.setPrefSize(1000, 24 + 26);
+        tableViewSticky3.setMaxWidth(1000);
+        
+        
         //--------------------------------------------
 
         //test record
@@ -214,111 +310,39 @@ public class LuggageOverview extends BorderPane {
         tableViewSticky3.setItems(this.stickyData);
         tableView4.setItems(this.tableData);
         //--------------------------------------------
-        //buttons, eerst de buttons om records te verplaatsen naar sticky tabel,
-        // en daarna de "unsticky" butons.
-        //StackPanes zijn er om de rijen in het grid de juiste grootte en plek te geven.
-
-        while (buttonIterator < tableData.size()) {
-            cell.add(new StackPane());
-            cell.get(buttonIterator).setMaxSize(30.0, 24.0);
-            cell.get(buttonIterator).setMinSize(30.0, 24.0);
-
-            sticky.add(new Button("^"));
-            sticky.get(buttonIterator).setPrefSize(24, 24);
-            table3.add(cell.get(buttonIterator), 1, buttonIterator + 1);
-            cell.get(buttonIterator).getChildren().add(sticky.get(buttonIterator));
-
-            buttonIterator++;
-
-        }
-
-        cell.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
-        cell.get(buttonIterator).setMaxSize(30.0, 24.0);
-        cell.get(buttonIterator).setMinSize(30.0, 24.0);
-        table3.add(cell.get(buttonIterator), 1, 0);
-
-        buttonIterator = 0;
-        while (buttonIterator < stickyData.size()) {
-            cellS.add(new StackPane());
-            cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
-            cellS.get(buttonIterator).setMinSize(30.0, 24.0);
-
-            unSticky.add(new Button("^"));
-            unSticky.get(buttonIterator).setPrefSize(24, 24);
-            tableSticky2.add(cellS.get(buttonIterator), 1, buttonIterator + 1);
-            cellS.get(buttonIterator).getChildren().add(unSticky.get(buttonIterator));
-
-            buttonIterator++;
-        }
-        cellS.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
-        cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
-        cellS.get(buttonIterator).setMinSize(30.0, 24.0);
-        tableSticky2.add(cellS.get(buttonIterator), 1, 0);
-
-        //-------------------------------------------
+        
         //Buttons functioneel
-        buttonIterator = 0;
-        while (buttonIterator < tableView4.getItems().size()) {
-            final int tmpIterator = buttonIterator;
-            sticky.get(tmpIterator).setOnAction((ActionEvent e) -> {
+        
+        
+        selToStickyBtn.setOnAction((ActionEvent e) -> {
                 
-                moveToSticky(tmpIterator, tableData.get(tmpIterator));
-                addButtons();
+                stickyData.add(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
+                tableData.remove(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
+                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                
                 
             });
-            buttonIterator++;
-        }
+        
+        selUnStickyBtn.setOnAction((ActionEvent e) -> {
+                
+                tableData.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
+                stickyData.remove(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
+                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                
+                
+            });
     }
     
     
-    public void moveToSticky(int buttonIterator, LuggageRecord2 record) {
+    public void moveToSticky(int buttonIterator, LuggageRecord2 record, TableView table) {
         this.stickyData.add(record);
         this.tableData.remove(buttonIterator);
+        table.setPrefSize(900, 30 + 30);
         //this.unSticky.add(this.sticky)
         //this.sticky.remove(this.sticky.get(buttonIterator));    
     }
     
-    public void addButtons() {
-        sticky.clear();
-        
-        int buttonIterator = 0;
-        while (buttonIterator < tableData.size()) {
-            cell.add(new StackPane());
-            cell.get(buttonIterator).setMaxSize(30.0, 24.0);
-            cell.get(buttonIterator).setMinSize(30.0, 24.0);
-
-            sticky.add(new Button("^"));
-            sticky.get(buttonIterator).setPrefSize(24, 24);
-            table3.add(cell.get(buttonIterator), 1, buttonIterator + 1);
-            cell.get(buttonIterator).getChildren().add(sticky.get(buttonIterator));
-
-            buttonIterator++;
-
-        }
-
-        cell.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
-        cell.get(buttonIterator).setMaxSize(30.0, 24.0);
-        cell.get(buttonIterator).setMinSize(30.0, 24.0);
-        table3.add(cell.get(buttonIterator), 1, 0);
-        
-        unSticky.clear();
-        
-        buttonIterator = 0;
-        while (buttonIterator < stickyData.size()) {
-            cellS.add(new StackPane());
-            cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
-            cellS.get(buttonIterator).setMinSize(30.0, 24.0);
-
-            unSticky.add(new Button("^"));
-            unSticky.get(buttonIterator).setPrefSize(24, 24);
-            tableSticky2.add(cellS.get(buttonIterator), 1, buttonIterator + 1);
-            cellS.get(buttonIterator).getChildren().add(unSticky.get(buttonIterator));
-
-            buttonIterator++;
-        }
-        cellS.add(new StackPane());         //laatste StackPane moet bovenin zonder button.
-        cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
-        cellS.get(buttonIterator).setMinSize(30.0, 24.0);
-        tableSticky2.add(cellS.get(buttonIterator), 1, 0);
-    }
+    
 }
