@@ -41,6 +41,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.lang.Exception;
+import javafx.event.EventType;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -78,6 +80,9 @@ public class LuggageOverview extends BorderPane {
     
     private GridPane table3 = new GridPane();
     private GridPane tableSticky2 = new GridPane();
+    private VBox controlBox = new VBox();
+    private Button selToStickyBtn = new Button("^^");
+    private Button selUnStickyBtn = new Button("vv");
 
     public void initScreen() {
 
@@ -113,6 +118,7 @@ public class LuggageOverview extends BorderPane {
         
          */
         this.setTop(topBar);
+        this.setRight(controlBox);
         this.setCenter(border1);
         border1.setTop(tableSticky2);
         border1.setCenter(scroll2);
@@ -121,6 +127,10 @@ public class LuggageOverview extends BorderPane {
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
 
         //-------------------------------------------
+        //balk met controls voor tabel rechts
+        controlBox.getChildren().addAll(selToStickyBtn);
+        
+        
         //-------------------------------------------
         //Rode balk bovenin het scherm
         TextField searchBar = new TextField();
@@ -166,7 +176,7 @@ public class LuggageOverview extends BorderPane {
         tableView4.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
                 typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
                 customerIdCol);
-        tableView4.setPrefSize(800, (tableData.size() * 30) + 30);
+        tableView4.setPrefSize(900, (tableData.size() * 30) + 30);
 
         //-------------------------------------------
         //Sticky Tabel
@@ -202,7 +212,7 @@ public class LuggageOverview extends BorderPane {
         tableViewSticky3.getColumns().addAll(lostIdColSt, labelNrColSt, flightNrColSt,
                 typeColSt, brandColSt, primaryColorColSt, secondaryColorColSt, infoColSt,
                 customerIdColSt);
-        tableViewSticky3.setPrefSize(800, 90 + 30);
+        tableViewSticky3.setPrefSize(900, 90 + 30);
         //--------------------------------------------
 
         //test record
@@ -236,6 +246,7 @@ public class LuggageOverview extends BorderPane {
         cell.get(buttonIterator).setMaxSize(30.0, 24.0);
         cell.get(buttonIterator).setMinSize(30.0, 24.0);
         table3.add(cell.get(buttonIterator), 1, 0);
+        
 
         buttonIterator = 0;
         while (buttonIterator < stickyData.size()) {
@@ -254,6 +265,8 @@ public class LuggageOverview extends BorderPane {
         cellS.get(buttonIterator).setMaxSize(30.0, 24.0);
         cellS.get(buttonIterator).setMinSize(30.0, 24.0);
         tableSticky2.add(cellS.get(buttonIterator), 1, 0);
+        
+        
 
         //-------------------------------------------
         //Buttons functioneel
@@ -268,6 +281,13 @@ public class LuggageOverview extends BorderPane {
             });
             buttonIterator++;
         }
+        
+        selToStickyBtn.setOnAction((ActionEvent e) -> {
+                
+                stickyData.add(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
+                tableData.remove(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
+                
+            });
     }
     
     
