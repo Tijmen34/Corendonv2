@@ -51,7 +51,7 @@ public class UsersOverview extends BorderPane {
     // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
     // elementen meteen aan het scherm toe te voegen.
     
-    private ObservableList<UserRecord> data = FXCollections.observableArrayList(new UserRecord("001", "Burak", "Karos", "Burak","Karos", "Inan", "Administrateur")) ;
+    private final ObservableList<UserRecord> data = FXCollections.observableArrayList(new UserRecord("001", "Burak", "Karos", "Burak","Karos", "Inan", "Administrateur")) ;
     private Connection conn;
 
     public void initScreen() {
@@ -84,34 +84,46 @@ public class UsersOverview extends BorderPane {
         TableColumn userIdCol = new TableColumn("User ID");
         TableColumn usernameCol = new TableColumn("Username");
         TableColumn passwordCol = new TableColumn("Password");
+        TableColumn firstnameCol = new TableColumn("First name");
+        TableColumn tussenvoegselCol = new TableColumn("Tussenvoegsel");
+        TableColumn surnameCol = new TableColumn("Surname");
+        TableColumn functionCol = new TableColumn("Function");
 
         userIdCol.setCellValueFactory(
-                new PropertyValueFactory<>("lostId"));
+                new PropertyValueFactory<>("userId"));
         usernameCol.setCellValueFactory(
-                new PropertyValueFactory<>("labelNr"));
+                new PropertyValueFactory<>("userName"));
         passwordCol.setCellValueFactory(
-                new PropertyValueFactory<>("flightNr"));
-        tableView4.getColumns().addAll(userIdCol, usernameCol, passwordCol);
+                new PropertyValueFactory<>("passWord"));
+        firstnameCol.setCellValueFactory(
+                new PropertyValueFactory<>("firstName"));
+        tussenvoegselCol.setCellValueFactory(
+                new PropertyValueFactory<>("tussenVoegsel"));
+        surnameCol.setCellValueFactory(
+                new PropertyValueFactory<>("surName"));
+        functionCol.setCellValueFactory(
+                new PropertyValueFactory<>("function"));
+        tableView4.getColumns().addAll(userIdCol, usernameCol, passwordCol, firstnameCol, tussenvoegselCol,
+                surnameCol, functionCol);
 
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         tableView4.setPrefSize(800, (aantalRecords * 30) + 30);
-        
-        
+
 //            data = FXCollections.observableArrayList(new UserRecord("001", "Burak", "Karos", "Burak","Karos", "Inan", "Administrateur"));
-            conn = Sql.DbConnector();
-    try{      
-        String SQL = "Select * from users";            
-        ResultSet rs = conn.createStatement().executeQuery(SQL);  
-        while(rs.next()){
+        conn = Sql.DbConnector();
+        try {
+            String SQL = "Select * from users";
+            ResultSet rs = conn.createStatement().executeQuery(SQL);
+            while (rs.next()) {
 //            UserRecord cm = new UserRecord();
 //            cm.userId.set(rs.getInt("UserId"));                                      
 //            cm.userName.set(rs.getString("Username"));
 //            cm.passWord.set(rs.getString("Password"));
 //            cm.firstName.set(rs.getString("firstName"));
- //           data.add(cm);                  
-        }
-        tableView4.setItems(data);
+                //           data.add(cm);                  
+            }
+            tableView4.setItems(data);
     }
     catch(Exception e){
           e.printStackTrace();
