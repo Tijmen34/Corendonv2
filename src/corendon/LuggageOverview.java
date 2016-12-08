@@ -207,7 +207,7 @@ public class LuggageOverview extends BorderPane {
 
         //-------------------------------------------
         //balk met controls voor tabel rechts
-        controlBox.getChildren().addAll(selToStickyBtn);
+        controlBox.getChildren().addAll(selUnStickyBtn, selToStickyBtn);
         
         
         //-------------------------------------------
@@ -318,6 +318,16 @@ public class LuggageOverview extends BorderPane {
                 
                 stickyData.add(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
                 tableData.remove(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
+                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                
+                
+            });
+        
+        selUnStickyBtn.setOnAction((ActionEvent e) -> {
+                
+                tableData.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
+                stickyData.remove(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
                 stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
                 tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
                 
