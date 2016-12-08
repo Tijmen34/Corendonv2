@@ -164,6 +164,9 @@ public class LuggageOverview extends BorderPane {
         int recordIterator = 0;
         
         getRecordsFromDB();
+        for(int i = 0; i < data.size(); i++) {
+            tableData.add(data.get(i));
+        }
         
 
         HBox topBar = new HBox();
@@ -220,6 +223,8 @@ public class LuggageOverview extends BorderPane {
         TableColumn infoCol = new TableColumn("Add. info");
         TableColumn customerIdCol = new TableColumn("Customer ID");
         TableColumn statusCol = new TableColumn("status");
+        TableColumn dateCol = new TableColumn("date");
+        TableColumn timeCol = new TableColumn("time");
 
         lostIdCol.setCellValueFactory(
                 new PropertyValueFactory<>("lostId"));
@@ -241,10 +246,14 @@ public class LuggageOverview extends BorderPane {
                 new PropertyValueFactory<>("customerId"));
         statusCol.setCellValueFactory(
                 new PropertyValueFactory<>("status"));
+        dateCol.setCellValueFactory(
+                new PropertyValueFactory<>("date"));
+        timeCol.setCellValueFactory(
+                new PropertyValueFactory<>("time"));
 
         tableView4.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
                 typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
-                customerIdCol, statusCol);
+                customerIdCol, statusCol, dateCol, timeCol);
         tableView4.setMinSize(1000, (30 * 24) + 26);
         tableView4.setMaxSize(1000, (30 * 24) + 26);
 
@@ -260,6 +269,8 @@ public class LuggageOverview extends BorderPane {
         TableColumn infoColSt = new TableColumn("Add. info");
         TableColumn customerIdColSt = new TableColumn("Customer ID");
         TableColumn statusColSt = new TableColumn("status");
+        TableColumn dateColSt = new TableColumn("date");
+        TableColumn timeColSt = new TableColumn("time");
 
         lostIdColSt.setCellValueFactory(
                 new PropertyValueFactory<>("lostId"));
@@ -281,10 +292,14 @@ public class LuggageOverview extends BorderPane {
                 new PropertyValueFactory<>("customerId"));
         statusColSt.setCellValueFactory(
                 new PropertyValueFactory<>("status"));
+        dateColSt.setCellValueFactory(
+                new PropertyValueFactory<>("date"));
+        timeColSt.setCellValueFactory(
+                new PropertyValueFactory<>("time"));
 
         tableViewSticky3.getColumns().addAll(lostIdColSt, labelNrColSt, flightNrColSt,
                 typeColSt, brandColSt, primaryColorColSt, secondaryColorColSt, infoColSt,
-                customerIdColSt, statusColSt);
+                customerIdColSt, statusColSt,dateColSt, timeColSt);
         tableViewSticky3.setMinSize(1000, 24 + 26);
         tableViewSticky3.setPrefSize(1000, 24 + 26);
         tableViewSticky3.setMaxWidth(1000);
@@ -337,7 +352,9 @@ public class LuggageOverview extends BorderPane {
                         rs.getString("labelnr"), rs.getString("vlucht"), 
                         rs.getString("lugType"), rs.getString("merk"), 
                         rs.getString("PriKleur"), rs.getString("SecKleur"),
-                        "vermist", "yolo", rs.getString("status")));
+                        "vermist", "yolo", rs.getString("status"), 
+                        rs.getString("datum_bevestiging").substring(0, Math.min(rs.getString("datum_bevestiging").length(), 9)), 
+                        rs.getString("datum_bevestiging").substring(11, Math.min(rs.getString("datum_bevestiging").length(), 18))));
             }  
         } catch (Exception e) {
             e.printStackTrace();
