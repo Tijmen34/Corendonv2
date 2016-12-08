@@ -23,11 +23,13 @@ public class LuggageRecord2 {
     private final SimpleStringProperty info;
     private final SimpleStringProperty customerId;
     private final SimpleStringProperty status;
+    private final SimpleStringProperty date;
+    private final SimpleStringProperty time;
     
 
     public LuggageRecord2(String lostId, String labelNr, String flightNr,
             String type, String brandName, String primaryColor, String secondaryColor,
-            String info, String customerId, String status) {
+            String info, String customerId, String status, String date, String time) {
         this.lostId = new SimpleStringProperty(lostId);
         this.labelNr = new SimpleStringProperty(labelNr);
         this.flightNr = new SimpleStringProperty(flightNr);
@@ -38,6 +40,8 @@ public class LuggageRecord2 {
         this.info = new SimpleStringProperty(info);
         this.customerId = new SimpleStringProperty(customerId);
         this.status = new SimpleStringProperty(status);
+        this.date = new SimpleStringProperty(date);
+        this.time = new SimpleStringProperty(time);
         
     }
 
@@ -119,6 +123,22 @@ public class LuggageRecord2 {
 
     public void setStatus(String status) {
         this.status.set(status);
+    }
+    
+    public String getDate() {
+        return date.get();
+    }
+
+    public void setDate(String date) {
+        this.date.set(date);
+    }
+    
+    public String getTime() {
+        return time.get();
+    }
+
+    public void setTime(String time) {
+        this.time.set(time);
     }
 
     @Override
