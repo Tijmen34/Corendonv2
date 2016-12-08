@@ -51,114 +51,21 @@ import javafx.scene.layout.VBox;
 public class LuggageOverview extends BorderPane {
 
     private ObservableList<LuggageRecord2> data
-            = FXCollections.observableArrayList( //                    new LuggageRecord2("0001", "3R5F2", "MH370",
-                    //                            "Suitcase", "jemoeder", "Red", "Black",
-                    //                            "NULL", "12324", "Missing", false),
-                    //                    new LuggageRecord2("0002", "T43RS", "MH370",
-                    //                            "Suitcase", "jeopa", "Red", "Pink",
-                    //                            "lelijk", "12743", "Missing", false),
-                    //                    new LuggageRecord2("0003", "TXZ35", "MH18",
-                    //                            "sportsbag", "nike", "Yellow", "Null",
-                    //                            "Null", "85394", "Missing", false),
-                    //                    new LuggageRecord2("0004", "P05YR", "MH18",
-                    //                            "sportsbag", "jema", "Blue", "Null",
-                    //                            "Null", "81254", "Missing", true),
-                    //                    new LuggageRecord2("0001", "3R5F2", "MH370",
-                    //                            "Suitcase", "jemoeder", "Red", "Black",
-                    //                            "NULL", "12324", "Missing", false),
-                    //                    new LuggageRecord2("0002", "T43RS", "MH370",
-                    //                            "Suitcase", "jeopa", "Red", "Pink",
-                    //                            "lelijk", "12743", "Missing", false),
-                    //                    new LuggageRecord2("0003", "TXZ35", "MH18",
-                    //                            "sportsbag", "nike", "Yellow", "Null",
-                    //                            "Null", "85394", "Missing", false),
-                    //                    new LuggageRecord2("0004", "P05YR", "MH18",
-                    //                            "sportsbag", "jema", "Blue", "Null",
-                    //                            "Null", "81254", "Missing", true),
-                    //                    new LuggageRecord2("0001", "3R5F2", "MH370",
-                    //                            "Suitcase", "jemoeder", "Red", "Black",
-                    //                            "NULL", "12324", "Missing", false),
-                    //                    new LuggageRecord2("0002", "T43RS", "MH370",
-                    //                            "Suitcase", "jeopa", "Red", "Pink",
-                    //                            "lelijk", "12743", "Missing", false),
-                    //                    new LuggageRecord2("0003", "TXZ35", "MH18",
-                    //                            "sportsbag", "nike", "Yellow", "Null",
-                    //                            "Null", "85394", "Missing", false),
-                    //                    new LuggageRecord2("0004", "P05YR", "MH18",
-                    //                            "sportsbag", "jema", "Blue", "Null",
-                    //                            "Null", "81254", "Missing", true),
-                    //                    new LuggageRecord2("0001", "3R5F2", "MH370",
-                    //                            "Suitcase", "jemoeder", "Red", "Black",
-                    //                            "NULL", "12324", "Missing", false),
-                    //                    new LuggageRecord2("0002", "T43RS", "MH370",
-                    //                            "Suitcase", "jeopa", "Red", "Pink",
-                    //                            "lelijk", "12743", "Missing", false),
-                    //                    new LuggageRecord2("0003", "TXZ35", "MH18",
-                    //                            "sportsbag", "nike", "Yellow", "Null",
-                    //                            "Null", "85394", "Missing", false),
-                    //                    new LuggageRecord2("0004", "P05YR", "MH18",
-                    //                            "sportsbag", "jema", "Blue", "Null",
-                    //                            "Null", "81254", "Missing", true),
-                    //                    new LuggageRecord2("0001", "3R5F2", "MH370",
-                    //                            "Suitcase", "jemoeder", "Red", "Black",
-                    //                            "NULL", "12324", "Missing", false),
-                    //                    new LuggageRecord2("0002", "T43RS", "MH370",
-                    //                            "Suitcase", "jeopa", "Red", "Pink",
-                    //                            "lelijk", "12743", "Missing", false),
-                    //                    new LuggageRecord2("0003", "TXZ35", "MH18",
-                    //                            "sportsbag", "nike", "Yellow", "Null",
-                    //                            "Null", "85394", "Missing", false),
-                    //                    new LuggageRecord2("0004", "P05YR", "MH18",
-                    //                            "sportsbag", "jema", "Blue", "Null",
-                    //                            "Null", "81254", "Missing", true),
-                    //                    new LuggageRecord2("0002", "T43RS", "MH370",
-                    //                            "Suitcase", "jeopa", "Red", "Pink",
-                    //                            "lelijk", "12743", "Missing", false),
-                    //                    new LuggageRecord2("0003", "TXZ35", "MH18",
-                    //                            "sportsbag", "nike", "Yellow", "Null",
-                    //                            "Null", "85394", "Missing", false),
-                    //                    new LuggageRecord2("0004", "P05YR", "MH18",
-                    //                            "sportsbag", "jema", "Blue", "Null",
-                    //                            "Null", "81254", "Missing", true),
-                    //                    new LuggageRecord2("0001", "3R5F2", "MH370",
-                    //                            "Suitcase", "jemoeder", "Red", "Black",
-                    //                            "NULL", "12324", "Missing", false),
-                    //                    new LuggageRecord2("0002", "T43RS", "MH370",
-                    //                            "Suitcase", "jeopa", "Red", "Pink",
-                    //                            "lelijk", "12743", "Missing", false),
-                    //                    new LuggageRecord2("0003", "TXZ35", "MH18",
-                    //                            "sportsbag", "nike", "Yellow", "Null",
-                    //                            "Null", "85394", "Missing", false),
-                    //                    new LuggageRecord2("0004", "P05YR", "MH18",
-                    //                            "sportsbag", "jema", "Blue", "Null",
-                    //                            "Null", "81254", "Missing", true),
-                    //                    new LuggageRecord2("0001", "3R5F2", "MH370",
-                    //                            "Suitcase", "jemoeder", "Red", "Black",
-                    //                            "NULL", "12324", "Missing", false),
-                    //                    new LuggageRecord2("0002", "T43RS", "MH370",
-                    //                            "Suitcase", "jeopa", "Red", "Pink",
-                    //                            "lelijk", "12743", "Missing", false),
-                    //                    new LuggageRecord2("0003", "TXZ35", "MH18",
-                    //                            "sportsbag", "nike", "Yellow", "Null",
-                    //                            "Null", "85394", "Missing", false),
-                    //                    new LuggageRecord2("0004", "P05YR", "MH18",
-                    //                            "sportsbag", "jema", "Blue", "Null",
-                    //                            "Null", "81254", "Missing", true)
-                    );
+            = FXCollections.observableArrayList();
     private ObservableList<LuggageRecord2> tableData
             = FXCollections.observableArrayList();
     private ObservableList<LuggageRecord2> stickyData
             = FXCollections.observableArrayList();
 
-    //private GridPane table3 = new GridPane();
-    //private GridPane tableSticky2 = new GridPane();
     private VBox controlBox = new VBox();
-    private Button selToStickyBtn = new Button("^^");
-    private Button selUnStickyBtn = new Button("vv");
     private ScrollPane tableScroll = new ScrollPane();
     private StackPane stickyBox = new StackPane();
     private HBox topBar = new HBox();
     private BorderPane border1 = new BorderPane();
+
+    private Button selToStickyBtn = new Button("^^");
+    private Button selUnStickyBtn = new Button("vv");
+    private Button stickyMatchBtn = new Button("Match!");
 
     public void initScreen() {
 
@@ -185,11 +92,11 @@ public class LuggageOverview extends BorderPane {
         border1.setTop(stickyBox);
         stickyBox.getChildren().add(tableViewSticky3);
         border1.setCenter(tableView4);
-        
 
         //-------------------------------------------
         //balk met controls voor tabel rechts
-        controlBox.getChildren().addAll(selUnStickyBtn, selToStickyBtn);
+        controlBox.getChildren().addAll(selUnStickyBtn, stickyMatchBtn, selToStickyBtn);
+        controlBox.setSpacing(50);
 
         //-------------------------------------------
         //Rode balk bovenin het scherm
@@ -247,10 +154,6 @@ public class LuggageOverview extends BorderPane {
                 customerIdCol, statusCol, dateCol, timeCol);
         tableView4.setMinSize(1000, (30 * 24) + 26);
         tableView4.setMaxSize(1000, (30 * 24) + 26);
-        
-        for (int i = 0; i < tableView4.getColumns().size(); i++) {
-            tableView4.getColumns().get(i).setPrefWidth(80);
-        }
 
         //-------------------------------------------
         //Sticky Tabel
@@ -298,11 +201,6 @@ public class LuggageOverview extends BorderPane {
         tableViewSticky3.setMinSize(1000, 24 + 26);
         tableViewSticky3.setPrefSize(1000, 24 + 26);
         tableViewSticky3.setMaxWidth(1000);
-        tableViewSticky3.setFixedCellSize(40);
-        
-        for (int i = 0; i < tableViewSticky3.getColumns().size(); i++) {
-            tableViewSticky3.getColumns().get(i).setPrefWidth(80);
-        }
 
         //--------------------------------------------
         //test record
@@ -313,6 +211,7 @@ public class LuggageOverview extends BorderPane {
         //tabellen vullen
         tableViewSticky3.setItems(this.stickyData);
         tableView4.setItems(this.tableData);
+        //stickyData.clear();
         //--------------------------------------------
 
         //Buttons functioneel
@@ -333,14 +232,35 @@ public class LuggageOverview extends BorderPane {
             tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
 
         });
+
+        stickyMatchBtn.setOnAction((ActionEvent e) -> {
+            matchStickyItems();
+        });
     }
 
-    public void moveToSticky(int buttonIterator, LuggageRecord2 record, TableView table) {
-        this.stickyData.add(record);
-        this.tableData.remove(buttonIterator);
-        table.setPrefSize(900, 30 + 30);
-        //this.unSticky.add(this.sticky)
-        //this.sticky.remove(this.sticky.get(buttonIterator));    
+    public void matchStickyItems() {
+        if (this.stickyData.size() == 2) {
+            try (Connection conn = Sql.DbConnector();) {
+                String SQL = "UPDATE bagage SET status = 'match' WHERE lost_id = " + "'" + stickyData.get(0).getLostId() + "'" + " OR lost_id = " + "'" + stickyData.get(1).getLostId() + "'";
+                System.out.println(SQL);
+                conn.createStatement().executeUpdate(SQL);
+                stickyData.get(0).setStatus("match");
+                stickyData.get(1).setStatus("match");
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error on Building Data");
+            }
+            this.data.clear();
+            this.tableData.clear();
+            this.stickyData.clear();
+            this.getRecordsFromDB();
+            for (int i = 0; i < data.size(); i++) {
+                tableData.add(data.get(i));
+            }
+        } else 
+        {
+            System.out.println("Neem 1 gevonden en 1 vermist bagagestuk");
+        }
     }
 
     public void getRecordsFromDB() {
