@@ -55,11 +55,11 @@ public class UsersOverview extends BorderPane {
 
     public void initScreen() {
 
-        int aantalRecords = 20;
+        
 
         getRecordsFromDB();
-        for (int i = 0; i < data.size(); i++) {
-            tableData.add(data.get(i));
+        for (int i = 0; i < this.data.size(); i++) {
+            this.tableData.add(this.data.get(i));
         }
 
         HBox topBar = new HBox();
@@ -72,7 +72,7 @@ public class UsersOverview extends BorderPane {
         this.setCenter(border1);
         border1.setCenter(scroll2);
         scroll2.setContent(table3);
-        table3.add(tableView4, 2, 0, 10, (aantalRecords + 1));
+        table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
 
         TextField searchBar = new TextField();
         Button searchButton = new Button("Search");
@@ -111,9 +111,11 @@ public class UsersOverview extends BorderPane {
 
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        tableView4.setPrefSize(800, (aantalRecords * 30) + 30);
+        tableView4.setPrefSize(800, 650);
         tableView4.setItems(this.tableData);
-
+        System.out.println(tableData.get(0).toString());
+        //data.get(1).toString();
+        //data.get(3).toString();
     }
 
     public void getRecordsFromDB() {
@@ -121,12 +123,9 @@ public class UsersOverview extends BorderPane {
             String SQL = "SELECT * FROM users";
             ResultSet rs = conn.createStatement().executeQuery(SQL);
             while (rs.next()) {
-                this.data.add(new UserRecord(rs.getString("user_id"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("firstname"),
-                        rs.getString("tussenvoegsel"),
-                        rs.getString("surname"),
+                this.data.add(new UserRecord(rs.getString("user_id"), rs.getString("username"), 
+                        rs.getString("password"), rs.getString("firstname"), 
+                        rs.getString("tussenvoegsel"), rs.getString("surname"), 
                         rs.getString("function")));
             }
         } catch (Exception e) {
