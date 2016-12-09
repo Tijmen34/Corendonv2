@@ -61,11 +61,11 @@ public class LuggageRecord2 {
         this.labelNr.set(labelNr);
     }
 
-    public String getflightNr() {
+    public String getFlightNr() {
         return flightNr.get();
     }
 
-    public void setflightNr(String flightNr) {
+    public void setFlightNr(String flightNr) {
         this.flightNr.set(flightNr);
     }
     
