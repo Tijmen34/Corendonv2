@@ -34,65 +34,65 @@ public class UserRecord {
     }
     
 
-    public String getuser_id() {
+    public String getUser_id() {
         return user_id.get();
     }
 
-    public void setuser_id(String user_id) {
+    public void setUser_id(String user_id) {
         this.user_id.set(user_id);
     }
 
-    public String getusername() {
+    public String getUsername() {
         return username.get();
     }
 
-    public void setusername(String username) {
+    public void setUsername(String username) {
         this.username.set(username);
     }
 
-    public String getpassword() {
+    public String getPassword() {
         return password.get();
     }
 
-    public void setpassword(String password) {
+    public void setPassword(String password) {
         this.password.set(password);
     }
 
-    public String getfirstname() {
+    public String getFirstname() {
         return firstname.get();
     }
 
-    public void setfirstname(String firstname) {
+    public void setFirstname(String firstname) {
         this.firstname.set(firstname);
     }
 
-    public String gettussenvoegsel() {
+    public String getTussenvoegsel() {
         return tussenvoegsel.get();
     }
 
-    public void settussenvoegsel(String tussenvoegsel) {
+    public void setTussenvoegsel(String tussenvoegsel) {
         this.tussenvoegsel.set(tussenvoegsel);
     }
 
-    public String getsurname() {
+    public String getSurname() {
         return surname.get();
     }
 
-    public void setsurname(String surname) {
+    public void setSurname(String surname) {
         this.surname.set(surname);
     }
 
-    public String getfunction() {
+    public String getFunction() {
         return function.get();
     }
 
-    public void setfunction(String function) {
+    public void setFunction(String function) {
         this.function.set(function);
     }
 
     @Override
     public String toString() {
-        return "UserRecord{" + "user_id=" + user_id + ", userName="
+        return "UserRecord{" + "user_id=" + user_id + ", username="
                 + username + ", firstname=" + firstname + ", tussenvoegsel="
                 + tussenvoegsel + ", surname=" + surname + ", function="
                 + function + '}';
