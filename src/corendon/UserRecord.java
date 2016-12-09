@@ -13,15 +13,25 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class UserRecord {
 
-    public final SimpleStringProperty user_id = new SimpleStringProperty();
-    public final SimpleStringProperty username = new SimpleStringProperty();
-    public final SimpleStringProperty password = new SimpleStringProperty();
-    public final SimpleStringProperty firstname = new SimpleStringProperty();
-    public final SimpleStringProperty tussenvoegsel = new SimpleStringProperty();
-    public final SimpleStringProperty surname = new SimpleStringProperty();
-    public final SimpleStringProperty function = new SimpleStringProperty();
+    private final SimpleStringProperty user_id;
+    private final SimpleStringProperty username;
+    private final SimpleStringProperty password;
+    private final SimpleStringProperty firstname;
+    private final SimpleStringProperty tussenvoegsel;
+    private final SimpleStringProperty surname;
+    private final SimpleStringProperty function;
 
-
+    
+        public UserRecord(String user_id, String username, String password,
+            String firstname, String tussenvoegsel, String surname, String function) {
+        this.user_id = new SimpleStringProperty(user_id);
+        this.username = new SimpleStringProperty(username);
+        this.password = new SimpleStringProperty(password);
+        this.firstname = new SimpleStringProperty(firstname);
+        this.tussenvoegsel = new SimpleStringProperty(tussenvoegsel);
+        this.surname = new SimpleStringProperty(surname);
+        this.function = new SimpleStringProperty(function);   
+    }
     
 
     public String getuser_id() {

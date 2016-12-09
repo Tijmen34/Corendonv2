@@ -47,16 +47,20 @@ import javafx.stage.Stage;
  */
 public class UsersOverview extends BorderPane {
 
-    // Constructor overriden kan niet, en een eigen constructor maken ipv de originele
-    // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
-    // elementen meteen aan het scherm toe te voegen.
-    
-    private ObservableList<UserRecord> data;
-    private Connection conn;
+
+    private ObservableList<UserRecord> data
+            = FXCollections.observableArrayList();
+    private ObservableList<UserRecord> tableData
+            = FXCollections.observableArrayList();
 
     public void initScreen() {
 
         int aantalRecords = 20;
+
+        getRecordsFromDB();
+        for (int i = 0; i < data.size(); i++) {
+            tableData.add(data.get(i));
+        }
 
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
@@ -67,7 +71,6 @@ public class UsersOverview extends BorderPane {
         this.setTop(topBar);
         this.setCenter(border1);
         border1.setCenter(scroll2);
-        //tableSticky2.add(tableViewSticky3, 2, 0, 10, aantalStickies + 1);
         scroll2.setContent(table3);
         table3.add(tableView4, 2, 0, 10, (aantalRecords + 1));
 
@@ -109,30 +112,27 @@ public class UsersOverview extends BorderPane {
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         tableView4.setPrefSize(800, (aantalRecords * 30) + 30);
+        tableView4.setItems(this.tableData);
 
-//            data = FXCollections.observableArrayList(new UserRecord("001", "Burak", "Karos", "Burak","Karos", "Inan", "Administrateur"));
-        data = FXCollections.observableArrayList();
+    }
+
+    public void getRecordsFromDB() {
         try (Connection conn = Sql.DbConnector();) {
             String SQL = "SELECT * FROM users";
             ResultSet rs = conn.createStatement().executeQuery(SQL);
             while (rs.next()) {
-                UserRecord cm = new UserRecord();
-                cm.user_id.set(rs.getString("user_id"));
-                cm.username.set(rs.getString("username"));
-                cm.password.set(rs.getString("password"));
-                cm.firstname.set(rs.getString("firstname"));
-                cm.tussenvoegsel.set(rs.getString("tussenvoegsel"));
-                cm.surname.set(rs.getString("surname"));
-                cm.function.set(rs.getString("function"));
-                data.add(cm);
-                System.out.println(cm.getsurname());
+                this.data.add(new UserRecord(rs.getString("user_id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("firstname"),
+                        rs.getString("tussenvoegsel"),
+                        rs.getString("surname"),
+                        rs.getString("function")));
             }
-            tableView4.setItems(data);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error on Building Data");
         }
-
     }
 
 }
