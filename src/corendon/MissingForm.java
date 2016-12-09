@@ -139,6 +139,9 @@ public class MissingForm extends GridPane{
         SurnameInput.setPromptText("Surname");
         TextField NameInput = new TextField ();
         NameInput.setPromptText("Firstname");
+        TextField prefixInput = new TextField ();
+        prefixInput.setPromptText("Prefix");
+        prefixInput.setMaxWidth(90);
         
         Label address= new Label("Address: ");
         address.setTextFill(Color.web("#333333"));
@@ -166,8 +169,8 @@ public class MissingForm extends GridPane{
         country.setTextFill(Color.web("#333333"));
         TextField countryInput = new TextField ();
         //country.setFont(OpenSans);
-        ComboBox countryList = new ComboBox(FXCollections.observableArrayList("Austria", "Germany", "Netherlands", "Turkey", "Spain"));
-        countryList.getSelectionModel().select(2);
+        ComboBox countryList = new ComboBox(FXCollections.observableArrayList("Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Barbados","Belarus","Belgium","Belize","Bosnia and Herzegovina","Brazil","Bulgaria","Canada","Cayman Islands","Chile","China","Colombia","Costa Rica","Cote d'Ivoire","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Ecuador","Egypt","Estonia","Finland","France","Georgia","Germany","Greece","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Japan","Kazakhstan","Latvia","Libya","Liechtenstein","Lithuania","Luxembourg","Macedonia","Malta","Mexico","Moldova","Monaco","Morocco","Netherlands","Netherlands Antilles","New Zealand","Norway","Poland","Portugal","Qatar","Romania","Russia","San Marino","Saudi Arabia","Serbia and Montenegro","Slovakia","Slovenia","Spain","South Korea","Suriname","Sweden","Switzerland","Tunisia","Turkey","Ukraine","United Arab Emirates","United Kingdom","United States,Uruguay"));
+        countryList.getSelectionModel().select(57);
         countryList.setPromptText("Country");
         countryList.setStyle("-fx-base:white");
         
@@ -181,7 +184,7 @@ public class MissingForm extends GridPane{
         email.setTextFill(Color.web("#333333"));
         TextField emailInput = new TextField ();
         //email.setFont(OpenSans);
-        emailInput.setPromptText("E-mail");
+        emailInput.setPromptText("E-mail (optional)");
         emailInput.setMaxWidth(400);
         
         Label bagLabel= new Label("Label number: ");
@@ -241,9 +244,9 @@ public class MissingForm extends GridPane{
         moreInfo.setTextFill(Color.web("#333333"));
         TextArea infoInput = new TextArea();
         //moreInfo.setFont(OpenSans);
-        infoInput.setPromptText("Further Luggage Information...");
+        infoInput.setPromptText("Further Luggage Information... (optional)");
         infoInput.setMaxWidth(240);
-        
+        infoInput.setMaxHeight(150);
         
         
         ProgressBar stepsForm = new ProgressBar();
@@ -259,30 +262,31 @@ public class MissingForm extends GridPane{
         
         this.add(title,1,0);
         this.add(separator, 1, 1);
-        this.add(next,8, 14);
+        this.add(next,8, 16);
         this.add(PassInfo, 1, 4, 2, 1);
         this.add(iata, 1, 3);
         this.add(iataSearch, 2,3);
         this.add(gender,1,5);
         this.add(genderSet, 2, 5);
         this.add(name, 1, 6);
-        this.add(SurnameInput, 2, 6);
-        this.add(NameInput, 3, 6);
-        this.add(birthDate,1,7);
-        this.add(datePick,2,7);
-        this.add(dateSet,3,7);
-        this.add(address, 1, 8);
-        this.add(streetInput, 2,8);
-        this.add(hnumberInput,3,8);
-        this.add(place, 1, 9);
-        this.add(placeInput, 2,9);
-        this.add(zipcode, 1, 10);
-        this.add(zipcodeInput, 2,10);
-        this.add(country, 1, 11);
-        this.add(countryList, 2,11);
-        this.add(contactDetails, 1, 12);
-        this.add(phonenrInput, 2,12);
-        this.add(emailInput, 3,12);
+        this.add(SurnameInput, 2, 7);
+        this.add(NameInput, 2, 6);
+        this.add(prefixInput,3,6);
+        this.add(birthDate,1,8);
+        this.add(datePick,2,8);
+        this.add(dateSet,3,8);
+        this.add(address, 1, 9);
+        this.add(streetInput, 2,9);
+        this.add(hnumberInput,3,9);
+        this.add(place, 1, 10);
+        this.add(placeInput, 2,10);
+        this.add(zipcode, 1, 11);
+        this.add(zipcodeInput, 2,11);
+        this.add(country, 1, 12);
+        this.add(countryList, 2,12);
+        this.add(contactDetails, 1, 13);
+        this.add(phonenrInput, 2,13);
+        this.add(emailInput, 3,13);
         this.add(separator1,5,2, 10,15);
         this.add(luggageInfo, 7, 3);
         this.add(bagLabel, 7,4);
@@ -298,7 +302,7 @@ public class MissingForm extends GridPane{
         this.add(secondaryColor,7,9);
         this.add(secColorList,8,9);
         this.add(moreInfo,7,10);
-        this.add(infoInput,8,10,1,3);
+        this.add(infoInput,8,10,1,6);
         
         
         
@@ -327,9 +331,9 @@ public class MissingForm extends GridPane{
 				+ "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, status, datum_bevestiging) VALUES"
 				+ "(?,?,?,?,?,?,?,'lost',NOW())";
                     String query2 = "INSERT INTO klant"
-				+ "(geslacht, naam, achternaam, gebdatum, straat, huisnummer,"
+				+ "(geslacht, naam, tussenvoegsel, achternaam, gebdatum, straat, huisnummer,"
                             + " plaats, postcode, land, telnr, mail, datum_bevestiging) VALUES"
-				+ "(?,?,?,?,?,?,?,?,?,?,?, NOW())";
+				+ "(?,?,?,?,?,?,?,?,?,?,?,?, NOW())";
                     pst = conn.prepareStatement(query);
                     pst.setString(1, labelInput.getText());
                     pst.setString(2, flightInput.getText());
@@ -362,8 +366,6 @@ public class MissingForm extends GridPane{
                     alert.setHeaderText(null);
                     alert.setContentText("Information successfully submitted");
                     alert.showAndWait();
-                    
-                    
                     
                     System.out.println("Information submitted.");
                 }
