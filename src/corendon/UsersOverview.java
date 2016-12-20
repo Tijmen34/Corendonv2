@@ -113,7 +113,6 @@ public class UsersOverview extends BorderPane {
 
         tableView4.setPrefSize(800, 650);
         tableView4.setItems(this.tableData);
-        System.out.println(tableData.get(0).toString());
         //data.get(1).toString();
         //data.get(3).toString();
     }

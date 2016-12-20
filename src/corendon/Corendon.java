@@ -221,6 +221,7 @@ public class Corendon extends Application {
         Scene scene = new Scene(startScreen, 350, 350);
         primaryStage.setTitle("Luggage - log in");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
         /*
          */
