@@ -6,13 +6,7 @@
 package corendon;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import javafx.application.Application;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -62,6 +56,14 @@ public class UsersOverview extends BorderPane {
             this.tableData.add(this.data.get(i));
         }
 
+        Image corendonLogo = new Image("Corendon-Logo2.jpg");
+        ImageView corendonLogoView = new ImageView();
+        corendonLogoView.setImage(corendonLogo);
+        corendonLogoView.setPreserveRatio(true);
+        corendonLogoView.setFitHeight(800);
+        corendonLogoView.setFitWidth(250);
+        
+        
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
         ScrollPane scroll2 = new ScrollPane();
@@ -78,11 +80,11 @@ public class UsersOverview extends BorderPane {
         Button searchButton = new Button("Search");
 
         //SEARCH BAR RED TOP
-        topBar.getChildren().addAll(searchBar, searchButton);
+        topBar.getChildren().addAll(corendonLogoView);
         topBar.setSpacing(30);
         topBar.setMinHeight(50);
         topBar.setAlignment(Pos.CENTER);
-        topBar.setStyle("-fx-background-color:#D81E05");
+        topBar.setStyle("white");
 
         TableColumn userIdCol = new TableColumn("User ID");
         TableColumn usernameCol = new TableColumn("Username");
@@ -111,7 +113,7 @@ public class UsersOverview extends BorderPane {
 
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        tableView4.setPrefSize(800, 650);
+        tableView4.setPrefSize(800,647);
         tableView4.setItems(this.tableData);
         //data.get(1).toString();
         //data.get(3).toString();
