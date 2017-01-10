@@ -269,6 +269,7 @@ public class LuggageOverview extends BorderPane {
         try (Connection conn = Sql.DbConnector();) {
             String SQL = "SELECT * FROM bagage";
             ResultSet rs = conn.createStatement().executeQuery(SQL);
+            data.clear();
             while (rs.next()) {
                 this.data.add(new LuggageRecord2(rs.getString("lost_id"),
                         rs.getString("labelnr"), rs.getString("vlucht"),
@@ -288,6 +289,7 @@ public class LuggageOverview extends BorderPane {
         try (Connection conn = Sql.DbConnector();) {
             String SQL = "SELECT * FROM bagage";
             ResultSet rs = conn.createStatement().executeQuery(SQL);
+            data.clear();
             while (rs.next()) {
                 this.data.add(new LuggageRecord2(rs.getString("lost_id"),
                         rs.getString("labelnr"), rs.getString("vlucht"),
