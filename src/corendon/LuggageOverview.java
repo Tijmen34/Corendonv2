@@ -239,7 +239,9 @@ public class LuggageOverview extends BorderPane {
     }
 
     public void matchStickyItems() {
-        if (this.stickyData.size() == 2) {
+        if  ((this.stickyData.size() == 2) && 
+                ((stickyData.get(0).getStatus().equals("lost") && stickyData.get(1).getStatus().equals("found")) ||
+                (stickyData.get(0).getStatus().equals("found") && stickyData.get(1).getStatus().equals("lost")))) {
             try (Connection conn = Sql.DbConnector();) {
                 String SQL = "UPDATE bagage SET status = 'match' WHERE lost_id = " + "'" + stickyData.get(0).getLostId() + "'" + " OR lost_id = " + "'" + stickyData.get(1).getLostId() + "'";
                 System.out.println(SQL);
@@ -272,7 +274,7 @@ public class LuggageOverview extends BorderPane {
                         rs.getString("labelnr"), rs.getString("vlucht"),
                         rs.getString("lugType"), rs.getString("merk"),
                         rs.getString("PriKleur"), rs.getString("SecKleur"),
-                        "vermist", "yolo", rs.getString("status"),
+                        "", "", rs.getString("status"),
                         rs.getString("datum_bevestiging").substring(0, Math.min(rs.getString("datum_bevestiging").length(), 9)),
                         rs.getString("datum_bevestiging").substring(11, Math.min(rs.getString("datum_bevestiging").length(), 18))));
             }
