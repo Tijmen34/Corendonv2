@@ -72,8 +72,10 @@ public class UsersOverview extends BorderPane {
 
         this.setTop(topBar);
         this.setCenter(border1);
-        border1.setCenter(scroll2);
+        border1.setLeft(scroll2);
         scroll2.setContent(table3);
+        scroll2.setMinSize(800,674);
+        scroll2.setMaxSize(800,674);
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
 
         TextField searchBar = new TextField();
@@ -113,7 +115,8 @@ public class UsersOverview extends BorderPane {
 
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        tableView4.setPrefSize(800,647);
+        tableView4.setMinSize(800,674);
+        tableView4.setMaxSize(800,674);
         tableView4.setItems(this.tableData);
         //data.get(1).toString();
         //data.get(3).toString();
