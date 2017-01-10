@@ -247,6 +247,11 @@ public class Corendon extends Application {
         users.setContent(usersContent);
         users.setClosable(false);
         
+//        luggage.getGraphic().setOnMouseClicked(e -> {
+//            //luggageContent.getRecordsFromDB();
+//            System.out.println("bam jonge");
+//        });
+        
         /*
          */
     }
@@ -262,5 +267,7 @@ public class Corendon extends Application {
         }
 
     }
+    
+    
 
 }
