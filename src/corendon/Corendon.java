@@ -124,6 +124,12 @@ public class Corendon extends Application {
                             primaryStage.setScene(newscene);                        
                             primaryStage.setTitle("Welcome");
                             primaryStage.show();
+                            
+                            //als je inlogt als "admin", disable users tab
+                            if (usrField.getText().contains("admin")) {
+                                users.setDisable(true);
+                            }
+                            
                         } else {
                             loginLabel.setText("Invalid username/password.");
                         }
