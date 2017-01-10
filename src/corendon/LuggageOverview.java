@@ -304,4 +304,5 @@ public class LuggageOverview extends BorderPane {
         return this.data;
     }
 
+    
 }
