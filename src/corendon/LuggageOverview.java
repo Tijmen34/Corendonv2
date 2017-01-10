@@ -243,11 +243,11 @@ public class LuggageOverview extends BorderPane {
                 ((stickyData.get(0).getStatus().equals("lost") && stickyData.get(1).getStatus().equals("found")) ||
                 (stickyData.get(0).getStatus().equals("found") && stickyData.get(1).getStatus().equals("lost")))) {
             try (Connection conn = Sql.DbConnector();) {
-                String SQL = "UPDATE bagage SET status = 'match' WHERE lost_id = " + "'" + stickyData.get(0).getLostId() + "'" + " OR lost_id = " + "'" + stickyData.get(1).getLostId() + "'";
+                String SQL = "UPDATE bagage SET status = 'solved' WHERE lost_id = " + "'" + stickyData.get(0).getLostId() + "'" + " OR lost_id = " + "'" + stickyData.get(1).getLostId() + "'";
                 System.out.println(SQL);
                 conn.createStatement().executeUpdate(SQL);
-                stickyData.get(0).setStatus("match");
-                stickyData.get(1).setStatus("match");
+                stickyData.get(0).setStatus("solved");
+                stickyData.get(1).setStatus("solved");
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error on Building Data");
@@ -282,6 +282,26 @@ public class LuggageOverview extends BorderPane {
             e.printStackTrace();
             System.out.println("Error on Building Data");
         }
+    }
+    
+    public ObservableList<LuggageRecord2> getRecordsListFromDB() {
+        try (Connection conn = Sql.DbConnector();) {
+            String SQL = "SELECT * FROM bagage";
+            ResultSet rs = conn.createStatement().executeQuery(SQL);
+            while (rs.next()) {
+                this.data.add(new LuggageRecord2(rs.getString("lost_id"),
+                        rs.getString("labelnr"), rs.getString("vlucht"),
+                        rs.getString("lugType"), rs.getString("merk"),
+                        rs.getString("PriKleur"), rs.getString("SecKleur"),
+                        "", "", rs.getString("status"),
+                        rs.getString("datum_bevestiging").substring(0, Math.min(rs.getString("datum_bevestiging").length(), 9)),
+                        rs.getString("datum_bevestiging").substring(11, Math.min(rs.getString("datum_bevestiging").length(), 18))));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        return this.data;
     }
 
 }
