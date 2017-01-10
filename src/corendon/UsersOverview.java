@@ -32,6 +32,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -67,19 +68,23 @@ public class UsersOverview extends BorderPane {
         HBox topBar = new HBox();
         BorderPane border1 = new BorderPane();
         ScrollPane scroll2 = new ScrollPane();
+        VBox xbox = new VBox();
+        TextField text1 = new TextField();
         GridPane table3 = new GridPane();
         final TableView<UserRecord> tableView4 = new TableView();
 
         this.setTop(topBar);
         this.setCenter(border1);
         border1.setLeft(scroll2);
+        border1.setRight(xbox);
+        xbox.setPadding(new Insets(10,10,10,10));
+        xbox.getChildren().addAll(text1);
+        text1.setAlignment(Pos.CENTER);
         scroll2.setContent(table3);
         scroll2.setMinSize(800,674);
         scroll2.setMaxSize(800,674);
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
 
-        TextField searchBar = new TextField();
-        Button searchButton = new Button("Search");
 
         //SEARCH BAR RED TOP
         topBar.getChildren().addAll(corendonLogoView);
