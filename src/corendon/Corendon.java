@@ -41,6 +41,7 @@ public class Corendon extends Application {
     ResultSet rs = null;
     PreparedStatement pst = null;
     
+    
 
     @Override
     public void start(Stage primaryStage) {
@@ -59,7 +60,7 @@ public class Corendon extends Application {
         LuggageOverview luggageContent = new LuggageOverview();
         luggageContent.initScreen();
         MissingForm missingContent = new MissingForm(); //ipv gridpane maken we een instantie onze eigen versie van gridpane.
-        missingContent.initScreen(); //hier roepen we de methode aan die alle elementen van het formulier toevoegd.
+        missingContent.initScreen(primaryStage); //hier roepen we de methode aan die alle elementen van het formulier toevoegd.
         FoundForm foundContent = new FoundForm();
         foundContent.initScreen();
         UsersOverview usersContent = new UsersOverview();
