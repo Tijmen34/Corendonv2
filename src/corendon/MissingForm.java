@@ -314,7 +314,7 @@ public class MissingForm extends GridPane {
         this.setStyle("-fx-background-color: white");
         
         labelCheck.setOnAction((ActionEvent e) ->{
-            checkLabel(primaryStage, labelInput.getText());
+                checkLabel(primaryStage, labelInput.getText());
             System.out.println(labelInput.getText());
         });
 
@@ -393,9 +393,14 @@ public class MissingForm extends GridPane {
     public void checkLabel(Stage primaryStage, String labelnr) {
         
         //records met zelfde labelnr ophalen
-        try (Connection conn2 = Sql.DbConnector();) {
-            String SQL = "SELECT * FROM bagage WHERE lost_id = " + "'" + labelnr + "'";
-            ResultSet rs2 = conn2.createStatement().executeQuery(SQL);
+        try (Connection conn = Sql.DbConnector();) {
+            String query = "SELECT * FROM bagage WHERE labelnr=?";
+            pst = conn.prepareStatement(query);
+            pst.setString(1, labelnr);
+            ResultSet rs2 = pst.executeQuery();
+            
+            //jeroen wat doe je kil
+            
             this.luggageData.clear();
             while (rs2.next()) {
                 System.out.println("test 1: " + rs2.getString("lost_id"));
