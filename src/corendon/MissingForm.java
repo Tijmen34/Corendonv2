@@ -392,23 +392,22 @@ public class MissingForm extends GridPane {
 
     public void checkLabel(Stage primaryStage, String labelnr) {
 
-        try (Connection conn = Sql.DbConnector();) {
-            String SQL = "SELECT * FROM bagage WHERE lost_id = " + "\"" + labelnr + "\"";
-            ResultSet rs = conn.createStatement().executeQuery(SQL);
+        try (Connection conn2 = Sql.DbConnector();) {
+            String SQL = "SELECT * FROM bagage WHERE lost_id = " + "'" + labelnr + "'";
+            ResultSet rs2 = conn2.createStatement().executeQuery(SQL);
             this.luggageData.clear();
-            while (rs.next()) {
+            while (rs2.next()) {
                 //if (rs.getString("lost_id").equals(labelnr)) {
-                    this.luggageData.add(new LuggageRecord2(rs.getString("lost_id"),
-                            rs.getString("labelnr"), rs.getString("vlucht"),
-                            rs.getString("lugType"), rs.getString("merk"),
-                            rs.getString("PriKleur"), rs.getString("SecKleur"),
-                            "", "", rs.getString("status"),
-                            rs.getString("datum_bevestiging").substring(0, Math.min(rs.getString("datum_bevestiging").length(), 9)),
-                            rs.getString("datum_bevestiging").substring(11, Math.min(rs.getString("datum_bevestiging").length(), 18))));
+                    this.luggageData.add(new LuggageRecord2(rs2.getString("lost_id"),
+                            rs2.getString("labelnr"), rs2.getString("vlucht"),
+                            rs2.getString("lugType"), rs2.getString("merk"),
+                            rs2.getString("PriKleur"), rs2.getString("SecKleur"),
+                            "", "", rs2.getString("status"),
+                            rs2.getString("datum_bevestiging").substring(0, Math.min(rs2.getString("datum_bevestiging").length(), 9)),
+                            rs2.getString("datum_bevestiging").substring(11, Math.min(rs2.getString("datum_bevestiging").length(), 18))));
                 //}
             }
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("Error on Building Data");
         }
 
