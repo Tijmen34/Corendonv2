@@ -67,7 +67,7 @@ public class MissingForm extends GridPane {
     private Stage primaryStage;
     private ObservableList<LuggageRecord2> luggageData
             = FXCollections.observableArrayList();
-    
+
     private Button solve = new Button("Solve");
     private Button cancel = new Button("Cancel");
 
@@ -116,7 +116,7 @@ public class MissingForm extends GridPane {
         separator1.setOrientation(Orientation.VERTICAL);
 
         Button labelCheck = new Button("check");
-        
+
         //labelCheck.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 18");
         // Submit knop
         Button next = new Button();
@@ -312,10 +312,9 @@ public class MissingForm extends GridPane {
         this.add(infoInput, 8, 10, 1, 6);
 
         this.setStyle("-fx-background-color: white");
-        
-        labelCheck.setOnAction((ActionEvent e) ->{
-                checkLabel(primaryStage, labelInput.getText());
-            System.out.println(labelInput.getText());
+
+        labelCheck.setOnAction((ActionEvent e) -> {
+            checkLabel(primaryStage, labelInput.getText());
         });
 
 //        Scene scene = new Scene(lostForm, 1350, 700);
@@ -391,27 +390,26 @@ public class MissingForm extends GridPane {
     }
 
     public void checkLabel(Stage primaryStage, String labelnr) {
-        
+
         //records met zelfde labelnr ophalen
         try (Connection conn = Sql.DbConnector();) {
             String query = "SELECT * FROM bagage WHERE labelnr=?";
             pst = conn.prepareStatement(query);
             pst.setString(1, labelnr);
-            ResultSet rs2 = pst.executeQuery();
-            
+            ResultSet rs = pst.executeQuery();
+
             //jeroen wat doe je kil
-            
             this.luggageData.clear();
-            while (rs2.next()) {
-                System.out.println("test 1: " + rs2.getString("lost_id"));
+            while (rs.next()) {
+                System.out.println("test 1: " + rs.getString("lost_id"));
                 //if (rs.getString("lost_id").equals(labelnr)) {
-                    this.luggageData.add(new LuggageRecord2(rs2.getString("lost_id"),
-                            rs2.getString("labelnr"), rs2.getString("vlucht"),
-                            rs2.getString("lugType"), rs2.getString("merk"),
-                            rs2.getString("PriKleur"), rs2.getString("SecKleur"),
-                            "", "", rs2.getString("status"),
-                            rs2.getString("datum_bevestiging").substring(0, Math.min(rs2.getString("datum_bevestiging").length(), 9)),
-                            rs2.getString("datum_bevestiging").substring(11, Math.min(rs2.getString("datum_bevestiging").length(), 18))));
+                this.luggageData.add(new LuggageRecord2(rs.getString("lost_id"),
+                        rs.getString("labelnr"), rs.getString("vlucht"),
+                        rs.getString("lugType"), rs.getString("merk"),
+                        rs.getString("PriKleur"), rs.getString("SecKleur"),
+                        "", "", rs.getString("status"),
+                        rs.getString("datum_bevestiging").substring(0, Math.min(rs.getString("datum_bevestiging").length(), 9)),
+                        rs.getString("datum_bevestiging").substring(11, Math.min(rs.getString("datum_bevestiging").length(), 18))));
                 //}
             }
         } catch (Exception e) {
@@ -462,7 +460,7 @@ public class MissingForm extends GridPane {
         tableView.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
                 typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
                 customerIdCol, statusCol, dateCol, timeCol);
-        
+
         tableView.setItems(this.luggageData);
 
         //prompt
@@ -471,21 +469,46 @@ public class MissingForm extends GridPane {
         checkPopup.initOwner(primaryStage);
         HBox prompt = new HBox(20);
         VBox controls = new VBox(20);
-        controls.setPadding(new Insets(20, 20, 20, 20));
-        
+        controls.setPadding(new Insets(10, 10, 10, 10));
+        cancel.setMinSize(70, 20);
+        solve.setMinSize(70, 20);
+
         controls.getChildren().addAll(solve, cancel);
-        prompt.setPadding(new Insets(20, 20, 20, 20));
+        prompt.setPadding(new Insets(0, 0, 0, 0));
         prompt.getChildren().addAll(tableView, controls);
         Scene dialogScene = new Scene(prompt, 600, 200);
         checkPopup.setScene(dialogScene);
         checkPopup.show();
+
+        solve.setOnAction((ActionEvent e) -> {
+            solveFromPrompt(tableView);
+        });
         
+        cancel.setOnAction((ActionEvent e) -> {
+            checkPopup.close();
+        });
         //test
-        for (LuggageRecord2 luggage : luggageData){
+        for (LuggageRecord2 luggage : luggageData) {
             System.out.print(luggage.toString());
         }
-        
 
     }
 
+    public void solveFromPrompt(TableView tableView) {
+
+        if (tableView.getSelectionModel().getSelectedCells().size() > 0) {
+            try (Connection conn = Sql.DbConnector();) {
+                String id = luggageData.get(tableView.getSelectionModel().getSelectedIndex()).getLostId();
+                String SQL = "UPDATE bagage SET status = 'solved' WHERE lost_id = " + "'" + id + "'";
+                System.out.println(SQL);
+                conn.createStatement().executeUpdate(SQL);
+                
+                luggageData.remove(tableView.getSelectionModel().getSelectedIndex());
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error on Building Data");
+            }
+            
+        }
+    }
 }
