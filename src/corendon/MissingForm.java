@@ -391,7 +391,8 @@ public class MissingForm extends GridPane {
     }
 
     public void checkLabel(Stage primaryStage, String labelnr) {
-
+        
+        //records met zelfde labelnr ophalen
         try (Connection conn2 = Sql.DbConnector();) {
             String SQL = "SELECT * FROM bagage WHERE lost_id = " + "'" + labelnr + "'";
             ResultSet rs2 = conn2.createStatement().executeQuery(SQL);
@@ -474,6 +475,7 @@ public class MissingForm extends GridPane {
         checkPopup.setScene(dialogScene);
         checkPopup.show();
         
+        //test
         for (LuggageRecord2 luggage : luggageData){
             System.out.print(luggage.toString());
         }
