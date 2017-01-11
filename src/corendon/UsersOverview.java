@@ -6,6 +6,7 @@
 package corendon;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +35,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -42,13 +44,14 @@ import javafx.stage.Stage;
  */
 public class UsersOverview extends BorderPane {
 
-
+    private Stage primaryStage;
     private ObservableList<UserRecord> data
             = FXCollections.observableArrayList();
     private ObservableList<UserRecord> tableData
             = FXCollections.observableArrayList();
 
-    public void initScreen() {
+    public void initScreen(Stage primaryStage) {
+        this.primaryStage = primaryStage;
 
         
 
@@ -66,6 +69,7 @@ public class UsersOverview extends BorderPane {
         
         
         HBox topBar = new HBox();
+        Button b = new Button();
         BorderPane border1 = new BorderPane();
         ScrollPane scroll2 = new ScrollPane();
         VBox xbox = new VBox();
@@ -73,26 +77,29 @@ public class UsersOverview extends BorderPane {
         GridPane table3 = new GridPane();
         final TableView<UserRecord> tableView4 = new TableView();
 
-        this.setTop(topBar);
-        this.setCenter(border1);
+        setTop(topBar);
+        setCenter(border1);
         border1.setLeft(scroll2);
         border1.setRight(xbox);
         xbox.setPadding(new Insets(10,10,10,10));
-        xbox.getChildren().addAll(text1);
+        xbox.getChildren().addAll(text1, b);
         text1.setAlignment(Pos.CENTER);
         scroll2.setContent(table3);
         scroll2.setMinSize(800,674);
         scroll2.setMaxSize(800,674);
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
+        
 
 
-        //SEARCH BAR RED TOP
+        
+        // topbar voor corendon logo
         topBar.getChildren().addAll(corendonLogoView);
         topBar.setSpacing(30);
         topBar.setMinHeight(50);
         topBar.setAlignment(Pos.CENTER);
         topBar.setStyle("white");
 
+        //tabel colummen declareren
         TableColumn userIdCol = new TableColumn("User ID");
         TableColumn usernameCol = new TableColumn("Username");
         TableColumn passwordCol = new TableColumn("Password");
@@ -101,6 +108,7 @@ public class UsersOverview extends BorderPane {
         TableColumn surnameCol = new TableColumn("Surname");
         TableColumn functionCol = new TableColumn("Function");
 
+        //table vullen met de variabelen
         userIdCol.setCellValueFactory(
                 new PropertyValueFactory<>("user_id"));
         usernameCol.setCellValueFactory(
@@ -117,16 +125,37 @@ public class UsersOverview extends BorderPane {
                 new PropertyValueFactory<>("function"));
         tableView4.getColumns().addAll(userIdCol, usernameCol, passwordCol, firstnameCol, tussenvoegselCol,
                 surnameCol, functionCol);
+        
+        
+            b.setOnAction((ActionEvent e) -> {
+            addUser(primaryStage);
+        });
 
+        
+
+        
+        //table niet resizable
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+        //lijkt me logisch dit
         tableView4.setMinSize(800,674);
         tableView4.setMaxSize(800,674);
         tableView4.setItems(this.tableData);
-        //data.get(1).toString();
-        //data.get(3).toString();
-    }
 
+    }
+    
+    public void addUser (Stage primaryStage){
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+// records van de DB halen
     public void getRecordsFromDB() {
         try (Connection conn = Sql.DbConnector();) {
             String SQL = "SELECT * FROM users";

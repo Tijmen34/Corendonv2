@@ -64,7 +64,7 @@ public class Corendon extends Application {
         FoundForm foundContent = new FoundForm();
         foundContent.initScreen();
         UsersOverview usersContent = new UsersOverview();
-        usersContent.initScreen();
+        usersContent.initScreen(primaryStage);
         Scene newscene = new Scene(tabScreen, 1200, 700, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven.
         /*
          */
@@ -127,9 +127,9 @@ public class Corendon extends Application {
                             primaryStage.show();
                             
                             //als je inlogt als "admin", disable users tab
-                            if (usrField.getText().contains("admin")) {
-                                users.setDisable(true);
-                            }
+                         //   if (usrField.getText().contains("admin")) {
+                          //      users.setDisable(true);
+                        //    }
                             
                         } else {
                             loginLabel.setText("Invalid username/password.");
