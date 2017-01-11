@@ -265,13 +265,13 @@ public class LuggageOverview extends BorderPane {
         }
     }
 
-    public void getRecordsFromDB() {
+    public  void getRecordsFromDB() {
         try (Connection conn = Sql.DbConnector();) {
             String SQL = "SELECT * FROM bagage";
             ResultSet rs = conn.createStatement().executeQuery(SQL);
             data.clear();
             while (rs.next()) {
-                this.data.add(new LuggageRecord2(rs.getString("lost_id"),
+                data.add(new LuggageRecord2(rs.getString("lost_id"),
                         rs.getString("labelnr"), rs.getString("vlucht"),
                         rs.getString("lugType"), rs.getString("merk"),
                         rs.getString("PriKleur"), rs.getString("SecKleur"),
@@ -304,6 +304,14 @@ public class LuggageOverview extends BorderPane {
             System.out.println("Error on Building Data");
         }
         return this.data;
+    }
+    
+    public void updateData() {
+        stickyData.clear();
+        tableData.clear();
+        for(LuggageRecord2 record : data) {
+            tableData.add(record);
+        }
     }
 
     
