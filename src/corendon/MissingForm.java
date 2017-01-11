@@ -48,6 +48,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import corendon.LuggageOverview;
+import corendon.Corendon;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
@@ -60,8 +65,11 @@ public class MissingForm extends GridPane {
     Connection conn;
     Statement stmt;
     private Stage primaryStage;
-    private ObservableList<LuggageRecord2> data
+    private ObservableList<LuggageRecord2> luggageData
             = FXCollections.observableArrayList();
+    
+    private Button solve = new Button("Solve");
+    private Button cancel = new Button("Cancel");
 
     //de methode waarmee de elementen van het formulier op het scherm worden
     //gezet en geïnitialiseerd.
@@ -106,9 +114,9 @@ public class MissingForm extends GridPane {
 
         Separator separator1 = new Separator();
         separator1.setOrientation(Orientation.VERTICAL);
-        
-      
 
+        Button labelCheck = new Button("check");
+        
         //labelCheck.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 18");
         // Submit knop
         Button next = new Button();
@@ -289,6 +297,7 @@ public class MissingForm extends GridPane {
         this.add(luggageInfo, 7, 3);
         this.add(bagLabel, 7, 4);
         this.add(labelInput, 8, 4);
+        this.add(labelCheck, 9, 4);
         this.add(flightNr, 7, 5);
         this.add(flightInput, 8, 5);
         this.add(bagType, 7, 6);
@@ -303,6 +312,11 @@ public class MissingForm extends GridPane {
         this.add(infoInput, 8, 10, 1, 6);
 
         this.setStyle("-fx-background-color: white");
+        
+        labelCheck.setOnAction((ActionEvent e) ->{
+            checkLabel(primaryStage, labelInput.getText());
+            System.out.println(labelInput.getText());
+        });
 
 //        Scene scene = new Scene(lostForm, 1350, 700);
 //        primaryStage.setTitle("Luggage - Lost Form");
@@ -376,16 +390,94 @@ public class MissingForm extends GridPane {
         }
     }
 
-    public void checkLabel(Stage primaryStage) {
+    public void checkLabel(Stage primaryStage, String labelnr) {
+
+        try (Connection conn = Sql.DbConnector();) {
+            String SQL = "SELECT * FROM bagage WHERE lost_id = " + "\"" + labelnr + "\"";
+            ResultSet rs = conn.createStatement().executeQuery(SQL);
+            this.luggageData.clear();
+            while (rs.next()) {
+                //if (rs.getString("lost_id").equals(labelnr)) {
+                    this.luggageData.add(new LuggageRecord2(rs.getString("lost_id"),
+                            rs.getString("labelnr"), rs.getString("vlucht"),
+                            rs.getString("lugType"), rs.getString("merk"),
+                            rs.getString("PriKleur"), rs.getString("SecKleur"),
+                            "", "", rs.getString("status"),
+                            rs.getString("datum_bevestiging").substring(0, Math.min(rs.getString("datum_bevestiging").length(), 9)),
+                            rs.getString("datum_bevestiging").substring(11, Math.min(rs.getString("datum_bevestiging").length(), 18))));
+                //}
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+
+        //TableView
+        final TableView<LuggageRecord2> tableView = new TableView();
+
+        TableColumn lostIdCol = new TableColumn("Lost ID");
+        TableColumn labelNrCol = new TableColumn("Label nr");
+        TableColumn flightNrCol = new TableColumn("Flight nr");
+        TableColumn typeCol = new TableColumn("Type");
+        TableColumn brandCol = new TableColumn("Brand Name");
+        TableColumn primaryColorCol = new TableColumn("Color 1");
+        TableColumn secondaryColorCol = new TableColumn("Color 2");
+        TableColumn infoCol = new TableColumn("Add. info");
+        TableColumn customerIdCol = new TableColumn("Customer ID");
+        TableColumn statusCol = new TableColumn("status");
+        TableColumn dateCol = new TableColumn("date");
+        TableColumn timeCol = new TableColumn("time");
+
+        lostIdCol.setCellValueFactory(
+                new PropertyValueFactory<>("lostId"));
+        labelNrCol.setCellValueFactory(
+                new PropertyValueFactory<>("labelNr"));
+        flightNrCol.setCellValueFactory(
+                new PropertyValueFactory<>("flightNr"));
+        typeCol.setCellValueFactory(
+                new PropertyValueFactory<>("type"));
+        brandCol.setCellValueFactory(
+                new PropertyValueFactory<>("brandName"));
+        primaryColorCol.setCellValueFactory(
+                new PropertyValueFactory<>("primaryColor"));
+        secondaryColorCol.setCellValueFactory(
+                new PropertyValueFactory<>("secondaryColor"));
+        infoCol.setCellValueFactory(
+                new PropertyValueFactory<>("info"));
+        customerIdCol.setCellValueFactory(
+                new PropertyValueFactory<>("customerId"));
+        statusCol.setCellValueFactory(
+                new PropertyValueFactory<>("status"));
+        dateCol.setCellValueFactory(
+                new PropertyValueFactory<>("date"));
+        timeCol.setCellValueFactory(
+                new PropertyValueFactory<>("time"));
+
+        tableView.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
+                typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
+                customerIdCol, statusCol, dateCol, timeCol);
         
+        tableView.setItems(this.luggageData);
+
+        //prompt
         final Stage checkPopup = new Stage();
         checkPopup.initModality(Modality.APPLICATION_MODAL);
         checkPopup.initOwner(primaryStage);
-        VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(new Text("This is a Dialog"));
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        HBox prompt = new HBox(20);
+        VBox controls = new VBox(20);
+        controls.setPadding(new Insets(20, 20, 20, 20));
+        
+        controls.getChildren().addAll(solve, cancel);
+        prompt.setPadding(new Insets(20, 20, 20, 20));
+        prompt.getChildren().addAll(tableView, controls);
+        Scene dialogScene = new Scene(prompt, 600, 200);
         checkPopup.setScene(dialogScene);
         checkPopup.show();
+        
+        for (LuggageRecord2 luggage : luggageData){
+            System.out.print(luggage.toString());
+        }
+        
 
     }
 
