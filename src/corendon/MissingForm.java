@@ -397,6 +397,7 @@ public class MissingForm extends GridPane {
             ResultSet rs2 = conn2.createStatement().executeQuery(SQL);
             this.luggageData.clear();
             while (rs2.next()) {
+                System.out.println("test 1: " + rs2.getString("lost_id"));
                 //if (rs.getString("lost_id").equals(labelnr)) {
                     this.luggageData.add(new LuggageRecord2(rs2.getString("lost_id"),
                             rs2.getString("labelnr"), rs2.getString("vlucht"),
