@@ -36,6 +36,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.swing.GroupLayout;
@@ -45,10 +46,12 @@ import javax.swing.GroupLayout;
  * @author JerryJerr
  */
 public class UsersOverview extends BorderPane {
-    
-    
-    private Button addBut = new Button();
-    private Button cancel = new Button();
+
+
+    private Button addBut = new Button("Submit");
+    private Button cancel = new Button("Cancel");
+    private Button refresh = new Button("Refresh table");
+    private Button b = new Button("Add user");
     private Stage primaryStage;
     private ObservableList<UserRecord> data
             = FXCollections.observableArrayList();
@@ -60,7 +63,7 @@ public class UsersOverview extends BorderPane {
     public void initScreen(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
-        
+
 
         getRecordsFromDB();
         for (int i = 0; i < this.data.size(); i++) {
@@ -73,10 +76,9 @@ public class UsersOverview extends BorderPane {
         corendonLogoView.setPreserveRatio(true);
         corendonLogoView.setFitHeight(800);
         corendonLogoView.setFitWidth(250);
-        
-        
+
+
         HBox topBar = new HBox();
-        Button b = new Button();
         BorderPane border1 = new BorderPane();
         ScrollPane scroll2 = new ScrollPane();
         VBox xbox = new VBox();
@@ -89,16 +91,16 @@ public class UsersOverview extends BorderPane {
         border1.setLeft(scroll2);
         border1.setRight(xbox);
         xbox.setPadding(new Insets(10,10,10,10));
-        xbox.getChildren().addAll(text1, b);
+        xbox.getChildren().addAll(text1, b, refresh);
         text1.setAlignment(Pos.CENTER);
         scroll2.setContent(table3);
         scroll2.setMinSize(800,674);
         scroll2.setMaxSize(800,674);
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
-        
 
 
-        
+
+
         // topbar voor corendon logo
         topBar.getChildren().addAll(corendonLogoView);
         topBar.setSpacing(30);
@@ -132,15 +134,15 @@ public class UsersOverview extends BorderPane {
                 new PropertyValueFactory<>("function"));
         tableView4.getColumns().addAll(userIdCol, usernameCol, passwordCol, firstnameCol, tussenvoegselCol,
                 surnameCol, functionCol);
-        
-        
+
+
             b.setOnAction((ActionEvent e) -> {
             addUser(primaryStage);
         });
 
-        
 
-        
+
+
         //table niet resizable
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -154,20 +156,20 @@ public class UsersOverview extends BorderPane {
     public PreparedStatement getPrepS() {
         return prepS;
     }
-    
+
     public void addUser(Stage primaryStage) {
-        
+
         final GridPane grid1 = new GridPane();
-        
+
         Label usernameLB = new Label("Username:   ");
         Label passwordLB = new Label("Password    ");
         Label firstnameLB = new Label("First name:    ");
         Label tussenLB = new Label("Prefix:    ");
         Label surnameLB = new Label("Surname:   ");
         Label functionLB = new Label("Function:    ");
-        
 
-        
+
+
         TextField usernameTX = new TextField();
                 usernameTX.setPromptText("Username");
         TextField passwordTX = new TextField();
@@ -180,7 +182,7 @@ public class UsersOverview extends BorderPane {
                 surnameTX.setPromptText("Surname");
         TextField functionTX = new TextField();
                 functionTX.setPromptText("Function");
-        
+
         final Stage adduserStage = new Stage();
         adduserStage.initModality(Modality.APPLICATION_MODAL);
         adduserStage.initOwner(primaryStage);
@@ -188,18 +190,22 @@ public class UsersOverview extends BorderPane {
         addBut.setMinSize(70, 20);
         VBox useraddVragen = new VBox(10);
         VBox useraddAntwoorden = new VBox(10);
-        HBox buttonBox = new HBox();
+        HBox buttonBox = new HBox(10);
         useraddVragen.setPadding(new Insets(10, 10, 10, 10));
 
-        
-        //useraddVragen.getChildren().addAll(usernameLB, passwordLB, firstnameLB, tussenLB, 
-                //surnameLB, functionLB);      
-        //useraddAntwoorden.getChildren().addAll(usernameTX, passwordTX, firstnameTX, tussenTX, 
+
+        //useraddVragen.getChildren().addAll(usernameLB, passwordLB, firstnameLB, tussenLB,
+                //surnameLB, functionLB);
+        //useraddAntwoorden.getChildren().addAll(usernameTX, passwordTX, firstnameTX, tussenTX,
                 //surnameTX, functionTX);
-        
+
         buttonBox.getChildren().addAll(addBut, cancel);
         grid1.getChildren().addAll(useraddVragen, useraddAntwoorden, buttonBox);
-        addBut.setAlignment(Pos.BOTTOM_LEFT);
+        addBut.setPadding(new Insets(1, 1, 1, 1));
+        cancel.setPadding(new Insets(1, 1 ,1, 1));
+        cancel.setTextAlignment(TextAlignment.LEFT);
+        cancel.setAlignment(Pos.CENTER_LEFT);
+
         
         grid1.setVgap(15);
         grid1.setHgap(15);
@@ -218,11 +224,52 @@ public class UsersOverview extends BorderPane {
         grid1.add(addBut, 2, 7);
         grid1.add(cancel, 3, 7);
 
-        
+        addBut.setOnAction((ActionEvent e) -> {
+            PreparedStatement prepS = null;
+            try (Connection conn = Sql.DbConnector();) {
+                primaryStage.setTitle("Adding user");
 
-        
-            addBut.setOnAction((ActionEvent e) -> {
-            addUserCheck(primaryStage);
+                String query = "insert into users"
+                        + "(username, password, firstname, tussenvoegsel, surname, function) VALUES"
+                        + "(?, ?, ?, ?, ?, ?)";
+                prepS = conn.prepareStatement(query);
+                prepS.setString(1, usernameTX.getText());
+                prepS.setString(2, passwordTX.getText());
+                prepS.setString(3, firstnameTX.getText());
+                prepS.setString(4, tussenTX.getText());
+                prepS.setString(5, surnameTX.getText());
+                prepS.setString(6, functionTX.getText());
+
+                prepS.executeUpdate();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Adding user");
+                alert.setHeaderText(null);
+                alert.setContentText("User added succesfully");
+                alert.showAndWait();
+            } catch (Exception e1) {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Adding user");
+                alert.setHeaderText(null);
+                alert.setContentText("Some information is not filled in, please try again.");
+                alert.showAndWait();
+                
+                if(alert.close() == true){
+                    adduserStage.close();
+                    
+                }
+
+                System.out.println("SQL Error");
+                System.err.println(e1);
+
+            }
+
+
+            
+        });
+                    cancel.setOnAction((ActionEvent e) -> {
+            adduserStage.close();
         });
 
 
@@ -231,61 +278,27 @@ public class UsersOverview extends BorderPane {
         Scene dialogScene = new Scene(grid1, 450, 400);
         adduserStage.setScene(dialogScene);
         adduserStage.show();
-        
-        
-        
+
+
+
     }
+    public void updateData() {
 
-    public void addUserCheck(Stage primaryStage) {
-        try {
-            primaryStage.setTitle("Adding user");
-
-            String query = "INSERT INTO users"
-                    + "(username, password, firstname, tussenvoegsel, surname, function) VALUES"
-                    + "(?, ?, ?, ?, ?, ?)";
-            prepS = conn.prepareStatement(query);
-            //prepS.setString(1, usernmrInput.getText());
-            //prepS.setString(2, passInput.getText()) ;
-            //prepS.setString(3, firstnmeInput.getText());
-            //prepS.setString(4, surnameInput.getText());
-            //prepS.setString(5, functionInput.getText());
-
-            prepS.executeUpdate();
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Adding user");
-            alert.setHeaderText(null);
-            alert.setContentText("User added succesfully");
-            alert.showAndWait();
-        } catch (Exception e1) {
-
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Adding user");
-            alert.setHeaderText(null);
-            alert.setContentText("Some information is not filled in, please try again.");
-            alert.showAndWait();
-
-            System.out.println("SQL Error");
-            System.err.println(e1);
-
+        tableData.clear();
+        for(UserRecord record : data) {
+            tableData.add(record);
         }
-
-
-        
-        
     }
-    
-    
-    
+
 // records van de DB halen
     public void getRecordsFromDB() {
         try (Connection conn = Sql.DbConnector();) {
             String SQL = "SELECT * FROM users";
             ResultSet rs = conn.createStatement().executeQuery(SQL);
             while (rs.next()) {
-                this.data.add(new UserRecord(rs.getString("user_id"), rs.getString("username"), 
-                        rs.getString("password"), rs.getString("firstname"), 
-                        rs.getString("tussenvoegsel"), rs.getString("surname"), 
+                this.data.add(new UserRecord(rs.getString("user_id"), rs.getString("username"),
+                        rs.getString("password"), rs.getString("firstname"),
+                        rs.getString("tussenvoegsel"), rs.getString("surname"),
                         rs.getString("function")));
             }
         } catch (Exception e) {
