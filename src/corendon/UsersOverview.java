@@ -15,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -37,18 +38,24 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javax.swing.GroupLayout;
 
 /**
  *
  * @author JerryJerr
  */
 public class UsersOverview extends BorderPane {
-
+    
+    
+    private Button addBut = new Button();
+    private Button cancel = new Button();
     private Stage primaryStage;
     private ObservableList<UserRecord> data
             = FXCollections.observableArrayList();
     private ObservableList<UserRecord> tableData
             = FXCollections.observableArrayList();
+    private Connection conn;
+    private PreparedStatement prepS = null;
 
     public void initScreen(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -143,12 +150,127 @@ public class UsersOverview extends BorderPane {
         tableView4.setItems(this.tableData);
 
     }
+
+    public PreparedStatement getPrepS() {
+        return prepS;
+    }
     
-    public void addUser (Stage primaryStage){
+    public void addUser(Stage primaryStage) {
+        
+        final GridPane grid1 = new GridPane();
+        
+        Label usernameLB = new Label("Username:   ");
+        Label passwordLB = new Label("Password    ");
+        Label firstnameLB = new Label("First name:    ");
+        Label tussenLB = new Label("Prefix:    ");
+        Label surnameLB = new Label("Surname:   ");
+        Label functionLB = new Label("Function:    ");
+        
+
+        
+        TextField usernameTX = new TextField();
+                usernameTX.setPromptText("Username");
+        TextField passwordTX = new TextField();
+                passwordTX.setPromptText("Password");
+        TextField firstnameTX = new TextField();
+                firstnameTX.setPromptText("First name");
+        TextField tussenTX = new TextField();
+                tussenTX.setPromptText("Prefix");
+        TextField surnameTX = new TextField();
+                surnameTX.setPromptText("Surname");
+        TextField functionTX = new TextField();
+                functionTX.setPromptText("Function");
+        
+        final Stage adduserStage = new Stage();
+        adduserStage.initModality(Modality.APPLICATION_MODAL);
+        adduserStage.initOwner(primaryStage);
+        cancel.setMinSize(70, 20);
+        addBut.setMinSize(70, 20);
+        VBox useraddVragen = new VBox(10);
+        VBox useraddAntwoorden = new VBox(10);
+        HBox buttonBox = new HBox();
+        useraddVragen.setPadding(new Insets(10, 10, 10, 10));
+
+        
+        //useraddVragen.getChildren().addAll(usernameLB, passwordLB, firstnameLB, tussenLB, 
+                //surnameLB, functionLB);      
+        //useraddAntwoorden.getChildren().addAll(usernameTX, passwordTX, firstnameTX, tussenTX, 
+                //surnameTX, functionTX);
+        
+        buttonBox.getChildren().addAll(addBut, cancel);
+        grid1.getChildren().addAll(useraddVragen, useraddAntwoorden, buttonBox);
+        addBut.setAlignment(Pos.BOTTOM_LEFT);
+        
+        grid1.setVgap(15);
+        grid1.setHgap(15);
+        grid1.add(usernameLB, 1, 1);
+        grid1.add(usernameTX, 2, 1);
+        grid1.add(passwordLB, 1, 2);
+        grid1.add(passwordTX, 2, 2);
+        grid1.add(firstnameLB, 1, 3);
+        grid1.add(firstnameTX, 2, 3);
+        grid1.add(tussenLB, 1, 4);
+        grid1.add(tussenTX, 2, 4);
+        grid1.add(surnameLB, 1, 5);
+        grid1.add(surnameTX, 2, 5);
+        grid1.add(functionLB, 1, 6);
+        grid1.add(functionTX, 2, 6);
+        grid1.add(addBut, 2, 7);
+        grid1.add(cancel, 3, 7);
+
+        
+
+        
+            addBut.setOnAction((ActionEvent e) -> {
+            addUserCheck(primaryStage);
+        });
+
+
+
+
+        Scene dialogScene = new Scene(grid1, 450, 400);
+        adduserStage.setScene(dialogScene);
+        adduserStage.show();
         
         
         
-        
+    }
+
+    public void addUserCheck(Stage primaryStage) {
+        try {
+            primaryStage.setTitle("Adding user");
+
+            String query = "INSERT INTO users"
+                    + "(username, password, firstname, tussenvoegsel, surname, function) VALUES"
+                    + "(?, ?, ?, ?, ?, ?)";
+            prepS = conn.prepareStatement(query);
+            //prepS.setString(1, usernmrInput.getText());
+            //prepS.setString(2, passInput.getText()) ;
+            //prepS.setString(3, firstnmeInput.getText());
+            //prepS.setString(4, surnameInput.getText());
+            //prepS.setString(5, functionInput.getText());
+
+            prepS.executeUpdate();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Adding user");
+            alert.setHeaderText(null);
+            alert.setContentText("User added succesfully");
+            alert.showAndWait();
+        } catch (Exception e1) {
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Adding user");
+            alert.setHeaderText(null);
+            alert.setContentText("Some information is not filled in, please try again.");
+            alert.showAndWait();
+
+            System.out.println("SQL Error");
+            System.err.println(e1);
+
+        }
+
+
         
         
     }
