@@ -255,10 +255,10 @@ public class UsersOverview extends BorderPane {
                 alert.setContentText("Some information is not filled in, please try again.");
                 alert.showAndWait();
                 
-                if(alert.close() == true){
-                    adduserStage.close();
+ //               if(alert.close() == true){
+ //                   adduserStage.close();
                     
-                }
+ //               }
 
                 System.out.println("SQL Error");
                 System.err.println(e1);
