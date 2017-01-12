@@ -97,6 +97,9 @@ public class UsersOverview extends BorderPane {
         scroll2.setMinSize(800,674);
         scroll2.setMaxSize(800,674);
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
+        refresh.setOnAction((ActionEvent e) -> {
+            updateData();
+        });
 
 
 
