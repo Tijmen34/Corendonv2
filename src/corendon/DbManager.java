@@ -59,10 +59,11 @@ public class DbManager {
         }
         return data;
     }
-    
-        public ObservableList<UserRecord> getRecordsFromDB() {
-            
-            ObservableList<UserRecord> data = FXCollections.observableArrayList();
+
+    public ObservableList<UserRecord> getUserListFromDB() {
+
+        ObservableList<UserRecord> data = FXCollections.observableArrayList();
+        
         try (Connection conn = Sql.DbConnector();) {
             String SQL = "SELECT * FROM users";
             ResultSet rs = conn.createStatement().executeQuery(SQL);
