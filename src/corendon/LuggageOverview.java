@@ -79,7 +79,7 @@ public class LuggageOverview extends BorderPane {
         }
 
         //ScrollPane scroll2 = new ScrollPane();
-        final TableView<LuggageRecord2> tableViewSticky3 = new TableView();
+        final TableView<LuggageRecord2> tableViewSticky3 = dbManager.createLuggageTable();
         final TableView<LuggageRecord2> tableView4 = dbManager.createLuggageTable();
 
         /*
@@ -114,95 +114,14 @@ public class LuggageOverview extends BorderPane {
         topBar.setStyle("-fx-background-color:#D81E05");
         // ------------------------------------------
 
-        //Tabel
-//        TableColumn lostIdCol = new TableColumn("Lost ID");
-//        TableColumn labelNrCol = new TableColumn("Label nr");
-//        TableColumn flightNrCol = new TableColumn("Flight nr");
-//        TableColumn typeCol = new TableColumn("Type");
-//        TableColumn brandCol = new TableColumn("Brand Name");
-//        TableColumn primaryColorCol = new TableColumn("Color 1");
-//        TableColumn secondaryColorCol = new TableColumn("Color 2");
-//        TableColumn infoCol = new TableColumn("Add. info");
-//        TableColumn customerIdCol = new TableColumn("Customer ID");
-//        TableColumn statusCol = new TableColumn("status");
-//        TableColumn dateCol = new TableColumn("date");
-//        TableColumn timeCol = new TableColumn("time");
-//
-//        lostIdCol.setCellValueFactory(
-//                new PropertyValueFactory<>("lostId"));
-//        labelNrCol.setCellValueFactory(
-//                new PropertyValueFactory<>("labelNr"));
-//        flightNrCol.setCellValueFactory(
-//                new PropertyValueFactory<>("flightNr"));
-//        typeCol.setCellValueFactory(
-//                new PropertyValueFactory<>("type"));
-//        brandCol.setCellValueFactory(
-//                new PropertyValueFactory<>("brandName"));
-//        primaryColorCol.setCellValueFactory(
-//                new PropertyValueFactory<>("primaryColor"));
-//        secondaryColorCol.setCellValueFactory(
-//                new PropertyValueFactory<>("secondaryColor"));
-//        infoCol.setCellValueFactory(
-//                new PropertyValueFactory<>("info"));
-//        customerIdCol.setCellValueFactory(
-//                new PropertyValueFactory<>("customerId"));
-//        statusCol.setCellValueFactory(
-//                new PropertyValueFactory<>("status"));
-//        dateCol.setCellValueFactory(
-//                new PropertyValueFactory<>("date"));
-//        timeCol.setCellValueFactory(
-//                new PropertyValueFactory<>("time"));
-//
-//        tableView4.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
-//                typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
-//                customerIdCol, statusCol, dateCol, timeCol);
+
         tableView4.setMinSize(1000, (30 * 24) + 26);
         tableView4.setMaxSize(1000, (30 * 24) + 26);
 
 
         //-------------------------------------------
         //Sticky Tabel
-        TableColumn lostIdColSt = new TableColumn("Lost ID");
-        TableColumn labelNrColSt = new TableColumn("Label nr");
-        TableColumn flightNrColSt = new TableColumn("Flight nr");
-        TableColumn typeColSt = new TableColumn("Type");
-        TableColumn brandColSt = new TableColumn("Brand Name");
-        TableColumn primaryColorColSt = new TableColumn("Color 1");
-        TableColumn secondaryColorColSt = new TableColumn("Color 2");
-        TableColumn infoColSt = new TableColumn("Add. info");
-        TableColumn customerIdColSt = new TableColumn("Customer ID");
-        TableColumn statusColSt = new TableColumn("status");
-        TableColumn dateColSt = new TableColumn("date");
-        TableColumn timeColSt = new TableColumn("time");
-
-        lostIdColSt.setCellValueFactory(
-                new PropertyValueFactory<>("lostId"));
-        labelNrColSt.setCellValueFactory(
-                new PropertyValueFactory<>("labelNr"));
-        flightNrColSt.setCellValueFactory(
-                new PropertyValueFactory<>("flightNr"));
-        typeColSt.setCellValueFactory(
-                new PropertyValueFactory<>("type"));
-        brandColSt.setCellValueFactory(
-                new PropertyValueFactory<>("brandName"));
-        primaryColorColSt.setCellValueFactory(
-                new PropertyValueFactory<>("primaryColor"));
-        secondaryColorColSt.setCellValueFactory(
-                new PropertyValueFactory<>("secondaryColor"));
-        infoColSt.setCellValueFactory(
-                new PropertyValueFactory<>("info"));
-        customerIdColSt.setCellValueFactory(
-                new PropertyValueFactory<>("customerId"));
-        statusColSt.setCellValueFactory(
-                new PropertyValueFactory<>("status"));
-        dateColSt.setCellValueFactory(
-                new PropertyValueFactory<>("date"));
-        timeColSt.setCellValueFactory(
-                new PropertyValueFactory<>("time"));
-
-        tableViewSticky3.getColumns().addAll(lostIdColSt, labelNrColSt, flightNrColSt,
-                typeColSt, brandColSt, primaryColorColSt, secondaryColorColSt, infoColSt,
-                customerIdColSt, statusColSt, dateColSt, timeColSt);
+        
         tableViewSticky3.setMinSize(1000, 24 + 26);
         tableViewSticky3.setPrefSize(1000, 24 + 26);
         tableViewSticky3.setMaxWidth(1000);
@@ -238,11 +157,11 @@ public class LuggageOverview extends BorderPane {
         });
 
         stickyMatchBtn.setOnAction((ActionEvent e) -> {
-            matchStickyItems();
+            solveStickyItems();
         });
     }
 
-    public void matchStickyItems() {
+    public void solveStickyItems() {
         if  ((this.stickyData.size() == 2) && 
                 ((stickyData.get(0).getStatus().equals("lost") && stickyData.get(1).getStatus().equals("found")) ||
                 (stickyData.get(0).getStatus().equals("found") && stickyData.get(1).getStatus().equals("lost")))) {
