@@ -149,7 +149,7 @@ public class UsersOverview extends BorderPane {
         //table niet resizable
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        //lijkt me logisch dit
+        //table grootte veranderen en vullen
         tableView4.setMinSize(800,674);
         tableView4.setMaxSize(800,674);
         tableView4.setItems(this.tableData);
@@ -164,6 +164,7 @@ public class UsersOverview extends BorderPane {
 
         final GridPane grid1 = new GridPane();
 
+        //spreekt voor zich
         Label usernameLB = new Label("Username:   ");
         Label passwordLB = new Label("Password    ");
         Label firstnameLB = new Label("First name:    ");
@@ -173,6 +174,7 @@ public class UsersOverview extends BorderPane {
 
 
 
+        //spreekt voor zich
         TextField usernameTX = new TextField();
                 usernameTX.setPromptText("Username");
         TextField passwordTX = new TextField();
@@ -202,6 +204,7 @@ public class UsersOverview extends BorderPane {
         //useraddAntwoorden.getChildren().addAll(usernameTX, passwordTX, firstnameTX, tussenTX,
                 //surnameTX, functionTX);
 
+        // buttons toevoegen aan een hbox, toevoegen aan grid en de padding aanpassen
         buttonBox.getChildren().addAll(addBut, cancel);
         grid1.getChildren().addAll(useraddVragen, useraddAntwoorden, buttonBox);
         addBut.setPadding(new Insets(1, 1, 1, 1));
@@ -209,7 +212,7 @@ public class UsersOverview extends BorderPane {
         cancel.setTextAlignment(TextAlignment.LEFT);
         cancel.setAlignment(Pos.CENTER_LEFT);
 
-        
+        // plaatsen van alle labels, buttons en textfields
         grid1.setVgap(15);
         grid1.setHgap(15);
         grid1.add(usernameLB, 1, 1);
@@ -226,7 +229,10 @@ public class UsersOverview extends BorderPane {
         grid1.add(functionTX, 2, 6);
         grid1.add(addBut, 2, 7);
         grid1.add(cancel, 3, 7);
-
+        
+        
+        
+//addBut leest de gegevens in en zet ze in database
         addBut.setOnAction((ActionEvent e) -> {
             PreparedStatement prepS = null;
             try (Connection conn = Sql.DbConnector();) {
@@ -264,6 +270,7 @@ public class UsersOverview extends BorderPane {
             }
 
 
+        //zet de stage uit na maken van user
         adduserStage.close();
         });
                     cancel.setOnAction((ActionEvent e) -> {
@@ -273,6 +280,7 @@ public class UsersOverview extends BorderPane {
 
 
 
+                    //scene bouwen enzo
         Scene dialogScene = new Scene(grid1, 450, 400);
         adduserStage.setScene(dialogScene);
         adduserStage.show();
@@ -280,6 +288,8 @@ public class UsersOverview extends BorderPane {
 
 
     }
+    
+    //onuitgewerkte refreshknop
     public void updateData() {
 
         tableData.clear();
