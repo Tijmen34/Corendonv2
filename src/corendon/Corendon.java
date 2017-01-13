@@ -41,14 +41,10 @@ public class Corendon extends Application {
     ResultSet rs = null;
     PreparedStatement pst = null;
     
-    
-
     @Override
     public void start(Stage primaryStage) {
         CheckConnection(); //de methode CheckConnection() wordt uitgevoerd
 
-        
-        
         /*
         MissingForm.java
          */
@@ -57,6 +53,8 @@ public class Corendon extends Application {
         Tab missing = new Tab("Missing");
         Tab found   = new Tab("Found");
         Tab users   = new Tab("Users");
+        Tab stats   = new Tab("Statistics");
+        
         LuggageOverview luggageContent = new LuggageOverview();
         luggageContent.initScreen();
         MissingForm missingContent = new MissingForm(); //ipv gridpane maken we een instantie onze eigen versie van gridpane.
@@ -65,6 +63,9 @@ public class Corendon extends Application {
         foundContent.initScreen();
         UsersOverview usersContent = new UsersOverview();
         usersContent.initScreen(primaryStage);
+        Statistics statsContent = new Statistics();
+        statsContent.initScreen(primaryStage);
+        
         Scene newscene = new Scene(tabScreen, 1200, 700, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven.
         /*
          */
@@ -237,7 +238,7 @@ public class Corendon extends Application {
         De tabs van het hoofdscherm
          */
         newscene.getStylesheets().add("resources/css/style.css");
-        tabScreen.getTabs().addAll(luggage, missing, found, users);
+        tabScreen.getTabs().addAll(luggage, missing, found, users, stats);
         tabScreen.setSide(Side.LEFT);
         luggage.setContent(luggageContent);
         luggage.setClosable(false);
@@ -247,6 +248,8 @@ public class Corendon extends Application {
         found.setClosable(false);
         users.setContent(usersContent);
         users.setClosable(false);
+        stats.setContent(statsContent);
+        stats.setClosable(false);
         
 //        luggage.getGraphic().setOnMouseClicked(e -> {
 //            luggageContent.getRecordsFromDB();
