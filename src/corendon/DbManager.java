@@ -29,9 +29,8 @@ public class DbManager {
     private Statement stmt;
 
     public DbManager() {
-
     }
-
+    // 2e constructor voor methodes die de primaryStage nodig hebben.
     public DbManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -60,7 +59,7 @@ public class DbManager {
         return data;
     }
 
-    public ObservableList<LuggageRecord2> checkLabel(Stage primaryStage, String labelnr) {
+    public ObservableList<LuggageRecord2> checkLabel(String labelnr) {
 
         ObservableList<LuggageRecord2> data = FXCollections.observableArrayList();
 
