@@ -30,6 +30,7 @@ public class DbManager {
 
     public DbManager() {
     }
+
     // 2e constructor voor methodes die de primaryStage nodig hebben.
     public DbManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -70,7 +71,7 @@ public class DbManager {
             pst = conn.prepareStatement(query);
             pst.setString(1, labelnr);
             ResultSet rs = pst.executeQuery();
-            
+
             while (rs.next()) {
                 data.add(new LuggageRecord2(rs.getString("lost_id"),
                         rs.getString("labelnr"), rs.getString("vlucht"),
@@ -85,7 +86,7 @@ public class DbManager {
         }
         return data;
     }
-    
+
     public TableView createLuggageTable() {
         final TableView<LuggageRecord2> tableView = new TableView();
 
@@ -130,13 +131,13 @@ public class DbManager {
         tableView.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
                 typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
                 customerIdCol, statusCol, dateCol, timeCol);
-        
+
         return tableView;
     }
-    
+
     public TableView createUserTable() {
         final TableView<LuggageRecord2> tableView = new TableView();
-        
+
         //tabel colummen declareren
         TableColumn userIdCol = new TableColumn("User ID");
         TableColumn usernameCol = new TableColumn("Username");
@@ -161,13 +162,12 @@ public class DbManager {
                 new PropertyValueFactory<>("surname"));
         functionCol.setCellValueFactory(
                 new PropertyValueFactory<>("function"));
-        
+
         //colommen toevoegen aan tabel
         tableView.getColumns().addAll(userIdCol, usernameCol, passwordCol, firstnameCol, tussenvoegselCol,
                 surnameCol, functionCol);
-        
+
         return tableView;
     }
-    
-    
+
 }
