@@ -49,6 +49,8 @@ import javafx.scene.layout.VBox;
  * @author Jeroen de Jong
  */
 public class LuggageOverview extends BorderPane {
+    
+    private DbManager dbManager;
 
     private ObservableList<LuggageRecord2> data
             = FXCollections.observableArrayList();
@@ -66,17 +68,19 @@ public class LuggageOverview extends BorderPane {
     private Button selToStickyBtn = new Button("^^");
     private Button selUnStickyBtn = new Button("vv");
     private Button stickyMatchBtn = new Button("Match!");
+    
 
     public void initScreen() {
-
-        getRecordsFromDB();
+        dbManager = new DbManager();
+        this.data = dbManager.getLuggageListFromDB();
+        //getRecordsFromDB();
         for (int i = 0; i < data.size(); i++) {
             tableData.add(data.get(i));
         }
 
         //ScrollPane scroll2 = new ScrollPane();
         final TableView<LuggageRecord2> tableViewSticky3 = new TableView();
-        final TableView<LuggageRecord2> tableView4 = new TableView();
+        final TableView<LuggageRecord2> tableView4 = dbManager.createLuggageTable();
 
         /*
         hierarchie:
@@ -111,47 +115,47 @@ public class LuggageOverview extends BorderPane {
         // ------------------------------------------
 
         //Tabel
-        TableColumn lostIdCol = new TableColumn("Lost ID");
-        TableColumn labelNrCol = new TableColumn("Label nr");
-        TableColumn flightNrCol = new TableColumn("Flight nr");
-        TableColumn typeCol = new TableColumn("Type");
-        TableColumn brandCol = new TableColumn("Brand Name");
-        TableColumn primaryColorCol = new TableColumn("Color 1");
-        TableColumn secondaryColorCol = new TableColumn("Color 2");
-        TableColumn infoCol = new TableColumn("Add. info");
-        TableColumn customerIdCol = new TableColumn("Customer ID");
-        TableColumn statusCol = new TableColumn("status");
-        TableColumn dateCol = new TableColumn("date");
-        TableColumn timeCol = new TableColumn("time");
-
-        lostIdCol.setCellValueFactory(
-                new PropertyValueFactory<>("lostId"));
-        labelNrCol.setCellValueFactory(
-                new PropertyValueFactory<>("labelNr"));
-        flightNrCol.setCellValueFactory(
-                new PropertyValueFactory<>("flightNr"));
-        typeCol.setCellValueFactory(
-                new PropertyValueFactory<>("type"));
-        brandCol.setCellValueFactory(
-                new PropertyValueFactory<>("brandName"));
-        primaryColorCol.setCellValueFactory(
-                new PropertyValueFactory<>("primaryColor"));
-        secondaryColorCol.setCellValueFactory(
-                new PropertyValueFactory<>("secondaryColor"));
-        infoCol.setCellValueFactory(
-                new PropertyValueFactory<>("info"));
-        customerIdCol.setCellValueFactory(
-                new PropertyValueFactory<>("customerId"));
-        statusCol.setCellValueFactory(
-                new PropertyValueFactory<>("status"));
-        dateCol.setCellValueFactory(
-                new PropertyValueFactory<>("date"));
-        timeCol.setCellValueFactory(
-                new PropertyValueFactory<>("time"));
-
-        tableView4.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
-                typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
-                customerIdCol, statusCol, dateCol, timeCol);
+//        TableColumn lostIdCol = new TableColumn("Lost ID");
+//        TableColumn labelNrCol = new TableColumn("Label nr");
+//        TableColumn flightNrCol = new TableColumn("Flight nr");
+//        TableColumn typeCol = new TableColumn("Type");
+//        TableColumn brandCol = new TableColumn("Brand Name");
+//        TableColumn primaryColorCol = new TableColumn("Color 1");
+//        TableColumn secondaryColorCol = new TableColumn("Color 2");
+//        TableColumn infoCol = new TableColumn("Add. info");
+//        TableColumn customerIdCol = new TableColumn("Customer ID");
+//        TableColumn statusCol = new TableColumn("status");
+//        TableColumn dateCol = new TableColumn("date");
+//        TableColumn timeCol = new TableColumn("time");
+//
+//        lostIdCol.setCellValueFactory(
+//                new PropertyValueFactory<>("lostId"));
+//        labelNrCol.setCellValueFactory(
+//                new PropertyValueFactory<>("labelNr"));
+//        flightNrCol.setCellValueFactory(
+//                new PropertyValueFactory<>("flightNr"));
+//        typeCol.setCellValueFactory(
+//                new PropertyValueFactory<>("type"));
+//        brandCol.setCellValueFactory(
+//                new PropertyValueFactory<>("brandName"));
+//        primaryColorCol.setCellValueFactory(
+//                new PropertyValueFactory<>("primaryColor"));
+//        secondaryColorCol.setCellValueFactory(
+//                new PropertyValueFactory<>("secondaryColor"));
+//        infoCol.setCellValueFactory(
+//                new PropertyValueFactory<>("info"));
+//        customerIdCol.setCellValueFactory(
+//                new PropertyValueFactory<>("customerId"));
+//        statusCol.setCellValueFactory(
+//                new PropertyValueFactory<>("status"));
+//        dateCol.setCellValueFactory(
+//                new PropertyValueFactory<>("date"));
+//        timeCol.setCellValueFactory(
+//                new PropertyValueFactory<>("time"));
+//
+//        tableView4.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
+//                typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
+//                customerIdCol, statusCol, dateCol, timeCol);
         tableView4.setMinSize(1000, (30 * 24) + 26);
         tableView4.setMaxSize(1000, (30 * 24) + 26);
 
