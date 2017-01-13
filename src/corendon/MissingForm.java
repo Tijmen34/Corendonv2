@@ -173,7 +173,7 @@ public class MissingForm extends GridPane {
         zipcodeInput.setMaxWidth(100);
         //zipcode.setFont(OpenSans);
         zipcodeInput.setPromptText("Zipcode");
-
+//
         Label country = new Label("Country: ");
         country.setTextFill(Color.web("#333333"));
         TextField countryInput = new TextField();
