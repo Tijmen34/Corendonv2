@@ -293,13 +293,9 @@ public class UsersOverview extends BorderPane {
     public void updateData() {
 
         tableData.clear();
-        for(UserRecord record : data) {
+        data.stream().forEach((record) -> {
             tableData.add(record);
-        }
-  //      tableData.remove(index);
-  //          tableData.getSelectionModel().clearSelection();
-  //      tableData.getItems().clear();
-   //     tableData.getItems().addAll(tableData)
+        }); 
     }
 
 // records van de DB halen
