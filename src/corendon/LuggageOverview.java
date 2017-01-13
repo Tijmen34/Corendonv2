@@ -155,6 +155,7 @@ public class LuggageOverview extends BorderPane {
         tableView4.setMinSize(1000, (30 * 24) + 26);
         tableView4.setMaxSize(1000, (30 * 24) + 26);
 
+
         //-------------------------------------------
         //Sticky Tabel
         TableColumn lostIdColSt = new TableColumn("Lost ID");
@@ -201,7 +202,6 @@ public class LuggageOverview extends BorderPane {
         tableViewSticky3.setMinSize(1000, 24 + 26);
         tableViewSticky3.setPrefSize(1000, 24 + 26);
         tableViewSticky3.setMaxWidth(1000);
-
         //--------------------------------------------
         //test record
 //        LuggageRecord2 testRecord = new LuggageRecord2("0001", "3R5F2", "MH370",
@@ -267,7 +267,7 @@ public class LuggageOverview extends BorderPane {
 
     public  void getRecordsFromDB() {
         try (Connection conn = Sql.DbConnector();) {
-            String SQL = "SELECT * FROM bagage";
+            String SQL = "SELECT * FROM bagage ORDER BY datum_bevestiging";
             ResultSet rs = conn.createStatement().executeQuery(SQL);
             data.clear();
             while (rs.next()) {
