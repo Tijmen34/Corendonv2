@@ -111,34 +111,6 @@ public class UsersOverview extends BorderPane {
         topBar.setAlignment(Pos.CENTER);
         topBar.setStyle("white");
 
-        //tabel colummen declareren
-//        TableColumn userIdCol = new TableColumn("User ID");
-//        TableColumn usernameCol = new TableColumn("Username");
-//        TableColumn passwordCol = new TableColumn("Password");
-//        TableColumn firstnameCol = new TableColumn("First name");
-//        TableColumn tussenvoegselCol = new TableColumn("Tussenvoegsel");
-//        TableColumn surnameCol = new TableColumn("Surname");
-//        TableColumn functionCol = new TableColumn("Function");
-//
-//        //table vullen met de variabelen
-//        userIdCol.setCellValueFactory(
-//                new PropertyValueFactory<>("user_id"));
-//        usernameCol.setCellValueFactory(
-//                new PropertyValueFactory<>("username"));
-//        passwordCol.setCellValueFactory(
-//                new PropertyValueFactory<>("password"));
-//        firstnameCol.setCellValueFactory(
-//                new PropertyValueFactory<>("firstname"));
-//        tussenvoegselCol.setCellValueFactory(
-//                new PropertyValueFactory<>("tussenvoegsel"));
-//        surnameCol.setCellValueFactory(
-//                new PropertyValueFactory<>("surname"));
-//        functionCol.setCellValueFactory(
-//                new PropertyValueFactory<>("function"));
-//        tableView4.getColumns().addAll(userIdCol, usernameCol, passwordCol, firstnameCol, tussenvoegselCol,
-//                surnameCol, functionCol);
-
-
             b.setOnAction((ActionEvent e) -> {
             addUser(primaryStage);
         });
@@ -197,12 +169,6 @@ public class UsersOverview extends BorderPane {
         VBox useraddAntwoorden = new VBox(10);
         HBox buttonBox = new HBox(10);
         useraddVragen.setPadding(new Insets(10, 10, 10, 10));
-
-
-        //useraddVragen.getChildren().addAll(usernameLB, passwordLB, firstnameLB, tussenLB,
-                //surnameLB, functionLB);
-        //useraddAntwoorden.getChildren().addAll(usernameTX, passwordTX, firstnameTX, tussenTX,
-                //surnameTX, functionTX);
 
         // buttons toevoegen aan een hbox, toevoegen aan grid en de padding aanpassen
         buttonBox.getChildren().addAll(addBut, cancel);
@@ -296,23 +262,6 @@ public class UsersOverview extends BorderPane {
         data.stream().forEach((record) -> {
             tableData.add(record);
         }); 
-    }
-
-// records van de DB halen
-    public void getRecordsFromDB() {
-        try (Connection conn = Sql.DbConnector();) {
-            String SQL = "SELECT * FROM users";
-            ResultSet rs = conn.createStatement().executeQuery(SQL);
-            while (rs.next()) {
-                this.data.add(new UserRecord(rs.getString("user_id"), rs.getString("username"),
-                        rs.getString("password"), rs.getString("firstname"),
-                        rs.getString("tussenvoegsel"), rs.getString("surname"),
-                        rs.getString("function")));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error on Building Data");
-        }
     }
 
 }
