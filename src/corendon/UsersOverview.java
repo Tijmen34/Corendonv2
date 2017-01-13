@@ -47,7 +47,7 @@ import javax.swing.GroupLayout;
  */
 public class UsersOverview extends BorderPane {
 
-
+    private DbManager dbManager;
     private Button addBut = new Button("Submit");
     private Button cancel = new Button("Cancel");
     private Button refresh = new Button("Refresh table");
@@ -62,10 +62,10 @@ public class UsersOverview extends BorderPane {
 
     public void initScreen(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        dbManager = new DbManager();
 
 
-
-        getRecordsFromDB();
+        data = dbManager.getUserListFromDB();
         for (int i = 0; i < this.data.size(); i++) {
             this.tableData.add(this.data.get(i));
         }
@@ -84,7 +84,7 @@ public class UsersOverview extends BorderPane {
         VBox xbox = new VBox();
         TextField text1 = new TextField();
         GridPane table3 = new GridPane();
-        final TableView<UserRecord> tableView4 = new TableView();
+        final TableView<UserRecord> tableView4 = dbManager.createUserTable();
 
         setTop(topBar);
         setCenter(border1);
@@ -112,31 +112,31 @@ public class UsersOverview extends BorderPane {
         topBar.setStyle("white");
 
         //tabel colummen declareren
-        TableColumn userIdCol = new TableColumn("User ID");
-        TableColumn usernameCol = new TableColumn("Username");
-        TableColumn passwordCol = new TableColumn("Password");
-        TableColumn firstnameCol = new TableColumn("First name");
-        TableColumn tussenvoegselCol = new TableColumn("Tussenvoegsel");
-        TableColumn surnameCol = new TableColumn("Surname");
-        TableColumn functionCol = new TableColumn("Function");
-
-        //table vullen met de variabelen
-        userIdCol.setCellValueFactory(
-                new PropertyValueFactory<>("user_id"));
-        usernameCol.setCellValueFactory(
-                new PropertyValueFactory<>("username"));
-        passwordCol.setCellValueFactory(
-                new PropertyValueFactory<>("password"));
-        firstnameCol.setCellValueFactory(
-                new PropertyValueFactory<>("firstname"));
-        tussenvoegselCol.setCellValueFactory(
-                new PropertyValueFactory<>("tussenvoegsel"));
-        surnameCol.setCellValueFactory(
-                new PropertyValueFactory<>("surname"));
-        functionCol.setCellValueFactory(
-                new PropertyValueFactory<>("function"));
-        tableView4.getColumns().addAll(userIdCol, usernameCol, passwordCol, firstnameCol, tussenvoegselCol,
-                surnameCol, functionCol);
+//        TableColumn userIdCol = new TableColumn("User ID");
+//        TableColumn usernameCol = new TableColumn("Username");
+//        TableColumn passwordCol = new TableColumn("Password");
+//        TableColumn firstnameCol = new TableColumn("First name");
+//        TableColumn tussenvoegselCol = new TableColumn("Tussenvoegsel");
+//        TableColumn surnameCol = new TableColumn("Surname");
+//        TableColumn functionCol = new TableColumn("Function");
+//
+//        //table vullen met de variabelen
+//        userIdCol.setCellValueFactory(
+//                new PropertyValueFactory<>("user_id"));
+//        usernameCol.setCellValueFactory(
+//                new PropertyValueFactory<>("username"));
+//        passwordCol.setCellValueFactory(
+//                new PropertyValueFactory<>("password"));
+//        firstnameCol.setCellValueFactory(
+//                new PropertyValueFactory<>("firstname"));
+//        tussenvoegselCol.setCellValueFactory(
+//                new PropertyValueFactory<>("tussenvoegsel"));
+//        surnameCol.setCellValueFactory(
+//                new PropertyValueFactory<>("surname"));
+//        functionCol.setCellValueFactory(
+//                new PropertyValueFactory<>("function"));
+//        tableView4.getColumns().addAll(userIdCol, usernameCol, passwordCol, firstnameCol, tussenvoegselCol,
+//                surnameCol, functionCol);
 
 
             b.setOnAction((ActionEvent e) -> {
