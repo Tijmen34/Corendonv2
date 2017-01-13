@@ -114,16 +114,21 @@ public class MissingForm extends GridPane {
 
         Separator separator1 = new Separator();
         separator1.setOrientation(Orientation.VERTICAL);
-
+        
+        //Check Label knop
         Button labelCheck = new Button("check");
+        //next.setFont(UniSansItalicbig);
+        labelCheck.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 14; -fx-font-weight: bold");
+        labelCheck.setTextFill(Color.web("#ffffff"));
+        labelCheck.setText("Check");
+        labelCheck.setMaxWidth(120);
 
-        //labelCheck.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 18");
+        
         // Submit knop
         Button next = new Button();
         //next.setFont(UniSansItalicbig);
-        next.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 18");
+        next.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 18; -fx-font-weight: bold");
         next.setTextFill(Color.web("#ffffff"));
-
         next.setText("Submit");
 
         // Informatie plek van invullen
@@ -173,12 +178,11 @@ public class MissingForm extends GridPane {
         zipcodeInput.setMaxWidth(100);
         //zipcode.setFont(OpenSans);
         zipcodeInput.setPromptText("Zipcode");
-//
+
         Label country = new Label("Country: ");
         country.setTextFill(Color.web("#333333"));
-        TextField countryInput = new TextField();
-        //country.setFont(OpenSans);
-        ComboBox countryList = new ComboBox(FXCollections.observableArrayList("Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Barbados", "Belarus", "Belgium", "Belize", "Bosnia and Herzegovina", "Brazil", "Bulgaria", "Canada", "Cayman Islands", "Chile", "China", "Colombia", "Costa Rica", "Cote d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Ecuador", "Egypt", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Japan", "Kazakhstan", "Latvia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Mexico", "Moldova", "Monaco", "Morocco", "Netherlands", "Netherlands Antilles", "New Zealand", "Norway", "Poland", "Portugal", "Qatar", "Romania", "Russia", "San Marino", "Saudi Arabia", "Serbia and Montenegro", "Slovakia", "Slovenia", "Spain", "South Korea", "Suriname", "Sweden", "Switzerland", "Tunisia", "Turkey", "Ukraine", "United Arab Emirates", "United Kingdom", "United States,Uruguay"));
+        ComboBox countryList = new ComboBox(FXCollections.observableArrayList("Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Barbados","Belarus","Belgium","Belize","Bosnia and Herzegovina","Brazil","Bulgaria","Canada","Cayman Islands","Chile","China","Colombia","Costa Rica","Cote d'Ivoire","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Ecuador","Egypt","Estonia","Finland","France","Georgia","Germany","Greece","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Japan","Kazakhstan","Latvia","Libya","Liechtenstein","Lithuania","Luxembourg","Macedonia","Malta","Mexico","Moldova","Monaco","Morocco","Netherlands","Netherlands Antilles","New Zealand","Norway","Poland","Portugal","Qatar","Romania","Russia","San Marino","Saudi Arabia","Serbia and Montenegro","Slovakia","Slovenia","Spain","South Korea","Suriname","Sweden","Switzerland","Tunisia","Turkey","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay"));
+
         countryList.getSelectionModel().select(57);
         countryList.setPromptText("Country");
         countryList.setStyle("-fx-base:white");
@@ -201,6 +205,7 @@ public class MissingForm extends GridPane {
         TextField labelInput = new TextField();
         //bagLabel.setFont(OpenSans);
         labelInput.setPromptText("Label number");
+        labelInput.setMaxWidth(120);
 
         Label flightNr = new Label("Flight number: ");
         flightNr.setTextFill(Color.web("#333333"));
@@ -230,7 +235,7 @@ public class MissingForm extends GridPane {
         priColorList.setPromptText("Primary Color");
         priColorList.setStyle("-fx-base:white");
 
-        Label secondaryColor = new Label("Secondary Color(optional): ");
+        Label secondaryColor = new Label("Secondary Color (optional): ");
         secondaryColor.setTextFill(Color.web("#333333"));
         ComboBox secColorList = new ComboBox(FXCollections.observableArrayList("Black", "White", "Blue", "Red", "Silver", "Grey", "Green", "Yellow", "Purple"));
         //secondaryColor.setFont(OpenSans);
@@ -268,7 +273,7 @@ public class MissingForm extends GridPane {
         //onderdelen toevoegen
         this.add(title, 1, 0);
         this.add(separator, 1, 1);
-        this.add(next, 8, 16);
+        this.add(next, 8, 17);
         this.add(PassInfo, 1, 4, 2, 1);
         this.add(iata, 1, 3);
         this.add(iataSearch, 2, 3);
@@ -297,19 +302,19 @@ public class MissingForm extends GridPane {
         this.add(luggageInfo, 7, 3);
         this.add(bagLabel, 7, 4);
         this.add(labelInput, 8, 4);
-        this.add(labelCheck, 9, 4);
-        this.add(flightNr, 7, 5);
-        this.add(flightInput, 8, 5);
-        this.add(bagType, 7, 6);
-        this.add(typeInput, 8, 6);
-        this.add(brandName, 7, 7);
-        this.add(brandList, 8, 7);
-        this.add(primaryColor, 7, 8);
-        this.add(priColorList, 8, 8);
-        this.add(secondaryColor, 7, 9);
-        this.add(secColorList, 8, 9);
-        this.add(moreInfo, 7, 10);
-        this.add(infoInput, 8, 10, 1, 6);
+        this.add(labelCheck, 8, 5);
+        this.add(flightNr, 7, 6);
+        this.add(flightInput, 8, 6);
+        this.add(bagType, 7, 7);
+        this.add(typeInput, 8, 7);
+        this.add(brandName, 7, 8);
+        this.add(brandList, 8, 8);
+        this.add(primaryColor, 7, 9);
+        this.add(priColorList, 8, 9);
+        this.add(secondaryColor, 7, 10);
+        this.add(secColorList, 8, 10);
+        this.add(moreInfo, 7, 11);
+        this.add(infoInput, 8, 11, 1, 6);
 
         this.setStyle("-fx-background-color: white");
 
@@ -326,56 +331,73 @@ public class MissingForm extends GridPane {
 //        primaryStage.show();
         next.setOnAction((ActionEvent e) -> {
             PreparedStatement pst2 = null;
-            try {
-                String query = "INSERT INTO bagage"
-                        + "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, status, datum_bevestiging) VALUES"
-                        + "(?,?,?,?,?,?,?,'lost',NOW())";
-                String query2 = "INSERT INTO klant"
-                        + "(geslacht, naam, tussenvoegsel, achternaam, gebdatum, straat, huisnummer,"
-                        + " plaats, postcode, land, telnr, mail, datum_bevestiging) VALUES"
-                        + "(?,?,?,?,?,?,?,?,?,?,?,?, NOW())";
-                pst = conn.prepareStatement(query);
-                pst.setString(1, labelInput.getText());
-                pst.setString(2, flightInput.getText());
-                pst.setString(3, iataSearch.getText());
-                pst.setString(5, (String) brandList.getSelectionModel().getSelectedItem());
-                pst.setString(6, (String) priColorList.getSelectionModel().getSelectedItem());
-                pst.setString(7, (String) secColorList.getSelectionModel().getSelectedItem());
-                pst.setString(4, (String) typeInput.getSelectionModel().getSelectedItem());
-
-                pst2 = conn.prepareStatement(query2);
-                pst2.setString(1, (String) genderSet.getSelectionModel().getSelectedItem());
-                pst2.setString(2, NameInput.getText());
-                pst2.setString(3, SurnameInput.getText());
-                pst2.setString(4, ((TextField) datePick.getEditor()).getText());
-                pst2.setString(5, streetInput.getText());
-                pst2.setString(6, hnumberInput.getText());
-                pst2.setString(7, placeInput.getText());
-                pst2.setString(8, zipcodeInput.getText());
-                pst2.setString(9, (String) countryList.getSelectionModel().getSelectedItem());
-                pst2.setString(10, phonenrInput.getText());
-                pst2.setString(11, emailInput.getText());
+                try {
+                    
+                if(labelInput.getText().isEmpty()|| typeInput.getSelectionModel().isEmpty() || priColorList.getSelectionModel().isEmpty() ||brandList.getSelectionModel().isEmpty() || flightInput.getText().isEmpty() || SurnameInput.getText().isEmpty() || NameInput.getText().isEmpty() || datePick.getEditor().getText().isEmpty() || streetInput.getText().isEmpty() || hnumberInput.getText().isEmpty() || placeInput.getText().isEmpty() || zipcodeInput.getText().isEmpty() || phonenrInput.getText().isEmpty()){               
+                 Alert alert = new Alert(AlertType.WARNING);
+                    alert.setTitle("Corendon - Luggage");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Some information is not filled in, please try again.");
+                    alert.showAndWait();
+                System.out.println("Some information is not filled in");
+                }else{
+                    
+                    Alert alert1 = new Alert(AlertType.INFORMATION);
+                    alert1.setTitle("Corendon - Luggage");
+                    alert1.setHeaderText(null);
+                    alert1.setContentText("Information successfully submitted");
+                    alert1.showAndWait();
+                System.out.println("Information submitted.");
+                
+                    String query = "INSERT INTO bagage"
+				+ "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging) VALUES"
+				+ "(?,?,?,?,?,?,?,?,'lost',NOW())";
+                    String query2 = "INSERT INTO klant"
+				+ "(geslacht, naam, tussenvoegsel, achternaam, gebdatum, straat, huisnummer,"
+                            + " plaats, postcode, land, telnr, mail, datum_bevestiging) VALUES"
+				+ "(?,?,?,?,?,?,?,?,?,?,?,?, NOW())";
+                    pst = conn.prepareStatement(query);
+                    pst.setString(1, labelInput.getText());
+                    pst.setString(2, flightInput.getText());
+                    pst.setString(3, iataSearch.getText());
+                    pst.setString(5, (String) brandList.getSelectionModel().getSelectedItem());
+                    pst.setString(6, (String) priColorList.getSelectionModel().getSelectedItem());
+                    pst.setString(7, (String) secColorList.getSelectionModel().getSelectedItem());
+                    pst.setString(4, (String) typeInput.getSelectionModel().getSelectedItem());
+                    pst.setString(8, infoInput.getText());
+                    
+                    
+                    pst2 = conn.prepareStatement(query2);
+                    pst2.setString(1, (String) genderSet.getSelectionModel().getSelectedItem());
+                    pst2.setString(2, NameInput.getText());
+                    pst2.setString(3, prefixInput.getText());
+                    pst2.setString(4, SurnameInput.getText());
+                    pst2.setString(5, ((TextField)datePick.getEditor()).getText());
+                    pst2.setString(6, streetInput.getText());
+                    pst2.setString(7, hnumberInput.getText());
+                    pst2.setString(8, placeInput.getText());
+                    pst2.setString(9, zipcodeInput.getText());
+                    pst2.setString(10, (String) countryList.getSelectionModel().getSelectedItem());
+                    pst2.setString(11, phonenrInput.getText());
+                    pst2.setString(12, emailInput.getText());
 
                 pst.executeUpdate();
                 pst2.executeUpdate();
-
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Corendon - Luggage");
-                alert.setHeaderText(null);
-                alert.setContentText("Information successfully submitted");
-                alert.showAndWait();
-
-                System.out.println("Information submitted.");
-            } catch (Exception e1) {
-
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Corendon - Luggage");
-                alert.setHeaderText(null);
-                alert.setContentText("Some information is not filled in, please try again.");
-                alert.showAndWait();
-
-                System.out.println("SQL Error");
+                
+                
+                    
+                }
+                
+                }
+                catch (Exception e1) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setTitle("Corendon - Luggage");
+                    alert.setHeaderText(null);
+                    alert.setContentText("There is an error in the database, please try again later.");
+                    alert.showAndWait();
+                System.out.println("SQL ERROR");
                 System.err.println(e1);
+                    
             }
         });
     }
@@ -470,8 +492,15 @@ public class MissingForm extends GridPane {
         HBox prompt = new HBox(20);
         VBox controls = new VBox(20);
         controls.setPadding(new Insets(10, 10, 10, 10));
-        cancel.setMinSize(70, 20);
         solve.setMinSize(70, 20);
+        solve.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 14; -fx-font-weight: bold;");
+        solve.setTextFill(Color.web("#ffffff"));
+        solve.setText("Solve");
+        cancel.setMinSize(70, 20);
+        cancel.setStyle("-fx-base:white;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 12;");
+        cancel.setTextFill(Color.web("#000000"));
+        cancel.setText("Cancel");
+        
 
         controls.getChildren().addAll(solve, cancel);
         prompt.setPadding(new Insets(0, 0, 0, 0));
