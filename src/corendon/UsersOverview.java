@@ -257,11 +257,6 @@ public class UsersOverview extends BorderPane {
                 alert.setHeaderText(null);
                 alert.setContentText("Some information is not filled in, please try again.");
                 alert.showAndWait();
-                
- //               if(alert.close() == true){
- //                   adduserStage.close();
-                    
- //               }
 
                 System.out.println("SQL Error");
                 System.err.println(e1);
@@ -269,7 +264,7 @@ public class UsersOverview extends BorderPane {
             }
 
 
-            
+        adduserStage.close();
         });
                     cancel.setOnAction((ActionEvent e) -> {
             adduserStage.close();
@@ -291,6 +286,10 @@ public class UsersOverview extends BorderPane {
         for(UserRecord record : data) {
             tableData.add(record);
         }
+  //      tableData.remove(index);
+  //          tableData.getSelectionModel().clearSelection();
+  //      tableData.getItems().clear();
+   //     tableData.getItems().addAll(tableData)
     }
 
 // records van de DB halen
