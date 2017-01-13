@@ -59,6 +59,25 @@ public class DbManager {
         }
         return data;
     }
+    
+        public ObservableList<UserRecord> getRecordsFromDB() {
+            
+            ObservableList<UserRecord> data = FXCollections.observableArrayList();
+        try (Connection conn = Sql.DbConnector();) {
+            String SQL = "SELECT * FROM users";
+            ResultSet rs = conn.createStatement().executeQuery(SQL);
+            while (rs.next()) {
+                data.add(new UserRecord(rs.getString("user_id"), rs.getString("username"),
+                        rs.getString("password"), rs.getString("firstname"),
+                        rs.getString("tussenvoegsel"), rs.getString("surname"),
+                        rs.getString("function")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        return data;
+    }
 
     public ObservableList<LuggageRecord2> checkLabel(String labelnr) {
 
