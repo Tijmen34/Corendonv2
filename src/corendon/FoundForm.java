@@ -269,8 +269,8 @@ public class FoundForm extends GridPane{
         this.add(destination, 1, 11);
         this.add(destinationInput, 2,11);
         this.add(nameTraveler, 1, 12);
-        this.add(surnameInput, 2,12);
-        this.add(firstNameInput, 3,12);
+        this.add(firstNameInput, 2,12);
+        this.add(surnameInput, 3,12);
         this.add(separator1,5,2, 10,15);
         //BAGAGEINFO
         this.add(luggageInfo, 7, 3);
@@ -302,8 +302,8 @@ public class FoundForm extends GridPane{
 				+ "(?,?,?,?,?,?,?,'found',NOW())";
                     //vult tabal klant
                     String query2 = "INSERT INTO klant"
-				+ "(naam,achternaam, datum_bevestiging) VALUES"
-				+ "(?,?, NOW())";
+				+ "(naam, achternaam, datum_bevestiging) VALUES"
+				+ "(?, ? , NOW())";
                     pst = conn.prepareStatement(query);
                     pst.setString(1, labelInput.getText());
                     pst.setString(2, flightInput.getText());
@@ -315,8 +315,8 @@ public class FoundForm extends GridPane{
                     
                     pst2 = conn.prepareStatement(query2);
                
-                    pst2.setString(2, firstNameInput.getText());
-                    pst2.setString(3, surnameInput.getText());
+                    pst2.setString(1, firstNameInput.getText());
+                    pst2.setString(2, surnameInput.getText()); 
                  
 
                     pst.executeUpdate();
