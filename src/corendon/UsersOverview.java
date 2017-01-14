@@ -8,6 +8,7 @@ package corendon;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -63,6 +64,8 @@ public class UsersOverview extends BorderPane {
     public void initScreen(Stage primaryStage) {
         this.primaryStage = primaryStage;
         dbManager = new DbManager();
+
+
 
 
         data = dbManager.getUserListFromDB();
