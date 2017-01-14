@@ -34,22 +34,24 @@ public class Statistics extends BorderPane {
     Statement stmt;
     TextField wut = new TextField();
     Button get = new Button("get");
+    Button chartB = new Button("chart");
     double value = 0.0;
     
     public double getValues() {
         
+        
         get.setOnAction(e -> {
-            
-        try {
+        try (Connection conn = Sql.DbConnector();) {
             
             String SQL = "SELECT COUNT(status) AS 'Total' FROM bagage WHERE status =?";
             pst = conn.prepareStatement(SQL);
-            pst.setString(1, "'" + wut.getText() + "'");
+            pst.setString(1, wut.getText());
             ResultSet rs = pst.executeQuery();
             
             if (rs.next()) {
-            double value = rs.getDouble(1);
+            value = rs.getInt("Total");
             System.out.println(value);
+            
             } else {
                 System.out.println("error");
             }
@@ -70,9 +72,9 @@ public class Statistics extends BorderPane {
     public void initScreen(Stage primaryStage) {
         
         wut.setPromptText("Wut");
+        chartB.setOnAction(e -> {
         getValues();
-        CheckConnection();
-
+        
         ObservableList<PieChart.Data> pieChartData
                 = FXCollections.observableArrayList(
                         new PieChart.Data("Missing", getValues()),
@@ -95,7 +97,7 @@ public class Statistics extends BorderPane {
                 public void handle(MouseEvent e) {
                     caption.setTranslateX(e.getSceneX() - 100);
                     caption.setTranslateY(e.getSceneY());
-                    caption.setText(String.valueOf(data.getPieValue()) + "%");
+                    caption.setText(String.valueOf(data.getPieValue()) + " cases");
                 }
             });
         }
@@ -103,19 +105,16 @@ public class Statistics extends BorderPane {
         
         this.setCenter(chart);
         this.setTop(caption);
-        this.setBottom(wut);
-        this.setRight(get);
         this.setMaxSize(500, 500);
         this.setMinSize(500, 500);
 
+    });
+        
+        this.setBottom(wut);
+        this.setRight(get);
+        this.setLeft(chartB);
     }
-    
-    public void CheckConnection() {
-        conn = Sql.DbConnector();
-        if (conn == null) {
-            System.out.println("Connection lost.");
-            System.exit(1);
-        }
-    }
+               
+
 
 }
