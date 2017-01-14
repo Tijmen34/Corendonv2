@@ -50,9 +50,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import corendon.LuggageOverview;
 import corendon.Corendon;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Callback;
 
 /**
  *
@@ -70,6 +73,8 @@ public class MissingForm extends GridPane {
 
     private Button solve = new Button("Solve");
     private Button cancel = new Button("Cancel");
+    
+    
 
     //de methode waarmee de elementen van het formulier op het scherm worden
     //gezet en geïnitialiseerd.
@@ -98,19 +103,30 @@ public class MissingForm extends GridPane {
                         .getResourceAsStream("/FOnt/Uni Sans Bold Italic.ttf"), 20);
 
         //Titel Form
-        Label title = new Label("Form Luggage Loss");
+        Label title = new Label("\t Form Luggage Loss");
         //title.setFont(UniSans);
-        title.setTextFill(Color.web("#D81E05"));
+        title.setTextFill(Color.web("#FFFFFF"));
+        title.setStyle("-fx-font: 20px UniSansSemiBold");
+        
+        Rectangle titleBox = new Rectangle();
+        
+        titleBox.setWidth(2000);
+        titleBox.setHeight(50);
+        titleBox.setFill(Color.web("#D81E05"));
+        
 
         Label PassInfo = new Label("Passenger Information");
         //PassInfo.setFont(UniSansItalicsmall);
         PassInfo.setTextFill(Color.web("#00bce2"));
+        PassInfo.setStyle("-fx-font: 18px UniSansRegular");
+        
 
         Label luggageInfo = new Label("Luggage Information");
         //luggageInfo.setFont(UniSansItalicsmall);
         luggageInfo.setTextFill(Color.web("#00bce2"));
+        luggageInfo.setStyle("-fx-font: 18px UniSansRegular");
 
-        Separator separator = new Separator();
+       
 
         Separator separator1 = new Separator();
         separator1.setOrientation(Orientation.VERTICAL);
@@ -127,9 +143,10 @@ public class MissingForm extends GridPane {
         // Submit knop
         Button next = new Button();
         //next.setFont(UniSansItalicbig);
-        next.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 18; -fx-font-weight: bold");
+        next.setStyle("-fx-font: 20px UniSansBoldItalic;-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;");
         next.setTextFill(Color.web("#ffffff"));
         next.setText("Submit");
+        
 
         // Informatie plek van invullen
         Label iata = new Label("Airport IATA: ");
@@ -137,25 +154,60 @@ public class MissingForm extends GridPane {
         TextField iataSearch = new TextField();
         iataSearch.setPromptText("IATA");
         iataSearch.setMaxWidth(55);
-
+        iataSearch.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
         // Informatie passagier
         Label gender = new Label("Gender: ");
         //gender.setFont(OpenSans);
         gender.setTextFill(Color.web("#333333"));
         ComboBox genderSet = new ComboBox(FXCollections.observableArrayList("Mr.", "Mrs."));
         genderSet.setPromptText("Gender");
-        genderSet.setStyle("-fx-base:white;-fx-font-fill:#333333");
+        genderSet.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-fill: #555555;"
+        );
 
         Label name = new Label("Name: ");
         //name.setFont(OpenSans);
         name.setTextFill(Color.web("#333333"));
         TextField SurnameInput = new TextField();
         SurnameInput.setPromptText("Surname");
+        SurnameInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
+        
         TextField NameInput = new TextField();
         NameInput.setPromptText("Firstname");
+        NameInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
+        
         TextField prefixInput = new TextField();
         prefixInput.setPromptText("Prefix");
         prefixInput.setMaxWidth(90);
+        prefixInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;" +
+                    "-fx-text-inner-color: #555555;"
+        );
 
         Label address = new Label("Address: ");
         address.setTextFill(Color.web("#333333"));
@@ -163,7 +215,21 @@ public class MissingForm extends GridPane {
         TextField hnumberInput = new TextField();
         //address.setFont(OpenSans);
         streetInput.setPromptText("Street");
+        streetInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
         hnumberInput.setPromptText("Housenr.");
+        hnumberInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
         hnumberInput.setMaxWidth(90);
 
         Label place = new Label("Town/Place: ");
@@ -171,6 +237,13 @@ public class MissingForm extends GridPane {
         TextField placeInput = new TextField();
         //place.setFont(OpenSans);
         placeInput.setPromptText("Town/Place");
+        placeInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
 
         Label zipcode = new Label("Zip-code: ");
         zipcode.setTextFill(Color.web("#333333"));
@@ -178,26 +251,53 @@ public class MissingForm extends GridPane {
         zipcodeInput.setMaxWidth(100);
         //zipcode.setFont(OpenSans);
         zipcodeInput.setPromptText("Zipcode");
+        zipcodeInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
 
         Label country = new Label("Country: ");
         country.setTextFill(Color.web("#333333"));
         ComboBox countryList = new ComboBox(FXCollections.observableArrayList("Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Barbados","Belarus","Belgium","Belize","Bosnia and Herzegovina","Brazil","Bulgaria","Canada","Cayman Islands","Chile","China","Colombia","Costa Rica","Cote d'Ivoire","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Ecuador","Egypt","Estonia","Finland","France","Georgia","Germany","Greece","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Japan","Kazakhstan","Latvia","Libya","Liechtenstein","Lithuania","Luxembourg","Macedonia","Malta","Mexico","Moldova","Monaco","Morocco","Netherlands","Netherlands Antilles","New Zealand","Norway","Poland","Portugal","Qatar","Romania","Russia","San Marino","Saudi Arabia","Serbia and Montenegro","Slovakia","Slovenia","Spain","South Korea","Suriname","Sweden","Switzerland","Tunisia","Turkey","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay"));
 
-        countryList.getSelectionModel().select(57);
+       
         countryList.setPromptText("Country");
-        countryList.setStyle("-fx-base:white");
+        countryList.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;\n"+
+                    "-fx-text-inner-color: #555555;"       
+        );
 
         Label contactDetails = new Label("Contact Details: ");
         contactDetails.setTextFill(Color.web("#333333"));
         TextField phonenrInput = new TextField();
         //contactDetails.setFont(OpenSans);
         phonenrInput.setPromptText("Phonenumber");
+        phonenrInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
 
         Label email = new Label("E-mail: ");
         email.setTextFill(Color.web("#333333"));
         TextField emailInput = new TextField();
         //email.setFont(OpenSans);
         emailInput.setPromptText("E-mail (optional)");
+        emailInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
         emailInput.setMaxWidth(400);
 
         Label bagLabel = new Label("Label number: ");
@@ -205,6 +305,13 @@ public class MissingForm extends GridPane {
         TextField labelInput = new TextField();
         //bagLabel.setFont(OpenSans);
         labelInput.setPromptText("Label number");
+        labelInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
         labelInput.setMaxWidth(120);
 
         Label flightNr = new Label("Flight number: ");
@@ -212,6 +319,13 @@ public class MissingForm extends GridPane {
         TextField flightInput = new TextField("CND");
         //flightNr.setFont(OpenSans);
         flightInput.setPromptText("Flight number");
+        flightInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
         flightInput.setMaxWidth(100);
 
         Label bagType = new Label("Luggage Type: ");
@@ -219,21 +333,40 @@ public class MissingForm extends GridPane {
         ComboBox typeInput = new ComboBox(FXCollections.observableArrayList("Carry-on", "Wheeled Luggage", "Suitcase", "Duffel Bag", "Water Container", "Other"));
         //bagLabel.setFont(OpenSans);
         typeInput.setPromptText("Luggage Type");
-        typeInput.setStyle("-fx-base:white");
+        typeInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
+        
 
         Label brandName = new Label("Brand name: ");
         brandName.setTextFill(Color.web("#333333"));
         ComboBox brandList = new ComboBox(FXCollections.observableArrayList("Samsonite", "American Tourister", "Princess", "Eastpak", "Delsey", "JanSport", "Pierre Cardin", "Rimowa", "Other", "Brandless", "Unknown"));
         //brandName.setFont(OpenSans);
         brandList.setPromptText("Brand name");
-        brandList.setStyle("-fx-base:white");
-
+        brandList.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
+        
         Label primaryColor = new Label("Primary Color: ");
         primaryColor.setTextFill(Color.web("#333333"));
         ComboBox priColorList = new ComboBox(FXCollections.observableArrayList("Black", "White", "Blue", "Red", "Silver", "Grey", "Green", "Yellow", "Purple", "Multicolor", "Other"));
         //primaryColor.setFont(OpenSans);
         priColorList.setPromptText("Primary Color");
-        priColorList.setStyle("-fx-base:white");
+        priColorList.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
 
         Label secondaryColor = new Label("Secondary Color (optional): ");
         secondaryColor.setTextFill(Color.web("#333333"));
@@ -241,25 +374,45 @@ public class MissingForm extends GridPane {
         //secondaryColor.setFont(OpenSans);
         secColorList.setPromptText("Secondary Color");
         secColorList.setStyle("-fx-base:white;");
+        secColorList.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
 
         Label birthDate = new Label("Date of Birth: ");
         birthDate.setTextFill(Color.web("#333333"));
         DatePicker datePick = new DatePicker();
+        datePick.setValue(LocalDate.now().minusYears(18));
         datePick.setShowWeekNumbers(false);
         Label dateSet = new Label("(MM-DD-YYYY)");
-
-        //dateSet.setFont(OpenSans);
         dateSet.setTextFill(Color.web("#D81E05"));
         datePick.setStyle("-fx-base:white;");
         datePick.setPromptText("Date of Birth");
+        datePick.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
+        
 
         Label moreInfo = new Label("Further Luggage Information: ");
         moreInfo.setTextFill(Color.web("#333333"));
         TextArea infoInput = new TextArea();
-        //moreInfo.setFont(OpenSans);
         infoInput.setPromptText("Further Luggage Information... (optional)");
         infoInput.setMaxWidth(240);
         infoInput.setMaxHeight(150);
+        infoInput.setStyle(
+            "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;"
+        );
 
         ProgressBar stepsForm = new ProgressBar();
         stepsForm.setProgress(0.33F);
@@ -271,9 +424,10 @@ public class MissingForm extends GridPane {
         this.setPadding(new Insets(50, 30, 50, 30));
 
         //onderdelen toevoegen
+        this.add(titleBox,1,0,18,1);
         this.add(title, 1, 0);
-        this.add(separator, 1, 1);
-        this.add(next, 8, 17);
+        
+        this.add(next, 8, 16);
         this.add(PassInfo, 1, 4, 2, 1);
         this.add(iata, 1, 3);
         this.add(iataSearch, 2, 3);
@@ -302,7 +456,7 @@ public class MissingForm extends GridPane {
         this.add(luggageInfo, 7, 3);
         this.add(bagLabel, 7, 4);
         this.add(labelInput, 8, 4);
-        this.add(labelCheck, 8, 5);
+        this.add(labelCheck, 8, 4,1,3);
         this.add(flightNr, 7, 6);
         this.add(flightInput, 8, 6);
         this.add(bagType, 7, 7);
@@ -314,9 +468,10 @@ public class MissingForm extends GridPane {
         this.add(secondaryColor, 7, 10);
         this.add(secColorList, 8, 10);
         this.add(moreInfo, 7, 11);
-        this.add(infoInput, 8, 11, 1, 6);
+        this.add(infoInput, 8, 11, 1, 4);
+        
 
-        this.setStyle("-fx-background-color: white");
+        this.setStyle("-fx-background-color: white;-fx-font-family: Open Sans");
 
         labelCheck.setOnAction((ActionEvent e) -> {
             checkLabel(primaryStage, labelInput.getText());
@@ -450,9 +605,9 @@ public class MissingForm extends GridPane {
         TableColumn secondaryColorCol = new TableColumn("Color 2");
         TableColumn infoCol = new TableColumn("Add. info");
         TableColumn customerIdCol = new TableColumn("Customer ID");
-        TableColumn statusCol = new TableColumn("status");
-        TableColumn dateCol = new TableColumn("date");
-        TableColumn timeCol = new TableColumn("time");
+        TableColumn statusCol = new TableColumn("Status");
+        TableColumn dateCol = new TableColumn("Date");
+        TableColumn timeCol = new TableColumn("Time");
 
         lostIdCol.setCellValueFactory(
                 new PropertyValueFactory<>("lostId"));
@@ -491,9 +646,9 @@ public class MissingForm extends GridPane {
         checkPopup.initOwner(primaryStage);
         HBox prompt = new HBox(20);
         VBox controls = new VBox(20);
-        controls.setPadding(new Insets(10, 10, 10, 10));
-        solve.setMinSize(70, 20);
-        solve.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 14; -fx-font-weight: bold;");
+        controls.setPadding(new Insets(5, 5,5,5));
+        solve.setMinSize(90, 30);
+        solve.setStyle("-fx-base:#56ad3e;-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;-fx-font-size: 20; -fx-font-weight: bold;");
         solve.setTextFill(Color.web("#ffffff"));
         solve.setText("Solve");
         cancel.setMinSize(70, 20);
@@ -505,7 +660,7 @@ public class MissingForm extends GridPane {
         controls.getChildren().addAll(solve, cancel);
         prompt.setPadding(new Insets(0, 0, 0, 0));
         prompt.getChildren().addAll(tableView, controls);
-        Scene dialogScene = new Scene(prompt, 600, 200);
+        Scene dialogScene = new Scene(prompt, 1200, 200);
         checkPopup.setScene(dialogScene);
         checkPopup.show();
 
@@ -540,4 +695,7 @@ public class MissingForm extends GridPane {
             
         }
     }
+    
+    
+
 }
