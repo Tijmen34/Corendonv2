@@ -6,17 +6,25 @@
 package corendon;
 
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -36,21 +44,34 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+import corendon.LuggageOverview;
+import corendon.Corendon;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 /**
  *
  * @author Zouhar Alladien
  */
 public class FoundForm extends GridPane{
-    
+       ResultSet rs = null;
+       PreparedStatement pst = null; 
+       Connection conn;
+       Statement stmt;
     
     // Constructor overriden kan niet, en een eigen constructor maken ipv de originele
     // maakt meer kapot dan je lief is, dus we schrijven een nieuwe methode om alle
     // elementen meteen aan het scherm toe te voegen.
     public void initScreen() {
+      CheckConnection();  
+       
+        
     //Formulier
         GridPane foundForm = new GridPane();
         Label foundTitle= new Label("Found Luggage form: ");
@@ -118,8 +139,6 @@ public class FoundForm extends GridPane{
         iataSearch.setMaxWidth(55);
         
         
-        
-        
         // Algemene informatie  
         Label date = new Label("Date: ");
         date.setTextFill(Color.web("#333333"));
@@ -142,7 +161,7 @@ public class FoundForm extends GridPane{
         TextField timeInput = new TextField ();
         //place.setFont(OpenSans);
         timeInput.setPromptText("00:00");
-        
+        timeInput.setMaxWidth(90);
 
         //Label
         Label bagLabel= new Label("Label number: ");
@@ -153,7 +172,7 @@ public class FoundForm extends GridPane{
         
         Label flightNr= new Label("Flight number: ");
         flightNr.setTextFill(Color.web("#333333"));
-        TextField flightInput = new TextField ();
+        TextField flightInput = new TextField ("CND");
         //flightNr.setFont(OpenSans);
         flightInput.setPromptText("Flight number");
         flightInput.setMaxWidth(400);
@@ -206,8 +225,7 @@ public class FoundForm extends GridPane{
         secColorList.setPromptText("Secondary Color");
         secColorList.setStyle("-fx-base:white;");
         
-        
-
+           
         
         Label moreInfo = new Label("Further Luggage Information: ");
         moreInfo.setTextFill(Color.web("#333333"));
@@ -243,7 +261,7 @@ public class FoundForm extends GridPane{
         this.add(airport,1,7);
         this.add(airportInput,2,7);
         //BAGAGELABEL
-        this.add(luggageLabelInfo, 1, 8,2,1);
+        this.add(luggageLabelInfo, 1, 8);
         this.add(bagLabel, 1, 9);
         this.add(labelInput, 2,9);
         this.add(flightNr, 1, 10);
@@ -265,7 +283,7 @@ public class FoundForm extends GridPane{
         this.add(secondaryColor,7,7);
         this.add(secColorList,8,7);
         this.add(moreInfo,7,8);
-        this.add(infoInput,8,8,1,3);
+        this.add(infoInput,8,8,1,6);
         
         
         
@@ -273,24 +291,70 @@ public class FoundForm extends GridPane{
        
         this.setStyle("-fx-background-color: white");
        
-//        Scene scene = new Scene(lostForm, 1350, 700);
-//        primaryStage.setTitle("Luggage - Lost Form");
-//        primaryStage.getIcons().add(new Image("Logo.png"));
-//        primaryStage.setScene(scene);
-//        this.setResizable(false);
-//        primaryStage.resizableProperty().setValue(Boolean.FALSE);
-//        primaryStage.show();
+
         
-        next.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                
+              next.setOnAction((ActionEvent e) -> {
+            PreparedStatement pst2 = null;
+                try {
+                    //vult tabel bagage
+                    String query = "INSERT INTO bagage"
+				+ "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, status, datum_bevestiging) VALUES"
+				+ "(?,?,?,?,?,?,?,'found',NOW())";
+                    //vult tabal klant
+                    String query2 = "INSERT INTO klant"
+				+ "(naam,achternaam, datum_bevestiging) VALUES"
+				+ "(?,?, NOW())";
+                    pst = conn.prepareStatement(query);
+                    pst.setString(1, labelInput.getText());
+                    pst.setString(2, flightInput.getText());
+                    pst.setString(3, iataSearch.getText());
+                    pst.setString(5, (String) brandList.getSelectionModel().getSelectedItem());
+                    pst.setString(6, (String) priColorList.getSelectionModel().getSelectedItem());
+                    pst.setString(7, (String) secColorList.getSelectionModel().getSelectedItem());
+                    pst.setString(4, (String) typeInput.getSelectionModel().getSelectedItem());
+                    
+                    pst2 = conn.prepareStatement(query2);
+               
+                    pst2.setString(2, firstNameInput.getText());
+                    pst2.setString(3, surnameInput.getText());
+                 
+
+                    pst.executeUpdate();
+                    pst2.executeUpdate();
+                    
+                    //alles ingevuld dit bericht
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Corendon - Luggage");
+                    alert.setHeaderText(null);
+                    alert.setContentText("done bro");
+                    alert.showAndWait();
+                    
+                    System.out.println("Information submitted.");
+                }
+                catch (Exception e1) {
+                    //als formulier informatie mist dan dit bericht
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setTitle("Corendon - Luggage");
+                    alert.setHeaderText(null);
+                    alert.setContentText("NO can do bro");
+                    alert.showAndWait();
+                    
+                System.out.println("SQL Error");
+                System.err.println(e1);
             }
-        });
+            });
+        }
         
         
         
+    
+
+        public void CheckConnection() {
+        conn = Sql.DbConnector();
+        if (conn == null) {
+            System.out.println("Connection lost.");
+            System.exit(1);
+        }
     }
 }
 
