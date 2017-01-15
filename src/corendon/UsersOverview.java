@@ -219,28 +219,36 @@ public class UsersOverview extends BorderPane {
                 prepS.setString(6, functionTX.getText());
 
                 prepS.executeUpdate();
-
+                if(usernameTX.getText().isEmpty()|| passwordTX.getText().isEmpty() || firstnameTX.getText().isEmpty()
+                        || surnameTX.getText().isEmpty() || functionTX.getText().isEmpty()){ 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Adding user");
                 alert.setHeaderText(null);
                 alert.setContentText("User added succesfully");
                 alert.showAndWait();
-            } catch (Exception e1) {
+            } else {
 
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Adding user");
-                alert.setHeaderText(null);
-                alert.setContentText("Some information is not filled in, please try again.");
-                alert.showAndWait();
+                Alert alert1 = new Alert(Alert.AlertType.WARNING);
+                alert1.setTitle("Adding user");
+                alert1.setHeaderText(null);
+                alert1.setContentText("Some information is not filled in, please try again.");
+                alert1.showAndWait();
+                adduserStage.close();
 
-                System.out.println("SQL Error");
+            }
+                                }
+                catch (Exception e1) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Corendon - Luggage");
+                    alert.setHeaderText(null);
+                    alert.setContentText("There is an error in the database, please try again later.");
+                    alert.showAndWait();
+                System.out.println("SQL ERROR");
                 System.err.println(e1);
-
+                    
             }
 
 
-        //zet de stage uit na maken van user
-        adduserStage.close();
         });
                     cancel.setOnAction((ActionEvent e) -> {
             adduserStage.close();
