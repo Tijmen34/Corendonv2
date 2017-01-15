@@ -22,6 +22,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -46,9 +47,6 @@ public class Statistics extends BorderPane {
     double valueMissing = 0.0;
     double valueSolved = 0.0;
 
-    TextField wut = new TextField();
-    Button get = new Button("get");
-    Button chartB = new Button("chart");
     Button submitDate = new Button("Retrieve");
     Label dateChoose = new Label("Select two dates to view statistics of all cases");
     Label label1 = new Label("From: ");
@@ -62,14 +60,7 @@ public class Statistics extends BorderPane {
     String date1Formatted;
     String date2Formatted;
     
-    LocalDate date1Unformatted = date1.getValue();
-    LocalDate date2Unformatted = date2.getValue();
-    
     public void getValues() {
-        
-        submitDate.setOnAction(e -> {
-            date1Formatted = formatter.format(date1Unformatted);
-            date2Formatted = formatter.format(date2Unformatted);
             
             try (Connection conn = Sql.DbConnector();) {
                 
@@ -86,34 +77,29 @@ public class Statistics extends BorderPane {
                 ResultSet rs = pst.executeQuery();
 
                 if (rs.next()) {
-                    
                     valueTotal = rs.getInt("total");
                     valueFound = rs.getInt("found");
                     valueMissing = rs.getInt("lost");
                     valueSolved = rs.getInt("solved");
-                    
-                    System.out.println(valueTotal + valueFound + valueMissing + valueSolved);
                 } 
                 
             } catch (Exception ex) {
                 ex.printStackTrace();
                 System.out.println("Error on Building Data");
             }
-            System.out.println(date1Formatted + date2Formatted);
-        });
-
-    }
-
-    public void statsInfo() {
-        submitDate.setOnAction(e -> {
-            vbox.getChildren().removeAll(dateChoose, label1, date1, label2, date2, submitDate);
-        });
     }
 
     public void initScreen(Stage primaryStage) {
-        statsInfo();
+        
         submitDate.setOnAction(e -> {
+            
+            LocalDate date1Unformatted = date1.getValue();
+            LocalDate date2Unformatted = date2.getValue();
+            date1Formatted = formatter.format(date1Unformatted);
+            date2Formatted = formatter.format(date2Unformatted);
+            
             getValues();
+            
             ObservableList<PieChart.Data> pieChartData
                     = FXCollections.observableArrayList(
                             new PieChart.Data("Total", valueTotal),
@@ -122,13 +108,13 @@ public class Statistics extends BorderPane {
                             new PieChart.Data("Solved", valueSolved));
 
             final PieChart chart = new PieChart(pieChartData);
-            chart.setTitle("Imported Fruits");
+            chart.setTitle("Lost & Found luggage statistics\nClick on a 'slice' to see amount");
             chart.setLabelLineLength(10);
             chart.setLegendSide(Side.LEFT);
-
+            
             final Label caption = new Label("");
-            caption.setTextFill(Color.WHITE);
-            caption.setStyle("-fx-font: 16px UniSansW01-LightItalic;");
+            caption.setTextFill(Color.BLACK);
+            caption.setStyle("-fx-font-weight: bold;");
 
             for (final PieChart.Data data : chart.getData()) {
                 data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED,
@@ -141,11 +127,8 @@ public class Statistics extends BorderPane {
                     }
                 });
             }
-
             this.setCenter(chart);
             this.setTop(caption);
-            this.setMaxSize(500, 500);
-            this.setMinSize(500, 500);
 
         });
 
