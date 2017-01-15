@@ -163,7 +163,7 @@ public class FoundForm extends GridPane{
         timeInput.setPromptText("00:00");
         timeInput.setMaxWidth(90);
 
-        //Label
+        //Label informatie
         Label bagLabel= new Label("Label number: ");
         bagLabel.setTextFill(Color.web("#333333"));
         TextField labelInput = new TextField ();
@@ -196,7 +196,7 @@ public class FoundForm extends GridPane{
         firstNameInput.setPromptText("firstname");
         firstNameInput.setMaxWidth(400);
         
-        //baggage
+        //baggage informatie
         Label bagType= new Label("Luggage Type: ");
         bagType.setTextFill(Color.web("#333333"));
         ComboBox typeInput = new ComboBox (FXCollections.observableArrayList("Carry-on", "Wheeled Luggage", "Suitcase", "Duffel Bag", "Water Container", "Other"));
@@ -294,16 +294,17 @@ public class FoundForm extends GridPane{
 
         
               next.setOnAction((ActionEvent e) -> {
-            PreparedStatement pst2 = null;
+            //PreparedStatement pst2 = null;
                 try {
                     //vult tabel bagage
                     String query = "INSERT INTO bagage"
-				+ "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, status, datum_bevestiging) VALUES"
-				+ "(?,?,?,?,?,?,?,'found',NOW())";
-                    //vult tabal klant
-                    String query2 = "INSERT INTO klant"
+				+ "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging, destination, naam_reiziger) VALUES"
+				+ "(?,?,?,?,?,?,?,?,'found',NOW(),?,?)";
+                    //vult tabel klant
+                   /* String query2 = "INSERT INTO klant"
 				+ "(naam, achternaam, datum_bevestiging) VALUES"
-				+ "(?, ? , NOW())";
+				+ "(?, ? , NOW())";*/
+                   //ingevulde text wordt hier opgenomen
                     pst = conn.prepareStatement(query);
                     pst.setString(1, labelInput.getText());
                     pst.setString(2, flightInput.getText());
@@ -312,31 +313,34 @@ public class FoundForm extends GridPane{
                     pst.setString(6, (String) priColorList.getSelectionModel().getSelectedItem());
                     pst.setString(7, (String) secColorList.getSelectionModel().getSelectedItem());
                     pst.setString(4, (String) typeInput.getSelectionModel().getSelectedItem());
+                    pst.setString(8, infoInput.getText());
+                    pst.setString(9, destinationInput.getText());
+                    pst.setString(10,firstNameInput.getText() + " " + surnameInput.getText());
                     
-                    pst2 = conn.prepareStatement(query2);
+                   // pst2 = conn.prepareStatement(query2);
                
-                    pst2.setString(1, firstNameInput.getText());
-                    pst2.setString(2, surnameInput.getText()); 
+                    //pst2.setString(1, firstNameInput.getText());
+                   // pst2.setString(2, surnameInput.getText()); 
                  
 
                     pst.executeUpdate();
-                    pst2.executeUpdate();
+                   // pst2.executeUpdate();
                     
                     //alles ingevuld dit bericht
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Corendon - Luggage");
                     alert.setHeaderText(null);
-                    alert.setContentText("done bro");
+                    alert.setContentText("Information successfully submitted.");
                     alert.showAndWait();
                     
-                    System.out.println("Information submitted.");
+                    System.out.println("Information successfully submitted.");
                 }
                 catch (Exception e1) {
                     //als formulier informatie mist dan dit bericht
                     Alert alert = new Alert(AlertType.WARNING);
                     alert.setTitle("Corendon - Luggage");
                     alert.setHeaderText(null);
-                    alert.setContentText("NO can do bro");
+                    alert.setContentText("Some information is not filled in");
                     alert.showAndWait();
                     
                 System.out.println("SQL Error");
