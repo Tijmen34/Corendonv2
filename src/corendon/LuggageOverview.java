@@ -72,6 +72,7 @@ public class LuggageOverview extends BorderPane {
     private ScrollPane tableScroll = new ScrollPane();
     private StackPane stickyBox = new StackPane();
     private HBox topBar = new HBox();
+    private HBox topBar2 = new HBox();
     private BorderPane border1 = new BorderPane();
 
     private Button selToStickyBtn = new Button("^^");
@@ -125,13 +126,21 @@ public class LuggageOverview extends BorderPane {
         //-------------------------------------------
         //Rode balk bovenin het scherm
         searchBar = new TextField();
+        Image corLogo = new Image("Corendon.png");
+        ImageView logo = new ImageView();
+        logo.setImage(corLogo);
+        logo.setFitWidth(300);
+        logo.setPreserveRatio(true);
+        logo.setSmooth(true);
+        
 
-        topBar.getChildren().addAll(tableStatus, searchBar, searchButton);
-        searchButton.setMinSize(20, 100);
+        topBar.getChildren().addAll(topBar2, tableStatus, searchBar, searchButton);
+        searchButton.setMinSize(20, 25);
         topBar.setSpacing(30);
         topBar.setMinHeight(50);
-        topBar.setAlignment(Pos.CENTER);
-        topBar.setStyle("-fx-background-color:#D81E05");
+        topBar.setAlignment(Pos.CENTER_LEFT);
+        topBar2.getChildren().addAll(logo);
+        topBar2.setAlignment(Pos.CENTER_RIGHT);
         // ------------------------------------------
 
         tableView4.setMinSize(1000, (22 * 24) + 26);
