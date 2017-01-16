@@ -66,6 +66,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+
 /**
  *
  * @author iS109 - 3
@@ -539,24 +540,24 @@ public class MissingForm extends GridPane {
                 pst.executeUpdate();
                 pst2.executeUpdate();
                 
-                                PDDocument pdf = new PDDocument();
-                PDPage pdfPage = new PDPage();
-                pdf.addPage(pdfPage);
-                PDFont font = PDType1Font.TIMES_ROMAN;
-                    PDPageContentStream contentStream = new PDPageContentStream(pdf, pdfPage);
-                    contentStream.beginText();
-                    contentStream.setFont(font, 12);
-                    contentStream.drawString("Hello World");
-                    contentStream.endText();
-
-
-                  contentStream.close();
-
-
-                   pdf.save("Missing.pdf");
-                   pdf.close();
-                   Desktop.getDesktop().open(new File("Missing.pdf"));
-                
+//                                PDDocument pdf = new PDDocument();
+//                PDPage pdfPage = new PDPage();
+//                pdf.addPage(pdfPage);
+//                PDFont font = PDType1Font.TIMES_ROMAN;
+//                    PDPageContentStream contentStream = new PDPageContentStream(pdf, pdfPage);
+//                    contentStream.beginText();
+//                    contentStream.setFont(font, 12);
+//                    contentStream.drawString("Hello World");
+//                    contentStream.endText();
+//
+//
+//                  contentStream.close();
+//
+//
+//                   pdf.save("Missing.pdf");
+//                   pdf.close();
+//                   Desktop.getDesktop().open(new File("Missing.pdf"));
+//                
                     
                 }
                 
