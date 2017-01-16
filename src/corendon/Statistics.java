@@ -205,8 +205,6 @@ public class Statistics extends BorderPane {
     public void addStats() {
 
         hbox1.getChildren().addAll(statinfo, chooseinfo, back);
-
-        
                 
         chooseinfo.setOnAction(e -> {
             
@@ -220,7 +218,6 @@ public class Statistics extends BorderPane {
                 this.setLeft(createChart());
                 this.setRight(createGraph());
             }
-            
         });
         
         back.setOnAction(e -> {

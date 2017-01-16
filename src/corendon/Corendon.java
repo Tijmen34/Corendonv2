@@ -3,7 +3,6 @@
  */
 package corendon;
 
-
 /*
  TODO:
 
@@ -18,6 +17,8 @@ Jeroen:
 Burak:
 - Statistics omzetten naar een chart/graph van gekozen jaar, ipv twee data (bijv. 01-01-2016 t/m 02-02-2016)
 - Nieuwe status delivered in chart zetten
+- Log in met rights
+- Help knop
 
 Zouhar:
 - Verwijderen van vernietigde bagage beschikbaar maken
