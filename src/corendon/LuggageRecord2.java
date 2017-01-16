@@ -16,6 +16,7 @@ public class LuggageRecord2 {
     private final SimpleStringProperty lostId;
     private final SimpleStringProperty labelNr;
     private final SimpleStringProperty flightNr;
+    private final SimpleStringProperty iata;
     private final SimpleStringProperty type;
     private final SimpleStringProperty brandName;
     private final SimpleStringProperty primaryColor;
@@ -27,12 +28,13 @@ public class LuggageRecord2 {
     private final SimpleStringProperty time;
     
 
-    public LuggageRecord2(String lostId, String labelNr, String flightNr,
+    public LuggageRecord2(String lostId, String labelNr, String flightNr, String iata,
             String type, String brandName, String primaryColor, String secondaryColor,
             String info, String customerId, String status, String date, String time) {
         this.lostId = new SimpleStringProperty(lostId);
         this.labelNr = new SimpleStringProperty(labelNr);
         this.flightNr = new SimpleStringProperty(flightNr);
+        this.iata = new SimpleStringProperty(iata);
         this.type = new SimpleStringProperty(type);
         this.brandName = new SimpleStringProperty(brandName);
         this.primaryColor = new SimpleStringProperty(primaryColor);
@@ -67,6 +69,14 @@ public class LuggageRecord2 {
 
     public void setFlightNr(String flightNr) {
         this.flightNr.set(flightNr);
+    }
+    
+    public String getIata() {
+        return iata.get();
+    }
+
+    public void setIata(String iata) {
+        this.iata.set(iata);
     }
     
     public String getType() {
@@ -143,13 +153,13 @@ public class LuggageRecord2 {
 
     @Override
     public String toString() {
-        return "LuggageRecord2{" + "lostId=" + lostId + ", labelNr=" + labelNr + ", flightNr=" + flightNr + ", type=" + type + ", brandName=" + brandName + ", primaryColor=" + primaryColor + ", secondaryColor=" + secondaryColor + ", info=" + info + ", customerId=" + customerId + ", status=" + status + '}';
+        return "LuggageRecord2{" + "lostId=" + lostId + ", labelNr=" + labelNr + ", flightNr=" + flightNr + ", iata=" + iata + ", type=" + type + ", brandName=" + brandName + ", primaryColor=" + primaryColor + ", secondaryColor=" + secondaryColor + ", info=" + info + ", customerId=" + customerId + ", status=" + status + '}';
     }
     
     public SimpleStringProperty[] toArray() {
         SimpleStringProperty[] properties = new SimpleStringProperty[]
                 {this.brandName, this.customerId, this.date, 
-                this.flightNr, this.info, this.labelNr,
+                this.flightNr, this.iata, this.info, this.labelNr,
                 this.lostId, this.primaryColor, this.secondaryColor,
                 this.status, this.time, this.type};
         return properties;

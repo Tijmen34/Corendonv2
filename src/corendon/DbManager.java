@@ -46,7 +46,7 @@ public class DbManager {
             data.clear();
             while (rs.next()) {
                 data.add(new LuggageRecord2(rs.getString("lost_id"),
-                        rs.getString("labelnr"), rs.getString("vlucht"),
+                        rs.getString("labelnr"), rs.getString("vlucht"), rs.getString("iata"),
                         rs.getString("lugType"), rs.getString("merk"),
                         rs.getString("PriKleur"), rs.getString("SecKleur"),
                         "", "", rs.getString("status"),
@@ -94,7 +94,7 @@ public class DbManager {
 
             while (rs.next()) {
                 data.add(new LuggageRecord2(rs.getString("lost_id"),
-                        rs.getString("labelnr"), rs.getString("vlucht"),
+                        rs.getString("labelnr"), rs.getString("vlucht"), rs.getString("iata"),
                         rs.getString("lugType"), rs.getString("merk"),
                         rs.getString("PriKleur"), rs.getString("SecKleur"),
                         "", "", rs.getString("status"),
@@ -113,6 +113,7 @@ public class DbManager {
         TableColumn lostIdCol = new TableColumn("Lost ID");
         TableColumn labelNrCol = new TableColumn("Label nr");
         TableColumn flightNrCol = new TableColumn("Flight nr");
+        TableColumn iataCol = new TableColumn("iata");
         TableColumn typeCol = new TableColumn("Type");
         TableColumn brandCol = new TableColumn("Brand Name");
         TableColumn primaryColorCol = new TableColumn("Color 1");
@@ -129,6 +130,8 @@ public class DbManager {
                 new PropertyValueFactory<>("labelNr"));
         flightNrCol.setCellValueFactory(
                 new PropertyValueFactory<>("flightNr"));
+        iataCol.setCellValueFactory(
+                new PropertyValueFactory<>("iata"));
         typeCol.setCellValueFactory(
                 new PropertyValueFactory<>("type"));
         brandCol.setCellValueFactory(
@@ -148,7 +151,7 @@ public class DbManager {
         timeCol.setCellValueFactory(
                 new PropertyValueFactory<>("time"));
 
-        tableView.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol,
+        tableView.getColumns().addAll(lostIdCol, labelNrCol, flightNrCol, iataCol,
                 typeCol, brandCol, primaryColorCol, secondaryColorCol, infoCol,
                 customerIdCol, statusCol, dateCol, timeCol);
 

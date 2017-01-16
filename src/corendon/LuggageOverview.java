@@ -41,6 +41,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.lang.Exception;
+import java.util.Calendar;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.EventType;
 import javafx.scene.layout.VBox;
@@ -156,12 +157,6 @@ public class LuggageOverview extends BorderPane {
             } else {
                 stickyData.add(searchResults.get(tableView4.getSelectionModel().getSelectedIndex()));
                 searchResults.remove(searchResults.get(tableView4.getSelectionModel().getSelectedIndex()));
-                for (LuggageRecord2 record : tableData) {
-                    if (record.getLostId().equals(tableView4.getSelectionModel().getSelectedItem().getLostId())) {
-                        tableData.remove(record);
-                    }
-                            
-                }
                 stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
                 tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
             }
@@ -228,11 +223,39 @@ public class LuggageOverview extends BorderPane {
                 && ((stickyData.get(0).getStatus().equals("lost") && stickyData.get(1).getStatus().equals("found"))
                 || (stickyData.get(0).getStatus().equals("found") && stickyData.get(1).getStatus().equals("lost")))) {
             try (Connection conn = Sql.DbConnector();) {
-                String SQL = "UPDATE bagage SET status = 'solved' WHERE lost_id = " + "'" + stickyData.get(0).getLostId() + "'" + " OR lost_id = " + "'" + stickyData.get(1).getLostId() + "'";
+                LuggageRecord2 found;
+                LuggageRecord2 lost;
+                if (stickyData.get(0).getStatus().equals("found")) {
+                    found = stickyData.get(0);
+                    lost =  stickyData.get(1);
+                } else {
+                    found = stickyData.get(1);
+                    lost =  stickyData.get(0);
+                }
+                
+                PreparedStatement pst;
+                String SQL = "INSERT INTO bagage"
+                        + "(lost_id, labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging) VALUES"
+                        + "(?,?,?,?,?,?,?,?,?,?,'solved',NOW())";
+                pst = conn.prepareStatement(SQL);
+                pst.setString(1, found.getLostId());
+                pst.setString(2, found.getLabelNr());
+                pst.setString(3, lost.getFlightNr());
+                pst.setString(4, found.getIata());
+                pst.setString(5, found.getType());
+                pst.setString(6, found.getBrandName());
+                pst.setString(7, found.getPrimaryColor());
+                pst.setString(8, found.getSecondaryColor());
+                pst.setString(9, found.getInfo());
+                pst.setString(10,lost.getCustomerId());
+                        //                LuggageRecord2 solvedCase = new LuggageRecord(found.getLostId(),
+                        //                        found.getLabelNr(), lost.getFlightNr(),
+                        //                        found.getType(), found.getBrandName(),
+                        //                        found.getPrimaryColor(), found.getSecondaryColor(),
+                        //                        found.getInfo(), lost.getCustomerId(), "solved", )
+                
                 System.out.println(SQL);
                 conn.createStatement().executeUpdate(SQL);
-                //stickyData.get(0).setStatus("solved");
-                //stickyData.get(1).setStatus("solved");
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error on Building Data");
