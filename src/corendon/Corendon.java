@@ -178,10 +178,16 @@ public class Corendon extends Application {
                             primaryStage.setTitle("Welcome");
                             primaryStage.show();
                             uname = usrField.getText();
-                            //als je inlogt als "admin", disable users tab
-                         //   if (usrField.getText().contains("admin")) {
-                          //      users.setDisable(true);
-                        //    }
+                            
+                            if (!(rs.getString("function").contains("admin"))) {
+                                users.setDisable(true);
+                                stats.setDisable(true);
+                                if ((rs.getString("function").contains("amgr"))) {
+                                    stats.setDisable(false);
+                                }
+                            }
+                            
+                            
                             
                         } else {
                             loginLabel.setText("Invalid username/password.");

@@ -7,8 +7,8 @@
 
 .tab-pane {
     -fx-background-color: white;
-    -fx-tab-min-width: 60px;
-    -fx-tab-max-width: 60px;
+    -fx-tab-min-width: 70px;
+    -fx-tab-max-width: 70px;
     -fx-tab-min-height: 65px;
     -fx-tab-max-height: 65px;
     -fx-background-insets: 0;
