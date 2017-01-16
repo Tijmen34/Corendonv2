@@ -55,9 +55,11 @@ public class Statistics extends BorderPane {
 
     Button submitDate = new Button("Retrieve");
     Button chooseinfo = new Button("Submit");
+    Button back = new Button("Go back");
     Label dateChoose = new Label("Select two dates to view statistics of all cases");
     Label label1 = new Label("From: ");
     Label label2 = new Label("To: ");
+    Label empty = new Label("");
     DatePicker date1 = new DatePicker();
     DatePicker date2 = new DatePicker();
     VBox vbox = new VBox();
@@ -68,7 +70,8 @@ public class Statistics extends BorderPane {
     String date1Formatted;
     String date2Formatted;
     ComboBox statinfo = new ComboBox(FXCollections.observableArrayList("Pie chart", "Graph", "Both"));
-
+    Stage primaryStage;
+    
     public void getValues() {
 
         try (Connection conn = Sql.DbConnector();) {
@@ -98,7 +101,7 @@ public class Statistics extends BorderPane {
         }
     }
 
-    public void createGraph() {
+    public LineChart createGraph() {
         //defining the axes
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
@@ -126,11 +129,13 @@ public class Statistics extends BorderPane {
         series.getData().add(new XYChart.Data(12, 25));
 
         lineChart.getData().add(series);
-        this.setRight(lineChart);
+        
+        return lineChart;
 
     }
 
-    public void createChart() {
+
+    public PieChart createChart() {
         ObservableList<PieChart.Data> pieChartData
                 = FXCollections.observableArrayList(
                         new PieChart.Data("Total", valueTotal),
@@ -160,8 +165,8 @@ public class Statistics extends BorderPane {
         }
         chart.setMaxSize(500, 500);
         chart.setMinSize(500, 500);
-        this.setCenter(chart);
         this.setTop(caption);
+        return chart;
     }
 
     public void initScreen(Stage primaryStage) {
@@ -173,12 +178,12 @@ public class Statistics extends BorderPane {
             date1Formatted = formatter.format(date1Unformatted);
             date2Formatted = formatter.format(date2Unformatted);
 
-            statinfo.getSelectionModel().select(1);
+            statinfo.getSelectionModel().select(0);
             getValues();
-            createChart();
+            this.setCenter(createChart());
             this.setBottom(hbox1);
         });
-        
+
         hbox.setStyle("-fx-background-color:#D81E05");
 
         this.setCenter(vbox);
@@ -198,22 +203,33 @@ public class Statistics extends BorderPane {
     }
 
     public void addStats() {
+
+        hbox1.getChildren().addAll(statinfo, chooseinfo, back);
+
         
-        hbox1.getChildren().addAll(statinfo, chooseinfo);
-        
+                
         chooseinfo.setOnAction(e -> {
-        
             
-            if (statinfo.getSelectionModel().getSelectedIndex() == 0) {
-                createChart();
-            } else if (statinfo.getSelectionModel().getSelectedIndex() == 1) {
-                createGraph();
-            } else if (statinfo.getSelectionModel().getSelectedIndex() == 2) {
-                createChart();
-                createGraph();
+                this.getChildren().removeAll(getCenter(), getRight(), getLeft());
+                
+            if (statinfo.getSelectionModel().getSelectedItem() == "Pie chart") {
+                this.setCenter(createChart());
+            } else if (statinfo.getSelectionModel().getSelectedItem() == "Graph") {
+                this.setCenter(createGraph());
+            } else if (statinfo.getSelectionModel().getSelectedItem() == "Both") {
+                this.setLeft(createChart());
+                this.setRight(createGraph());
             }
+            
         });
-                }
+        
+        back.setOnAction(e -> {
+            this.getChildren().clear();
+            hbox.getChildren().clear();
+            vbox.getChildren().clear();
+            hbox1.getChildren().clear();
+            this.initScreen(primaryStage);
+        });
+        
     }
-
-
+}
