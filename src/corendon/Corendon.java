@@ -38,6 +38,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -46,6 +47,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
@@ -60,6 +62,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 /**
@@ -73,6 +78,12 @@ public class Corendon extends Application {
     PreparedStatement pst = null;
     
     static String uname = "";
+    static String mail = "";
+    final String fieldStyle = "-fx-border-width: 1;\n" +
+            "-fx-border-radius: 5;\n" +
+            "-fx-border-color: #cccccc;\n" +
+            "-fx-background-color: #ffffff;"+
+                    "-fx-text-inner-color: #555555;";
     
     @Override
     public void start(Stage primaryStage) {
@@ -105,7 +116,7 @@ public class Corendon extends Application {
         UserSettings settingsContent = new UserSettings();
         settingsContent.initScreen(primaryStage);
         
-        Scene newscene = new Scene(tabScreen, 1200, 700, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven.
+        Scene newscene = new Scene(tabScreen, 1500, 800, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven.
         /*
          */
 
@@ -113,8 +124,7 @@ public class Corendon extends Application {
 
         //de knoppen op het login scherm
         Button login = new Button("Log in");
-        Button help = new Button("Help");
-
+        Hyperlink help = new Hyperlink("Help");
         //de fields voor username en password
         
         TextField usrField = new TextField();
@@ -236,7 +246,7 @@ public class Corendon extends Application {
         loginScreen.add(usrField, 1, 0, 2, 1);
         loginScreen.add(pwdField, 1, 1, 2, 1);
         loginScreen.add(login, 1, 3);
-        loginScreen.add(help, 2, 3);
+        loginScreen.add(help, 2,3);
         /*
          */
 
@@ -297,6 +307,82 @@ public class Corendon extends Application {
         setts.setContent(settingsContent);
         setts.setClosable(false);
         
+        
+        help.setOnAction((ActionEvent e) -> {
+            helpScreen(primaryStage);
+        });
+        
+    }   
+        
+
+    
+
+    public void helpScreen(Stage primaryStage) {
+        
+        
+        
+        GridPane helpPage = new GridPane();
+
+        Label forgotPassword = new Label("Forgot Password?");
+        forgotPassword.setTextFill(Color.web("#00bce2"));
+        forgotPassword.setStyle("-fx-font: 18px UniSansRegular");
+        TextField emailInput = new TextField();
+        emailInput.setStyle(fieldStyle);
+        Button passwordReset = new Button("Request Password Request");
+        emailInput.setPromptText("Fill your E-mail here");
+        passwordReset.setStyle(";-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;");
+        Label statusRequest = new Label();
+        Label emailLabel = new Label("E-mail: ");
+        emailLabel.setStyle("-fx-text-fill:#D81E05");
+        
+        helpPage.setStyle("-fx-background-color:white");
+        helpPage.setHgap(15);
+        helpPage.setVgap(15);
+        helpPage.setPadding(new Insets(10, 5, 10, 5));
+
+        helpPage.add(forgotPassword, 1, 0,5,1);
+        helpPage.add(passwordReset, 1, 5,7,1);
+        helpPage.add(emailLabel,1,3);
+        helpPage.add(emailInput, 2,3,5,1);
+        helpPage.add(statusRequest, 1, 6,7,1);
+        
+        
+        Scene helpScreen = new Scene(helpPage, 350, 350);
+        primaryStage.setTitle("Login Help");
+        primaryStage.setScene(helpScreen);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+        
+        
+        passwordReset.setOnAction(e -> {
+            PreparedStatement pst2 = null;
+            try {
+                String query = "select * from users where Email=?";
+                
+                pst = conn.prepareStatement(query);
+                pst.setString(1, emailInput.getText());
+                rs = pst.executeQuery();
+
+                if (rs.next()) {
+                    String query1 = "insert into users (lost_password) values (1)";
+                    
+                    pst2 = conn.prepareStatement(query1);
+                    mail = emailInput.getText();
+                    statusRequest.setText("An e-mail has been send for a password reset.");
+                    pst2.executeUpdate();
+                } else {
+                    statusRequest.setText("E-mail address is not found in the database.");
+                }
+                
+
+                emailInput.clear();
+                pst.close();
+                rs.close();
+
+            } catch (Exception e1) {
+                System.err.println(e1);
+            }
+        });
 //        luggage.getGraphic().setOnMouseClicked(e -> {
 //            luggageContent.getRecordsFromDB();
 //            //System.out.println("bam jonge");
