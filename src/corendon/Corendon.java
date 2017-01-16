@@ -233,7 +233,6 @@ public class Corendon extends Application {
         });
 
         /*
-        Jeroen wats dit kil
          */
         loginScreen.setHgap(15);
         loginScreen.setVgap(15);
@@ -323,10 +322,8 @@ public class Corendon extends Application {
 
     public void helpScreen(Stage primaryStage) {
         
-        
-        
         GridPane helpPage = new GridPane();
-
+        Button back = new Button("<- Back ");
         Label forgotPassword = new Label("Forgot Password?");
         forgotPassword.setTextFill(Color.web("#00bce2"));
         forgotPassword.setStyle("-fx-font: 18px UniSansRegular");
@@ -339,9 +336,9 @@ public class Corendon extends Application {
         Label emailLabel = new Label("E-mail: ");
         emailLabel.setStyle("-fx-text-fill:#D81E05");
         
-        
-       
-        
+        back.setOnAction(e-> {
+            start(primaryStage);
+        });
         
         helpPage.setStyle("-fx-background-color:white");
         helpPage.setHgap(15);
@@ -353,6 +350,7 @@ public class Corendon extends Application {
         helpPage.add(emailLabel,1,3);
         helpPage.add(emailInput, 2,3,5,1);
         helpPage.add(statusRequest, 1, 6,7,1);
+        helpPage.add(back, 1, 7,8,1);
         
         
         
