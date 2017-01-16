@@ -88,8 +88,8 @@ private DbManager dbManager;
 
         // ------------------------------------------
 
-        tableView4.setMinSize(1115, (25 * 24) + 26);
-        tableView4.setMaxSize(1115, (25 * 24) + 26);
+        tableView4.setMinSize(1300, (25 * 24) + 26);
+        tableView4.setMaxSize(1300, (25 * 24) + 26);
 
 
         //tabellen vullen

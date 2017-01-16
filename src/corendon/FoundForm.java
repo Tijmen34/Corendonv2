@@ -308,7 +308,7 @@ public class FoundForm extends GridPane{
         this.setPadding(new Insets(50, 30, 50, 30));
         
         //ONDERDELEN TOEVOEGEN
-        this.add(hbox,0,0,16,1);
+        this.add(hbox,17, 0);
         this.add(title,1,1,2,1);
         this.add(titleBox,1,1,18,1);
         //this.add(separator, 1, 1);

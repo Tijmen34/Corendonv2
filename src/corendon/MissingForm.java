@@ -448,7 +448,7 @@ public class MissingForm extends GridPane {
         this.add(contactDetails, 1, 14);
         this.add(phonenrInput, 2, 14);
         this.add(emailInput, 3, 14);
-        this.add(separator1, 5, 3, 10, 15);
+        this.add(separator1, 5, 2, 10, 15);
         this.add(luggageInfo, 7, 4);
         this.add(bagLabel, 7, 5);
         this.add(labelInput, 9, 5);
