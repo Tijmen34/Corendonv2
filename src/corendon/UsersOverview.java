@@ -147,6 +147,7 @@ public class UsersOverview extends BorderPane {
         Label firstnameLB = new Label("First name:    ");
         Label tussenLB = new Label("Prefix:    ");
         Label surnameLB = new Label("Surname:   ");
+        Label emailLB = new Label ("Email:    ");
         Label functionLB = new Label("Function:    ");
 
 
@@ -162,8 +163,11 @@ public class UsersOverview extends BorderPane {
                 tussenTX.setPromptText("Prefix");
         TextField surnameTX = new TextField();
                 surnameTX.setPromptText("Surname");
+        TextField emailTX = new TextField();
+                emailTX.setPromptText("Email");
         TextField functionTX = new TextField();
                 functionTX.setPromptText("Function");
+
 
         final Stage adduserStage = new Stage();
         adduserStage.initModality(Modality.APPLICATION_MODAL);
@@ -208,7 +212,7 @@ public class UsersOverview extends BorderPane {
                 primaryStage.setTitle("Adding user");
 
                 String query = "insert into users"
-                        + "(username, password, firstname, tussenvoegsel, surname, function) VALUES"
+                        + "(username, password, firstname, tussenvoegsel, surname, email,  function) VALUES"
                         + "(?, ?, ?, ?, ?, ?)";
                 prepS = conn.prepareStatement(query);
                 prepS.setString(1, usernameTX.getText());
@@ -263,10 +267,13 @@ public class UsersOverview extends BorderPane {
 
     //onuitgewerkte refreshknop
     public void updateData() {
-        tableView4.getItems().clear();
-
-        for (int i = 0; i < this.data.size(); i++) {
-            this.tableData.add(this.data.get(i));
+        for ( int i = 0; i<tableView4.getItems().size(); i++) {
+    tableView4.getItems().clear();
+    
+}
+tableData.clear();
+       for (int i = 0; i < this.data.size(); i++) {
+           this.tableData.add(this.data.get(i));
         }
 
     }
@@ -285,9 +292,10 @@ public class UsersOverview extends BorderPane {
 
                 try (Connection conn = Sql.DbConnector();) {
 
-                    String query = "delete from users where user_id = ?";
+                    String query = "delete from users where user_id = ? and username = ?";
                     prepS = conn.prepareStatement(query);
                     prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getUser_id());
+                    prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getUsername());
                     prepS.executeUpdate();
 
                 } catch (Exception e1) {

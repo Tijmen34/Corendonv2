@@ -83,6 +83,7 @@ public class MissingForm extends GridPane {
             "-fx-border-color: #cccccc;\n" +
             "-fx-background-color: #ffffff;"+
                     "-fx-text-inner-color: #555555;";
+    
       
     
 
@@ -171,11 +172,26 @@ public class MissingForm extends GridPane {
 
         // Informatie plek van invullen
         Label iata = new Label("Airport IATA: ");
-        //iata.setFont(OpenSans);
         TextField iataSearch = new TextField();
         iataSearch.setPromptText("IATA");
         iataSearch.setMaxWidth(55);
         iataSearch.setStyle(fieldStyle);
+        final int IATALIMIT = 3;
+        
+        iataSearch.textProperty().addListener(new ChangeListener<String>() {
+        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+            if (iataSearch.getText().length() > IATALIMIT) {
+                String s = iataSearch.getText().substring(0, IATALIMIT);
+                iataSearch.setText(s);
+            }
+        }
+    });
+        
+        
+        
+        Label blank = new Label("");
+        
+        
         
         
         // Informatie passagier
@@ -201,6 +217,16 @@ public class MissingForm extends GridPane {
         prefixInput.setPromptText("Prefix");
         prefixInput.setMaxWidth(90);
         prefixInput.setStyle(fieldStyle);
+        
+        final int PREFIXLIMIT = 10;
+        prefixInput.textProperty().addListener(new ChangeListener<String>() {
+        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+            if (prefixInput.getText().length() > PREFIXLIMIT) {
+                String s = prefixInput.getText().substring(0, PREFIXLIMIT);
+                prefixInput.setText(s);
+            }
+        }
+    });
 
         Label address = new Label("Address: ");
         address.setTextFill(Color.web("#333333"));
@@ -212,6 +238,16 @@ public class MissingForm extends GridPane {
         hnumberInput.setPromptText("Housenr.");
         hnumberInput.setStyle(fieldStyle);
         hnumberInput.setMaxWidth(90);
+        
+        final int HNUMBERLIMIT = 6;
+        hnumberInput.textProperty().addListener(new ChangeListener<String>() {
+        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+            if (hnumberInput.getText().length() > HNUMBERLIMIT) {
+                String s = hnumberInput.getText().substring(0, HNUMBERLIMIT);
+                hnumberInput.setText(s);
+            }
+        }
+    });
 
         Label place = new Label("Town/Place: ");
         place.setTextFill(Color.web("#333333"));
@@ -227,6 +263,18 @@ public class MissingForm extends GridPane {
         //zipcode.setFont(OpenSans);
         zipcodeInput.setPromptText("Zipcode");
         zipcodeInput.setStyle(fieldStyle);
+        
+        final int ZIPCODELIMIT = 7;
+        
+        zipcodeInput.textProperty().addListener(new ChangeListener<String>() {
+        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+            if (zipcodeInput.getText().length() > ZIPCODELIMIT) {
+                String s = zipcodeInput.getText().substring(0, ZIPCODELIMIT);
+                zipcodeInput.setText(s);
+            }
+        }
+    });
+        
 
         Label country = new Label("Country: ");
         country.setTextFill(Color.web("#333333"));
@@ -242,6 +290,16 @@ public class MissingForm extends GridPane {
         //contactDetails.setFont(OpenSans);
         phonenrInput.setPromptText("Phonenumber");
         phonenrInput.setStyle(fieldStyle);
+        
+        final int PHONELIMIT = 20;
+        phonenrInput.textProperty().addListener(new ChangeListener<String>() {
+        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+            if (phonenrInput.getText().length() > PHONELIMIT) {
+                String s = phonenrInput.getText().substring(0, PHONELIMIT);
+                phonenrInput.setText(s);
+            }
+        }
+    });
 
         
         TextField emailInput = new TextField();
@@ -257,6 +315,16 @@ public class MissingForm extends GridPane {
         labelInput.setPromptText("Label number");
         labelInput.setStyle(fieldStyle);
         labelInput.setMaxWidth(120);
+        
+        final int LABELLIMIT = 10;
+        labelInput.textProperty().addListener(new ChangeListener<String>() {
+        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+            if (labelInput.getText().length() > LABELLIMIT) {
+                String s = labelInput.getText().substring(0, LABELLIMIT);
+                labelInput.setText(s);
+            }
+        }
+    });
 
         Label flightNr = new Label("Flight number: ");
         flightNr.setTextFill(Color.web("#333333"));
@@ -265,6 +333,16 @@ public class MissingForm extends GridPane {
         flightInput.setPromptText("Flight number");
         flightInput.setStyle(fieldStyle);
         flightInput.setMaxWidth(100);
+        
+        final int FLIGHTLIMIT = 7;
+        flightInput.textProperty().addListener(new ChangeListener<String>() {
+        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+            if (flightInput.getText().length() > FLIGHTLIMIT) {
+                String s = flightInput.getText().substring(0, FLIGHTLIMIT);
+                flightInput.setText(s);
+            }
+        }
+    });
 
         Label bagType = new Label("Luggage Type: ");
         bagType.setTextFill(Color.web("#333333"));
@@ -315,21 +393,29 @@ public class MissingForm extends GridPane {
         infoInput.setMaxWidth(240);
         infoInput.setMaxHeight(150);
         infoInput.setStyle("");
-        ProgressBar stepsForm = new ProgressBar();
-        stepsForm.setProgress(0.33F);
-        stepsForm.setStyle("-fx-background-color:transparent;-fx-accent: #00bce2;");
-        stepsForm.setPrefWidth(300);
         
+        final int INFOLIMIT = 100;
+        
+        infoInput.textProperty().addListener(new ChangeListener<String>() {
+        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+            if (infoInput.getText().length() > INFOLIMIT) {
+                String s = infoInput.getText().substring(0, INFOLIMIT);
+                infoInput.setText(s);
+            }
+        }
+    });
+       
 
         this.setHgap(15);
         this.setVgap(15);
         this.setPadding(new Insets(30, 30, 30, 30));
+        this.add(blank,8,1);
 
         //onderdelen toevoegen
         this.add(hbox,0,0,16,1);
         this.add(titleBox,1,1,18,1);
         this.add(title, 1, 1,1,1);
-        this.add(next, 9, 17);
+        this.add(next, 8, 17);
         this.add(PassInfo, 1, 5, 2, 1);
         this.add(iata, 1, 4);
         this.add(iataSearch, 2, 4);
@@ -598,6 +684,7 @@ public class MissingForm extends GridPane {
             
         }
     }
+    
     
     
 

@@ -71,7 +71,7 @@ public class DbManager {
                 data.add(new UserRecord(rs.getString("user_id"), rs.getString("username"),
                         rs.getString("password"), rs.getString("firstname"),
                         rs.getString("tussenvoegsel"), rs.getString("surname"),
-                        rs.getString("function")));
+                        rs.getString("email"), rs.getString("function")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -165,6 +165,7 @@ public class DbManager {
         TableColumn firstnameCol = new TableColumn("First name");
         TableColumn tussenvoegselCol = new TableColumn("Tussenvoegsel");
         TableColumn surnameCol = new TableColumn("Surname");
+        TableColumn emailCol = new TableColumn("Email");
         TableColumn functionCol = new TableColumn("Function");
 
         //table colommen klaarmaken voor gebruik
@@ -180,6 +181,8 @@ public class DbManager {
                 new PropertyValueFactory<>("tussenvoegsel"));
         surnameCol.setCellValueFactory(
                 new PropertyValueFactory<>("surname"));
+        emailCol.setCellValueFactory(
+                new PropertyValueFactory<>("email"));
         functionCol.setCellValueFactory(
                 new PropertyValueFactory<>("function"));
 
