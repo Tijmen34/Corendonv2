@@ -107,6 +107,12 @@ public class UsersOverview extends BorderPane {
         scroll2.setMaxSize(1000,800);
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
         refresh.setOnAction((ActionEvent e) -> {
+            for ( int i = 0; i<tableView4.getItems().size(); i++) {
+    tableView4.getItems().clear();
+    
+}
+        data.clear();
+        tableData.clear();
             updateData();
         });
         
@@ -270,15 +276,15 @@ public class UsersOverview extends BorderPane {
 
     //onuitgewerkte refreshknop
     public void updateData() {
-        for ( int i = 0; i<tableView4.getItems().size(); i++) {
-    tableView4.getItems().clear();
-    
-}
-tableData.clear();
+        
+
+        data = dbManager.getUserListFromDB();
        for (int i = 0; i < this.data.size(); i++) {
            this.tableData.add(this.data.get(i));
-        }
+       }
+               tableView4.setItems(this.tableData);
 
+       
     }
 
     public void deletePerson() {
@@ -290,17 +296,17 @@ tableData.clear();
             alert.showAndWait();
 
             if (alert.getResult() == ButtonType.YES) {
-                tableView4.getItems().remove(selectedIndex);
                 PreparedStatement prepS = null;
 
                 try (Connection conn = Sql.DbConnector();) {
 
                     String query = "delete from users where user_id = ?";
                     prepS = conn.prepareStatement(query);
-                    prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getUser_id());
-                    //prepS.setString(2, tableView4.getSelectionModel().getSelectedItem().getUsername());
+                   prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getUser_id());
+                    //prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getUsername());
                     prepS.executeUpdate();
-
+                    System.out.println(tableView4.getSelectionModel().getSelectedItem().getUser_id());
+                    tableView4.getItems().remove(selectedIndex);
                 } catch (Exception e1) {
                     System.out.println("SQL ERROR");
                     System.err.println(e1);
