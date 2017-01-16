@@ -570,7 +570,7 @@ public class MissingForm extends GridPane {
                 System.out.println("test 1: " + rs.getString("lost_id"));
                 //if (rs.getString("lost_id").equals(labelnr)) {
                 this.luggageData.add(new LuggageRecord2(rs.getString("lost_id"),
-                        rs.getString("labelnr"), rs.getString("vlucht"),
+                        rs.getString("labelnr"), rs.getString("vlucht"), rs.getString("iata"),
                         rs.getString("lugType"), rs.getString("merk"),
                         rs.getString("PriKleur"), rs.getString("SecKleur"),
                         "", "", rs.getString("status"),
