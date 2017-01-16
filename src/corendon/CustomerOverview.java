@@ -17,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -44,11 +46,12 @@ private DbManager dbManager;
     private VBox controlBox = new VBox();
     private ScrollPane tableScroll = new ScrollPane();
     private StackPane stickyBox = new StackPane();
-    private HBox topBar = new HBox();
+    private HBox topBar1 = new HBox();
+    private HBox topBar2 = new HBox();
     private BorderPane border1 = new BorderPane();
 
-    private Button selToStickyBtn = new Button("^^");
-    private Button selUnStickyBtn = new Button("vv");
+    private Button selToStickyBtn = new Button("Sticky");
+    private Button selUnStickyBtn = new Button("Unsticky");
 
     private Button back = new Button("back");
     private Button searchButton = new Button("search");
@@ -72,17 +75,20 @@ private DbManager dbManager;
         /*
         hierarchie:
                       LuggageOverview
-        border1,                        topBar
+        border1,                        topBar1
         tableSticky2,scroll2
                       table3
         
          */
-        this.setTop(topBar);
+ 
+
+        this.setTop(topBar1);
         this.setRight(controlBox);
         this.setCenter(border1);
-        border1.setTop(stickyBox);
         stickyBox.getChildren().add(tableViewSticky3);
-        border1.setCenter(tableView4);
+        border1.setTop(stickyBox);
+        stickyBox.setAlignment(Pos.CENTER_LEFT);
+        border1.setLeft(tableView4);
 
         //-------------------------------------------
         //balk met controls voor tabel rechts
@@ -92,13 +98,25 @@ private DbManager dbManager;
         //-------------------------------------------
         //Rode balk bovenin het scherm
         searchBar = new TextField();
+        Image corLogo = new Image("Corendon.png");
+        ImageView logo = new ImageView();
+        logo.setImage(corLogo);
+        logo.setFitWidth(300);
+        logo.setPreserveRatio(true);
+        logo.setSmooth(true);
+        
+        
 
-        topBar.getChildren().addAll(tableStatus, searchBar, searchButton);
-        searchButton.setMinSize(20, 100);
-        topBar.setSpacing(30);
-        topBar.setMinHeight(50);
-        topBar.setAlignment(Pos.CENTER);
-        topBar.setStyle("-fx-background-color:#D81E05");
+
+
+        topBar1.getChildren().addAll(topBar2, tableStatus, searchBar, searchButton);
+        searchButton.setMinSize(20, 25);
+        topBar1.setSpacing(30);
+        topBar1.setMinHeight(50);
+        topBar1.setAlignment(Pos.CENTER_LEFT);
+        topBar2.getChildren().addAll(logo);
+        topBar2.setAlignment(Pos.CENTER_RIGHT);
+
         // ------------------------------------------
 
         tableView4.setMinSize(1000, (22 * 24) + 26);
@@ -106,9 +124,9 @@ private DbManager dbManager;
 
         //-------------------------------------------
         //Sticky Tabel
-        tableViewSticky3.setMinSize(1000, 24 + 26);
-        tableViewSticky3.setPrefSize(1000, 24 + 26);
-        tableViewSticky3.setMaxWidth(1000);
+        tableViewSticky3.setMinSize(1025, 24 + 26);
+        tableViewSticky3.setPrefSize(1025, 24 + 26);
+        tableViewSticky3.setMaxWidth(1025);
         //--------------------------------------------
         //test record
 //        LuggageRecord2 testRecord = new LuggageRecord2("0001", "3R5F2", "MH370",
@@ -156,7 +174,7 @@ private DbManager dbManager;
             isShowingSearch = true;
             searchItems();
             tableStatus.setText("Search Results:");
-            topBar.getChildren().add(back);
+            topBar1.getChildren().add(back);
         });
 
         back.setOnAction((ActionEvent e) -> {
@@ -164,7 +182,7 @@ private DbManager dbManager;
             tableView4.setItems(tableData);
             tableData.removeAll(stickyData);
             tableStatus.setText("Overview:");
-            topBar.getChildren().setAll(tableStatus, searchBar, searchButton);
+            topBar1.getChildren().setAll(tableStatus, searchBar, searchButton);
         });
     }
 
