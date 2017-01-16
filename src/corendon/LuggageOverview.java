@@ -196,6 +196,7 @@ public class LuggageOverview extends BorderPane {
         back.setOnAction((ActionEvent e) -> {
             isShowingSearch = false;
             tableView4.setItems(tableData);
+            tableData.removeAll(stickyData);
             tableStatus.setText("Overview:");
             topBar.getChildren().setAll(tableStatus, searchBar, searchButton);
         });
