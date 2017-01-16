@@ -41,15 +41,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.lang.Exception;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.EventType;
 import javafx.scene.layout.VBox;
 
 /**
  *
- * @author Jeroen de Jong
+ * @author iS109-3
  */
 public class LuggageOverview extends BorderPane {
-    
+
     private DbManager dbManager;
 
     private ObservableList<LuggageRecord2> data
@@ -58,6 +59,11 @@ public class LuggageOverview extends BorderPane {
             = FXCollections.observableArrayList();
     private ObservableList<LuggageRecord2> stickyData
             = FXCollections.observableArrayList();
+    private ObservableList<LuggageRecord2> searchResults
+            = FXCollections.observableArrayList();
+
+    private TableView<LuggageRecord2> tableViewSticky3;
+    private TableView<LuggageRecord2> tableView4;
 
     private VBox controlBox = new VBox();
     private ScrollPane tableScroll = new ScrollPane();
@@ -68,20 +74,26 @@ public class LuggageOverview extends BorderPane {
     private Button selToStickyBtn = new Button("^^");
     private Button selUnStickyBtn = new Button("vv");
     private Button stickyMatchBtn = new Button("Match!");
-    
+
+    private Button back = new Button("back");
+    private Button searchButton = new Button("search");
+    private TextField searchBar = new TextField();
+    private Label tableStatus = new Label("Overview:");
+
+    private boolean isShowingSearch;
 
     public void initScreen() {
         dbManager = new DbManager();
         this.data = dbManager.getLuggageListFromDB();
-        //getRecordsFromDB();
         for (int i = 0; i < data.size(); i++) {
             tableData.add(data.get(i));
         }
 
-        //ScrollPane scroll2 = new ScrollPane();
-        final TableView<LuggageRecord2> tableViewSticky3 = dbManager.createLuggageTable();
-        final TableView<LuggageRecord2> tableView4 = dbManager.createLuggageTable();
+        tableView4 = dbManager.createLuggageTable();
+        tableViewSticky3 = dbManager.createLuggageTable();
+        isShowingSearch = false;
 
+        //ScrollPane scroll2 = new ScrollPane();
         /*
         hierarchie:
                       LuggageOverview
@@ -104,24 +116,21 @@ public class LuggageOverview extends BorderPane {
 
         //-------------------------------------------
         //Rode balk bovenin het scherm
-        TextField searchBar = new TextField();
-        Button searchButton = new Button();
+        searchBar = new TextField();
 
-        topBar.getChildren().addAll(searchBar, searchButton);
+        topBar.getChildren().addAll(tableStatus, searchBar, searchButton);
+        searchButton.setMinSize(20, 100);
         topBar.setSpacing(30);
         topBar.setMinHeight(50);
         topBar.setAlignment(Pos.CENTER);
         topBar.setStyle("-fx-background-color:#D81E05");
         // ------------------------------------------
 
-
-        tableView4.setMinSize(1000, (30 * 24) + 26);
-        tableView4.setMaxSize(1000, (30 * 24) + 26);
-
+        tableView4.setMinSize(1000, (22 * 24) + 26);
+        tableView4.setMaxSize(1000, (22 * 24) + 26);
 
         //-------------------------------------------
         //Sticky Tabel
-        
         tableViewSticky3.setMinSize(1000, 24 + 26);
         tableViewSticky3.setPrefSize(1000, 24 + 26);
         tableViewSticky3.setMaxWidth(1000);
@@ -139,38 +148,90 @@ public class LuggageOverview extends BorderPane {
 
         //Buttons functioneel
         selToStickyBtn.setOnAction((ActionEvent e) -> {
-
-            stickyData.add(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
-            tableData.remove(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
-            stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
-            tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
-
+            if (isShowingSearch == false) {
+                stickyData.add(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
+                tableData.remove(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
+                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
+            } else {
+                stickyData.add(searchResults.get(tableView4.getSelectionModel().getSelectedIndex()));
+                searchResults.remove(searchResults.get(tableView4.getSelectionModel().getSelectedIndex()));
+                for (LuggageRecord2 record : tableData) {
+                    if (record.getLostId().equals(tableView4.getSelectionModel().getSelectedItem().getLostId())) {
+                        tableData.remove(record);
+                    }
+                            
+                }
+                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
+            }
         });
 
         selUnStickyBtn.setOnAction((ActionEvent e) -> {
-
-            tableData.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
-            stickyData.remove(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
-            stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
-            tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
-
+            if (isShowingSearch == false) {
+                tableData.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
+                stickyData.remove(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
+                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
+            } else {
+                searchResults.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
+                tableData.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
+                stickyData.remove(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
+                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
+            }
         });
 
         stickyMatchBtn.setOnAction((ActionEvent e) -> {
             solveStickyItems();
         });
+
+        searchButton.setOnAction((ActionEvent e) -> {
+            isShowingSearch = true;
+            searchItems();
+            tableStatus.setText("Search Results:");
+            topBar.getChildren().add(back);
+        });
+
+        back.setOnAction((ActionEvent e) -> {
+            isShowingSearch = false;
+            tableView4.setItems(tableData);
+            tableStatus.setText("Overview:");
+            topBar.getChildren().setAll(tableStatus, searchBar, searchButton);
+        });
+    }
+
+    public void searchItems() {
+        searchResults.clear();
+        String keyword = searchBar.getText();
+        for (LuggageRecord2 record : tableData) {
+            SimpleStringProperty[] properties = record.toArray();
+            boolean relevance = false;
+            for (int i = 0; i < properties.length; i++) {
+                if (keyword.equals(properties[i].getValueSafe())) {
+                    relevance = true;
+                }
+                System.out.println(properties[i].toString());
+                System.out.println(relevance);
+            }
+            if (relevance == true) {
+                searchResults.add(record);
+            }
+        }
+        tableView4.setItems(searchResults);
+        System.out.println(searchResults.toString());
     }
 
     public void solveStickyItems() {
-        if  ((this.stickyData.size() == 2) && 
-                ((stickyData.get(0).getStatus().equals("lost") && stickyData.get(1).getStatus().equals("found")) ||
-                (stickyData.get(0).getStatus().equals("found") && stickyData.get(1).getStatus().equals("lost")))) {
+        if ((this.stickyData.size() == 2)
+                && ((stickyData.get(0).getStatus().equals("lost") && stickyData.get(1).getStatus().equals("found"))
+                || (stickyData.get(0).getStatus().equals("found") && stickyData.get(1).getStatus().equals("lost")))) {
             try (Connection conn = Sql.DbConnector();) {
                 String SQL = "UPDATE bagage SET status = 'solved' WHERE lost_id = " + "'" + stickyData.get(0).getLostId() + "'" + " OR lost_id = " + "'" + stickyData.get(1).getLostId() + "'";
                 System.out.println(SQL);
                 conn.createStatement().executeUpdate(SQL);
-                stickyData.get(0).setStatus("solved");
-                stickyData.get(1).setStatus("solved");
+                //stickyData.get(0).setStatus("solved");
+                //stickyData.get(1).setStatus("solved");
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error on Building Data");
@@ -178,64 +239,21 @@ public class LuggageOverview extends BorderPane {
             this.data.clear();
             this.tableData.clear();
             this.stickyData.clear();
-            this.getRecordsFromDB();
+            this.data = dbManager.getLuggageListFromDB();
             for (int i = 0; i < data.size(); i++) {
                 tableData.add(data.get(i));
             }
-        } else 
-        {
+        } else {
             System.out.println("Neem 1 gevonden en 1 vermist bagagestuk");
         }
     }
 
-    public  void getRecordsFromDB() {
-        try (Connection conn = Sql.DbConnector();) {
-            String SQL = "SELECT * FROM bagage ORDER BY datum_bevestiging";
-            ResultSet rs = conn.createStatement().executeQuery(SQL);
-            data.clear();
-            while (rs.next()) {
-                data.add(new LuggageRecord2(rs.getString("lost_id"),
-                        rs.getString("labelnr"), rs.getString("vlucht"),
-                        rs.getString("lugType"), rs.getString("merk"),
-                        rs.getString("PriKleur"), rs.getString("SecKleur"),
-                        "", "", rs.getString("status"),
-                        rs.getString("datum_bevestiging").substring(0, Math.min(rs.getString("datum_bevestiging").length(), 9)),
-                        rs.getString("datum_bevestiging").substring(11, Math.min(rs.getString("datum_bevestiging").length(), 18))));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error on Building Data");
-        }
-    }
-    
-    public ObservableList<LuggageRecord2> getRecordsListFromDB() {
-        try (Connection conn = Sql.DbConnector();) {
-            String SQL = "SELECT * FROM bagage";
-            ResultSet rs = conn.createStatement().executeQuery(SQL);
-            data.clear();
-            while (rs.next()) {
-                this.data.add(new LuggageRecord2(rs.getString("lost_id"),
-                        rs.getString("labelnr"), rs.getString("vlucht"),
-                        rs.getString("lugType"), rs.getString("merk"),
-                        rs.getString("PriKleur"), rs.getString("SecKleur"),
-                        "", "", rs.getString("status"),
-                        rs.getString("datum_bevestiging").substring(0, Math.min(rs.getString("datum_bevestiging").length(), 9)),
-                        rs.getString("datum_bevestiging").substring(11, Math.min(rs.getString("datum_bevestiging").length(), 18))));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error on Building Data");
-        }
-        return this.data;
-    }
-    
     public void updateData() {
         stickyData.clear();
         tableData.clear();
-        for(LuggageRecord2 record : data) {
+        for (LuggageRecord2 record : data) {
             tableData.add(record);
         }
     }
 
-    
 }
