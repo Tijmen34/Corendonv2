@@ -55,6 +55,7 @@ import corendon.Corendon;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.shape.Rectangle;
 /**
  *
  * @author Zouhar Alladien
@@ -129,12 +130,16 @@ public class FoundForm extends GridPane{
                 .getResourceAsStream("/FOnt/Uni Sans Bold Italic.ttf"), 20);
        
         //Titel Form
-        Label title = new Label("Form Luggage Found");
+        Label title = new Label("\tForm Luggage Found");
         //title.setFont(UniSans);
-        title.setTextFill(Color.web("#D81E05"));
+        title.setTextFill(Color.web("#FFFFFF"));
         title.setStyle("-fx-font: 20px UniSansSemiBold");
         
+        Rectangle titleBox = new Rectangle();
         
+        titleBox.setWidth(2000);
+        titleBox.setHeight(50);
+        titleBox.setFill(Color.web("#D81E05"));
         
         Label luggageLabelInfo = new Label("Label information");
         //PassInfo.setFont(UniSansItalicsmall);
@@ -304,7 +309,8 @@ public class FoundForm extends GridPane{
         
         //ONDERDELEN TOEVOEGEN
         this.add(hbox,0,0,16,1);
-        this.add(title,1,0,2,1);
+        this.add(title,1,1,2,1);
+        this.add(titleBox,1,1,18,1);
         //this.add(separator, 1, 1);
         this.add(next,8, 15);
         //ALGEMEEN
