@@ -116,7 +116,7 @@ public class Corendon extends Application {
         UserSettings settingsContent = new UserSettings();
         settingsContent.initScreen(primaryStage);
         
-        Scene newscene = new Scene(tabScreen, 1200, 700, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven.
+        Scene newscene = new Scene(tabScreen, 1500, 800, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven.
         /*
          */
 
