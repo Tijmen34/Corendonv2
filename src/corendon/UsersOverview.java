@@ -17,7 +17,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
@@ -52,6 +54,7 @@ public class UsersOverview extends BorderPane {
     private Button addBut = new Button("Submit");
     private Button cancel = new Button("Cancel");
     private Button refresh = new Button("Refresh table");
+    private Button delete = new Button("Delete from table");
     private Button b = new Button("Add user");
     private Stage primaryStage;
     private ObservableList<UserRecord> data
@@ -60,6 +63,7 @@ public class UsersOverview extends BorderPane {
             = FXCollections.observableArrayList();
     private Connection conn;
     private PreparedStatement prepS = null;
+    public  TableView<UserRecord> tableView4 = new TableView();
 
     public void initScreen(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -79,6 +83,7 @@ public class UsersOverview extends BorderPane {
         corendonLogoView.setPreserveRatio(true);
         corendonLogoView.setFitHeight(800);
         corendonLogoView.setFitWidth(250);
+        System.out.println(tableView4.getColumns().toString());
 
 
         HBox topBar = new HBox();
@@ -87,14 +92,15 @@ public class UsersOverview extends BorderPane {
         VBox xbox = new VBox();
         TextField text1 = new TextField();
         GridPane table3 = new GridPane();
-        final TableView<UserRecord> tableView4 = dbManager.createUserTable();
+        tableView4 = dbManager.createUserTable();
+
 
         setTop(topBar);
         setCenter(border1);
         border1.setLeft(scroll2);
         border1.setRight(xbox);
         xbox.setPadding(new Insets(10,10,10,10));
-        xbox.getChildren().addAll(text1, b, refresh);
+        xbox.getChildren().addAll(text1, b, refresh, delete);
         text1.setAlignment(Pos.CENTER);
         scroll2.setContent(table3);
         scroll2.setMinSize(800,674);
@@ -102,6 +108,10 @@ public class UsersOverview extends BorderPane {
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
         refresh.setOnAction((ActionEvent e) -> {
             updateData();
+        });
+        
+        delete.setOnAction((ActionEvent e) -> {
+            deletePerson();
         });
 
 
@@ -117,9 +127,6 @@ public class UsersOverview extends BorderPane {
             addUser(primaryStage);
         });
 
-
-
-
         //table niet resizable
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -128,10 +135,6 @@ public class UsersOverview extends BorderPane {
         tableView4.setMaxSize(800,674);
         tableView4.setItems(this.tableData);
 
-    }
-
-    public PreparedStatement getPrepS() {
-        return prepS;
     }
 
     public void addUser(Stage primaryStage) {
@@ -198,8 +201,6 @@ public class UsersOverview extends BorderPane {
         grid1.add(addBut, 2, 7);
         grid1.add(cancel, 3, 7);
         
-        
-        
 //addBut leest de gegevens in en zet ze in database
         addBut.setOnAction((ActionEvent e) -> {
             PreparedStatement prepS = null;
@@ -216,7 +217,6 @@ public class UsersOverview extends BorderPane {
                 prepS.setString(4, tussenTX.getText());
                 prepS.setString(5, surnameTX.getText());
                 prepS.setString(6, functionTX.getText());
-
 
                 if (usernameTX.getText().isEmpty() || passwordTX.getText().isEmpty() || firstnameTX.getText().isEmpty()
                         || surnameTX.getText().isEmpty() || functionTX.getText().isEmpty()) {
@@ -235,7 +235,7 @@ public class UsersOverview extends BorderPane {
                     alert.setContentText("User added succesfully");
                     alert.showAndWait();
                     adduserStage.close();
-                                    prepS.executeUpdate();
+                    prepS.executeUpdate();
 
                 }
             } catch (Exception e1) {
@@ -249,31 +249,64 @@ public class UsersOverview extends BorderPane {
 
             }
 
-
         });
-                    cancel.setOnAction((ActionEvent e) -> {
+        cancel.setOnAction((ActionEvent e) -> {
             adduserStage.close();
         });
 
-
-
-
-                    //scene bouwen enzo
+        //scene bouwen enzo
         Scene dialogScene = new Scene(grid1, 450, 400);
         adduserStage.setScene(dialogScene);
         adduserStage.show();
 
-
-
     }
-    
+
     //onuitgewerkte refreshknop
     public void updateData() {
+        tableView4.getItems().clear();
 
-        tableData.clear();
-        data.stream().forEach((record) -> {
-            tableData.add(record);
-        }); 
+        for (int i = 0; i < this.data.size(); i++) {
+            this.tableData.add(this.data.get(i));
+        }
+
+    }
+
+    public void deletePerson() {
+
+        int selectedIndex = tableView4.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Alert alert = new Alert(AlertType.CONFIRMATION, "Delete person?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            alert.setHeaderText(null);
+            alert.showAndWait();
+
+            if (alert.getResult() == ButtonType.YES) {
+                tableView4.getItems().remove(selectedIndex);
+                PreparedStatement prepS = null;
+
+                try (Connection conn = Sql.DbConnector();) {
+
+                    String query = "delete from users where user_id = ?";
+                    prepS = conn.prepareStatement(query);
+                    prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getUser_id());
+                    prepS.executeUpdate();
+
+                } catch (Exception e1) {
+                    System.out.println("SQL ERROR");
+                    System.err.println(e1);
+
+                }
+
+            }
+
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a person in the table.");
+
+            alert.showAndWait();
+        }
     }
 
 }
