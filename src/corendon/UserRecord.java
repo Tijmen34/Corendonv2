@@ -19,17 +19,19 @@ public class UserRecord {
     private final SimpleStringProperty firstname;
     private final SimpleStringProperty tussenvoegsel;
     private final SimpleStringProperty surname;
+    private final SimpleStringProperty email;
     private final SimpleStringProperty function;
 
     
         public UserRecord(String user_id, String username, String password,
-            String firstname, String tussenvoegsel, String surname, String function) {
+            String firstname, String tussenvoegsel, String surname, String email, String function) {
         this.user_id = new SimpleStringProperty(user_id);
         this.username = new SimpleStringProperty(username);
         this.password = new SimpleStringProperty(password);
         this.firstname = new SimpleStringProperty(firstname);
         this.tussenvoegsel = new SimpleStringProperty(tussenvoegsel);
         this.surname = new SimpleStringProperty(surname);
+        this.email = new SimpleStringProperty(email);
         this.function = new SimpleStringProperty(function);   
     }
     
@@ -81,6 +83,15 @@ public class UserRecord {
     public void setSurname(String surname) {
         this.surname.set(surname);
     }
+    
+    public String getEmail() {
+        return email.get();
+    }
+
+    public void setEmail(String email) {
+        this.email.set(email);
+    }
+    
 
     public String getFunction() {
         return function.get();
@@ -94,7 +105,7 @@ public class UserRecord {
     public String toString() {
         return "UserRecord{" + "user_id=" + user_id + ", username="
                 + username + ", firstname=" + firstname + ", tussenvoegsel="
-                + tussenvoegsel + ", surname=" + surname + ", function="
+                + tussenvoegsel + ", surname=" + surname + ", email="+ email +", function="
                 + function + '}';
     }
 
