@@ -95,25 +95,19 @@ public class UsersOverview extends BorderPane {
 
         HBox topBar = new HBox();
         HBox topBar2 = new HBox();
-        BorderPane border1 = new BorderPane();
         VBox xbox = new VBox();
-        GridPane table3 = new GridPane();
+        BorderPane border1 = new BorderPane();
         tableView4 = dbManager.createUserTable();
         topBar2.getChildren().addAll(logo);
 
 
         this.setTop(topBar);
+        this.setRight(xbox);
+        this.setCenter(border1);
+        border1.setCenter(tableView4);
+       // xbox.setPadding(new Insets(10,10,10,10));
+        //xbox.getChildren().addAll( b, delete, refresh); 
         
-        setCenter(border1);
-        border1.setLeft(table3);
-        border1.setRight(xbox);
-        xbox.setPadding(new Insets(10,10,10,10));
-        xbox.getChildren().addAll( b, delete, refresh);
-
-        
-        
-
-        table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
         
         refresh.setOnAction((ActionEvent e) -> {
             for (int i = 0; i < tableView4.getItems().size(); i++) {
@@ -152,7 +146,7 @@ public class UsersOverview extends BorderPane {
         // topbar voor corendon logo
         topBar.getChildren().addAll(topBar2,tableStatus,  searchBar, searchButton);
         topBar.setSpacing(30);
-        topBar.setAlignment(Pos.CENTER_LEFT);
+        topBar.setAlignment(Pos.CENTER);
 
             b.setOnAction((ActionEvent e) -> {
             addUser(primaryStage);
@@ -217,8 +211,7 @@ public class UsersOverview extends BorderPane {
         grid1.getChildren().addAll(useraddVragen, useraddAntwoorden, buttonBox);
         addBut.setPadding(new Insets(1, 1, 1, 1));
         cancel.setPadding(new Insets(1, 1 ,1, 1));
-        cancel.setTextAlignment(TextAlignment.LEFT);
-        cancel.setAlignment(Pos.CENTER_LEFT);
+        cancel.setAlignment(Pos.CENTER);
 
         // plaatsen van alle labels, buttons en textfields
         grid1.setVgap(15);

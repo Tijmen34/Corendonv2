@@ -41,8 +41,6 @@ private DbManager dbManager;
     private TableView<CustomerRecord> tableView4;
 
     private VBox controlBox = new VBox();
-    private ScrollPane tableScroll = new ScrollPane();
-    private StackPane stickyBox = new StackPane();
     private HBox topBar1 = new HBox();
     private HBox topBar2 = new HBox();
     private BorderPane border1 = new BorderPane();
@@ -67,8 +65,7 @@ private DbManager dbManager;
         this.setTop(topBar1);
         this.setRight(controlBox);
         this.setCenter(border1);
-        stickyBox.setAlignment(Pos.CENTER_LEFT);
-        border1.setLeft(tableView4);
+        border1.setCenter(tableView4);
 
 
         searchBar = new TextField();
@@ -84,7 +81,7 @@ private DbManager dbManager;
         searchButton.setMinSize(20, 25);
         topBar1.setSpacing(30);
         topBar1.setMinHeight(50);
-        topBar1.setAlignment(Pos.CENTER_LEFT);
+        topBar1.setAlignment(Pos.CENTER);
         topBar2.getChildren().addAll(logo);
         topBar2.setAlignment(Pos.CENTER_RIGHT);
 

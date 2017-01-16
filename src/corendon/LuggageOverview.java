@@ -138,7 +138,7 @@ public class LuggageOverview extends BorderPane {
         searchButton.setMinSize(20, 25);
         topBar.setSpacing(30);
         topBar.setMinHeight(50);
-        topBar.setAlignment(Pos.CENTER_LEFT);
+        topBar.setAlignment(Pos.CENTER);
         topBar2.getChildren().addAll(logo);
         topBar2.setAlignment(Pos.CENTER_RIGHT);
         // ------------------------------------------
