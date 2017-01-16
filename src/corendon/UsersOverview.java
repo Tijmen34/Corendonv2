@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -55,15 +56,22 @@ public class UsersOverview extends BorderPane {
     private Button cancel = new Button("Cancel");
     private Button refresh = new Button("Refresh table");
     private Button delete = new Button("Delete from table");
+    private Button back = new Button("Back");
     private Button b = new Button("Add user");
+    private Button searchButton = new Button("Search");
+    private TextField searchBar = new TextField();
+    private Label tableStatus = new Label("Search:");
     private Stage primaryStage;
     private ObservableList<UserRecord> data
             = FXCollections.observableArrayList();
     private ObservableList<UserRecord> tableData
             = FXCollections.observableArrayList();
+    private ObservableList<UserRecord> searchResults
+            = FXCollections.observableArrayList();
     private Connection conn;
     private PreparedStatement prepS = null;
     public  TableView<UserRecord> tableView4 = new TableView();
+    private boolean isShowingSearch = false;
 
     public void initScreen(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -77,35 +85,36 @@ public class UsersOverview extends BorderPane {
             this.tableData.add(this.data.get(i));
         }
 
-        Image corendonLogo = new Image("Corendon-Logo2.jpg");
-        ImageView corendonLogoView = new ImageView();
-        corendonLogoView.setImage(corendonLogo);
-        corendonLogoView.setPreserveRatio(true);
-        corendonLogoView.setFitHeight(800);
-        corendonLogoView.setFitWidth(250);
-        System.out.println(tableView4.getColumns().toString());
+        Image corLogo = new Image("Corendon.png");
+        ImageView logo = new ImageView();
+        logo.setImage(corLogo);
+        logo.setFitWidth(300);
+        logo.setPreserveRatio(true);
+        logo.setSmooth(true);
 
 
         HBox topBar = new HBox();
+        HBox topBar2 = new HBox();
         BorderPane border1 = new BorderPane();
-        ScrollPane scroll2 = new ScrollPane();
         VBox xbox = new VBox();
-        TextField text1 = new TextField();
         GridPane table3 = new GridPane();
         tableView4 = dbManager.createUserTable();
+        topBar2.getChildren().addAll(logo);
 
 
-        setTop(topBar);
+        this.setTop(topBar);
+        
         setCenter(border1);
-        border1.setLeft(scroll2);
+        border1.setLeft(table3);
         border1.setRight(xbox);
         xbox.setPadding(new Insets(10,10,10,10));
-        xbox.getChildren().addAll(text1, b, refresh, delete);
-        text1.setAlignment(Pos.CENTER);
-        scroll2.setContent(table3);
-        scroll2.setMinSize(815, 700);
-        scroll2.setMaxSize(1000, 800);
+        xbox.getChildren().addAll( b, delete, refresh);
+
+        
+        
+
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
+        
         refresh.setOnAction((ActionEvent e) -> {
             for (int i = 0; i < tableView4.getItems().size(); i++) {
                 tableView4.getItems().clear();
@@ -119,19 +128,37 @@ public class UsersOverview extends BorderPane {
         delete.setOnAction((ActionEvent e) -> {
             deletePerson();
         });
+        
+        searchButton.setOnAction((ActionEvent e) -> {
+            isShowingSearch = true;
+            searchItems();
+            tableStatus.setText("Search Results:");
+            topBar.getChildren().add(back);
+        });
+
+        back.setOnAction((ActionEvent e) -> {
+            isShowingSearch = false;
+            tableView4.setItems(tableData);
+            tableStatus.setText("Search customers:");
+            topBar.getChildren().removeAll(back);
+        });
+    
+
+
 
 
 
 
         // topbar voor corendon logo
-        topBar.getChildren().addAll(corendonLogoView);
+        topBar.getChildren().addAll(topBar2,tableStatus,  searchBar, searchButton);
         topBar.setSpacing(30);
-        topBar.setMinHeight(50);
-        topBar.setAlignment(Pos.CENTER);
+        topBar.setAlignment(Pos.CENTER_LEFT);
 
             b.setOnAction((ActionEvent e) -> {
             addUser(primaryStage);
         });
+            
+            
 
         //table niet resizable
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -287,6 +314,27 @@ public class UsersOverview extends BorderPane {
        
     }
 
+        public void searchItems() {
+        searchResults.clear();
+        String keyword = searchBar.getText();
+        for (UserRecord record : tableData) {
+            SimpleStringProperty[] properties = record.toArray();
+            boolean relevance = false;
+            for (int i = 0; i < properties.length; i++) {
+                if (keyword.equals(properties[i].getValueSafe())) {
+                    relevance = true;
+                }
+                System.out.println(properties[i].toString());
+                System.out.println(relevance);
+            }
+            if (relevance == true) {
+                searchResults.add(record);
+            }
+        }
+        tableView4.setItems(searchResults);
+        System.out.println(searchResults.toString());
+    }
+        
     public void deletePerson() {
 
         int selectedIndex = tableView4.getSelectionModel().getSelectedIndex();

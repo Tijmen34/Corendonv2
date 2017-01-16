@@ -21,12 +21,12 @@ public class UserRecord {
     private final SimpleStringProperty surname;
     private final SimpleStringProperty email;
     private final SimpleStringProperty function;
-    private final SimpleStringProperty lostpassword;
+    private final SimpleStringProperty lost_password;
 
     
         public UserRecord(String user_id, String username, String password,
             String firstname, String tussenvoegsel, String surname, String email, String function, 
-            String lostpassword) {
+            String lost_password) {
     
         this.user_id = new SimpleStringProperty(user_id);
         this.username = new SimpleStringProperty(username);
@@ -36,7 +36,7 @@ public class UserRecord {
         this.surname = new SimpleStringProperty(surname);
         this.email = new SimpleStringProperty(email);
         this.function = new SimpleStringProperty(function);   
-        this.lostpassword = new SimpleStringProperty(lostpassword);
+        this.lost_password = new SimpleStringProperty(lost_password);
     }
     
 
@@ -105,12 +105,12 @@ public class UserRecord {
         this.function.set(function);
     }
 
-    public String getLostPassword() {
-        return lostpassword.get();
+    public String getLost_password() {
+        return lost_password.get();
     }
 
-    public void setLostPassword(String lostpassword) {
-        this.lostpassword.set(lostpassword);
+    public void setLost_password(String lost_password) {
+        this.lost_password.set(lost_password);
     }
 
     @Override
@@ -118,7 +118,15 @@ public class UserRecord {
         return "UserRecord{" + "user_id=" + user_id + ", username="
                 + username + ", firstname=" + firstname + ", tussenvoegsel="
                 + tussenvoegsel + ", surname=" + surname + ", email="+ email +", function="
-                + function + ", lost password="+ lostpassword +'}';
+                + function + ", lost_password="+ lost_password +'}';
+    }
+    
+        public SimpleStringProperty[] toArray() {
+        SimpleStringProperty[] properties = new SimpleStringProperty[]
+                {this.user_id, this.username, this.firstname, 
+                this.tussenvoegsel, this.surname, this.email, this.function,
+                this.lost_password};
+        return properties;
     }
 
 }
