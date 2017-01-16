@@ -105,8 +105,14 @@ public class UsersOverview extends BorderPane {
         this.setRight(xbox);
         this.setCenter(border1);
         border1.setCenter(tableView4);
-       // xbox.setPadding(new Insets(10,10,10,10));
-        //xbox.getChildren().addAll( b, delete, refresh); 
+        xbox.setPadding(new Insets(10,10,10,10));
+        xbox.getChildren().addAll( b, delete, refresh); 
+        refresh.setMinSize(200, 75);
+        delete.setMinSize(200, 75);
+        b.setMinSize(200, 75);
+        //b.setPadding(new Insets(10,10,10,10));
+                refresh.setPadding(new Insets(10,10,10,10));
+              //  delete.setPadding(new Insets(10,10,10,10));
         
         
         refresh.setOnAction((ActionEvent e) -> {
@@ -158,8 +164,8 @@ public class UsersOverview extends BorderPane {
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         //table grootte veranderen en vullen
-        tableView4.setMinSize(800,700);
-        tableView4.setMaxSize(1000,800);
+        tableView4.setMinSize(1000,700);
+        tableView4.setMaxSize(1200,800);
         tableView4.setItems(this.tableData);
 
     }
