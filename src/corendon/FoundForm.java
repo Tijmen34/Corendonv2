@@ -106,7 +106,7 @@ public class FoundForm extends GridPane{
         hbox.getChildren().addAll(logo);
        
       
-    //Formulier
+        //Formulier
         
         Label foundTitle= new Label("Found Luggage form: ");
         
