@@ -6,15 +6,30 @@ package corendon;
 
 /*
  TODO:
+
+
+Tijmen:
 - PDF, pdf producer bij registreer missing
 - Maken Tab "Customer" (copy paste luggage en aanpassen)
+
+Jeroen:
 - Update registratie met extra informatie voor klant en bagage
 - Exporteer PDF na oplossing van een case
+
+Burak:
 - Statistics omzetten naar een chart/graph van gekozen jaar, ipv twee data (bijv. 01-01-2016 t/m 02-02-2016)
-- Verwijderen van vernietigde bagage beschikbaar maken
-- Reset wachtwoord, verander wachtwoord/user gegevens
+- Nieuwe status delivered in chart zetten
 - Settings tab maken, hier kan de user zijn gegevens aanpassen
-- Statussen worden missing/solved/delivered
+
+Zouhar:
+- Verwijderen van vernietigde bagage beschikbaar maken
+
+Kenan:
+- Reset wachtwoord, verander wachtwoord/user gegevens
+(reset knop bij inlog scherm zet waarde van LostPassword in DB naar true)
+(dus ook nieuwe kolom maken in DB bij users boolean LostPassword)
+- Statussen worden missing/found/solved/delivered
+
 */
 
 
