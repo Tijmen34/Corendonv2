@@ -29,17 +29,17 @@ import javafx.scene.layout.VBox;
 public class CustomerOverview extends BorderPane {
 private DbManager dbManager;
 
-    private ObservableList<LuggageRecord2> data
+    private ObservableList<CustomerRecord> data
             = FXCollections.observableArrayList();
-    private ObservableList<LuggageRecord2> tableData
+    private ObservableList<CustomerRecord> tableData
             = FXCollections.observableArrayList();
-    private ObservableList<LuggageRecord2> stickyData
+    private ObservableList<CustomerRecord> stickyData
             = FXCollections.observableArrayList();
-    private ObservableList<LuggageRecord2> searchResults
+    private ObservableList<CustomerRecord> searchResults
             = FXCollections.observableArrayList();
 
-    private TableView<LuggageRecord2> tableViewSticky3;
-    private TableView<LuggageRecord2> tableView4;
+    private TableView<CustomerRecord> tableViewSticky3;
+    private TableView<CustomerRecord> tableView4;
 
     private VBox controlBox = new VBox();
     private ScrollPane tableScroll = new ScrollPane();
@@ -49,7 +49,6 @@ private DbManager dbManager;
 
     private Button selToStickyBtn = new Button("^^");
     private Button selUnStickyBtn = new Button("vv");
-    private Button stickyMatchBtn = new Button("Match!");
 
     private Button back = new Button("back");
     private Button searchButton = new Button("search");
@@ -60,13 +59,13 @@ private DbManager dbManager;
 
     public void initScreen() {
         dbManager = new DbManager();
-        this.data = dbManager.getLuggageListFromDB();
+        this.data = dbManager.getCustomerListFromDB();
         for (int i = 0; i < data.size(); i++) {
             tableData.add(data.get(i));
         }
 
-        tableView4 = dbManager.createLuggageTable();
-        tableViewSticky3 = dbManager.createLuggageTable();
+        tableView4 = dbManager.createCustomerTable();
+        tableViewSticky3 = dbManager.createCustomerTable();
         isShowingSearch = false;
 
         //ScrollPane scroll2 = new ScrollPane();
@@ -87,7 +86,7 @@ private DbManager dbManager;
 
         //-------------------------------------------
         //balk met controls voor tabel rechts
-        controlBox.getChildren().addAll(selUnStickyBtn, stickyMatchBtn, selToStickyBtn);
+        controlBox.getChildren().addAll(selUnStickyBtn, selToStickyBtn);
         controlBox.setSpacing(50);
 
         //-------------------------------------------
@@ -152,9 +151,6 @@ private DbManager dbManager;
             }
         });
 
-        stickyMatchBtn.setOnAction((ActionEvent e) -> {
-            solveStickyItems();
-        });
 
         searchButton.setOnAction((ActionEvent e) -> {
             isShowingSearch = true;
@@ -175,7 +171,7 @@ private DbManager dbManager;
     public void searchItems() {
         searchResults.clear();
         String keyword = searchBar.getText();
-        for (LuggageRecord2 record : tableData) {
+        for (CustomerRecord record : tableData) {
             SimpleStringProperty[] properties = record.toArray();
             boolean relevance = false;
             for (int i = 0; i < properties.length; i++) {
@@ -193,64 +189,10 @@ private DbManager dbManager;
         System.out.println(searchResults.toString());
     }
 
-    public void solveStickyItems() {
-        if ((this.stickyData.size() == 2)
-                && ((stickyData.get(0).getStatus().equals("lost") && stickyData.get(1).getStatus().equals("found"))
-                || (stickyData.get(0).getStatus().equals("found") && stickyData.get(1).getStatus().equals("lost")))) {
-            try (Connection conn = Sql.DbConnector();) {
-                LuggageRecord2 found;
-                LuggageRecord2 lost;
-                if (stickyData.get(0).getStatus().equals("found")) {
-                    found = stickyData.get(0);
-                    lost =  stickyData.get(1);
-                } else {
-                    found = stickyData.get(1);
-                    lost =  stickyData.get(0);
-                }
-                
-                PreparedStatement pst;
-                String SQL = "INSERT INTO bagage"
-                        + "(lost_id, labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging) VALUES"
-                        + "(?,?,?,?,?,?,?,?,?,?,'solved',NOW())";
-                pst = conn.prepareStatement(SQL);
-                pst.setString(1, found.getLostId());
-                pst.setString(2, found.getLabelNr());
-                pst.setString(3, lost.getFlightNr());
-                pst.setString(4, found.getIata());
-                pst.setString(5, found.getType());
-                pst.setString(6, found.getBrandName());
-                pst.setString(7, found.getPrimaryColor());
-                pst.setString(8, found.getSecondaryColor());
-                pst.setString(9, found.getInfo());
-                pst.setString(10,lost.getCustomerId());
-                        //                LuggageRecord2 solvedCase = new LuggageRecord(found.getLostId(),
-                        //                        found.getLabelNr(), lost.getFlightNr(),
-                        //                        found.getType(), found.getBrandName(),
-                        //                        found.getPrimaryColor(), found.getSecondaryColor(),
-                        //                        found.getInfo(), lost.getCustomerId(), "solved", )
-                
-                System.out.println(SQL);
-                conn.createStatement().executeUpdate(SQL);
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Error on Building Data");
-            }
-            this.data.clear();
-            this.tableData.clear();
-            this.stickyData.clear();
-            this.data = dbManager.getLuggageListFromDB();
-            for (int i = 0; i < data.size(); i++) {
-                tableData.add(data.get(i));
-            }
-        } else {
-            System.out.println("Neem 1 gevonden en 1 vermist bagagestuk");
-        }
-    }
-
     public void updateData() {
         stickyData.clear();
         tableData.clear();
-        for (LuggageRecord2 record : data) {
+        for (CustomerRecord record : data) {
             tableData.add(record);
         }
     }

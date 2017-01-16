@@ -80,6 +80,26 @@ public class DbManager {
         return data;
     }
 
+        public ObservableList<CustomerRecord> getCustomerListFromDB() {
+
+        ObservableList<CustomerRecord> data = FXCollections.observableArrayList();
+ 
+            try (Connection conn = Sql.DbConnector();) {
+                String SQL = "SELECT * FROM klant";
+                ResultSet rs = conn.createStatement().executeQuery(SQL);
+                while (rs.next()) {
+                    data.add(new CustomerRecord(rs.getString("klant_id"), rs.getString("geslacht"),
+                            rs.getString("naam"), rs.getString("tussenvoegsel"),
+                            rs.getString("achternaam"), rs.getString("gebdatum"),
+                            rs.getString("straat"), rs.getString("huisnummer"), rs.getString("plaats"), rs.getString("postcode"), 
+                            rs.getString("land"), rs.getString("telnr"), rs.getString("mail")));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error on Building Data");
+            }
+            return data;
+    }
     public ObservableList<LuggageRecord2> checkLabel(String labelnr) {
 
         ObservableList<LuggageRecord2> data = FXCollections.observableArrayList();
@@ -197,5 +217,55 @@ public class DbManager {
 
         return tableView;
     }
+    
+       public TableView createCustomerTable() {
+        final TableView<CustomerRecord> tableView = new TableView();
 
+        TableColumn clientidCol = new TableColumn("Client ID");
+        TableColumn genderCol = new TableColumn("Gender");
+        TableColumn firstnameCol = new TableColumn("First name");
+        TableColumn tussenCol = new TableColumn("Prefix");
+        TableColumn surnameCol = new TableColumn("Surname");
+        TableColumn datebirthCol = new TableColumn("Date of Birth");
+        TableColumn streetCol = new TableColumn("Street");
+        TableColumn housenrCol = new TableColumn("House number");
+        TableColumn townCol = new TableColumn("Town");
+        TableColumn zipCol = new TableColumn("Zip code");
+        TableColumn countryCol = new TableColumn("Country");
+        TableColumn phonenrCol = new TableColumn("Phone number");
+        TableColumn emailCol = new TableColumn("Email");
+
+        clientidCol.setCellValueFactory(
+                new PropertyValueFactory<>("customerId"));
+        genderCol.setCellValueFactory(
+                new PropertyValueFactory<>("gender"));
+        firstnameCol.setCellValueFactory(
+                new PropertyValueFactory<>("firstname"));
+        tussenCol.setCellValueFactory(
+                new PropertyValueFactory<>("tussenVoegsel"));
+        surnameCol.setCellValueFactory(
+                new PropertyValueFactory<>("surname"));
+        datebirthCol.setCellValueFactory(
+                new PropertyValueFactory<>("dateOfBirth"));
+        streetCol.setCellValueFactory(
+                new PropertyValueFactory<>("street"));
+        housenrCol.setCellValueFactory(
+                new PropertyValueFactory<>("houseNr"));
+        townCol.setCellValueFactory(
+                new PropertyValueFactory<>("town"));
+        zipCol.setCellValueFactory(
+                new PropertyValueFactory<>("zipCode"));
+        countryCol.setCellValueFactory(
+                new PropertyValueFactory<>("country"));
+        phonenrCol.setCellValueFactory(
+                new PropertyValueFactory<>("phoneNr"));
+        emailCol.setCellValueFactory(
+                new PropertyValueFactory<>("eMail"));
+
+        tableView.getColumns().addAll(clientidCol, genderCol, firstnameCol, tussenCol,
+                surnameCol, datebirthCol, streetCol, housenrCol, townCol,
+                zipCol, countryCol, phonenrCol, emailCol);
+
+        return tableView;
+       }
 }

@@ -15,9 +15,9 @@ public class CustomerRecord {
     
    private final SimpleStringProperty customerId;
     private final SimpleStringProperty gender;
-    private final SimpleStringProperty surname;
+    private final SimpleStringProperty firstname;
     private final SimpleStringProperty tussenVoegsel;
-    private final SimpleStringProperty brandName;
+    private final SimpleStringProperty surname;
     private final SimpleStringProperty dateOfBirth;
     private final SimpleStringProperty street;
     private final SimpleStringProperty houseNr;
@@ -26,17 +26,17 @@ public class CustomerRecord {
     private final SimpleStringProperty country;
     private final SimpleStringProperty phoneNr;
     private final SimpleStringProperty eMail;
-    private final SimpleStringProperty airPort;
+
     
 
-    public CustomerRecord(String customerId, String gender, String surname, String tussenVoegsel,
-            String brandName, String dateOfBirth, String street, String houseNr,
-            String town, String zipCode, String country, String phoneNr, String eMail, String airPort) {
+    public CustomerRecord(String customerId, String gender, String firstname, String tussenVoegsel,
+            String surname, String dateOfBirth, String street, String houseNr,
+            String town, String zipCode, String country, String phoneNr, String eMail) {
         this.customerId = new SimpleStringProperty(customerId);
         this.gender = new SimpleStringProperty(gender);
-        this.surname = new SimpleStringProperty(surname);
+        this.firstname = new SimpleStringProperty(firstname);
         this.tussenVoegsel = new SimpleStringProperty(tussenVoegsel);
-        this.brandName = new SimpleStringProperty(brandName);
+        this.surname = new SimpleStringProperty(surname);
         this.dateOfBirth = new SimpleStringProperty(dateOfBirth);
         this.street = new SimpleStringProperty(street);
         this.houseNr = new SimpleStringProperty(houseNr);
@@ -45,7 +45,7 @@ public class CustomerRecord {
         this.country = new SimpleStringProperty(country);
         this.phoneNr = new SimpleStringProperty(phoneNr);
         this.eMail = new SimpleStringProperty(eMail);
-        this.airPort = new SimpleStringProperty(airPort);
+
         
     }
 public String getCustomerId() {
@@ -64,12 +64,12 @@ public String getCustomerId() {
         this.gender.set(gender);
     }
 
-    public String getSurname() {
-        return surname.get();
+    public String getFirstname() {
+        return firstname.get();
     }
 
-    public void setSurname(String surname) {
-        this.surname.set(surname);
+    public void setFirstname(String firstname) {
+        this.firstname.set(firstname);
     }
     
     public String getTussenvoegsel() {
@@ -80,12 +80,12 @@ public String getCustomerId() {
         this.tussenVoegsel.set(tussenVoegsel);
     }
     
-    public String getBrandname() {
-        return brandName.get();
+    public String getSurname() {
+        return surname.get();
     }
 
-    public void setBrandname(String brandName) {
-        this.brandName.set(brandName);
+    public void setSurname(String surname) {
+        this.surname.set(surname);
     }
     
     public String getDateofbirth() {
@@ -152,25 +152,22 @@ public String getCustomerId() {
         this.eMail.set(eMail);
     }
     
-    public String getAirport() {
-        return airPort.get();
-    }
-    
-    public void setAirport(String airPort) {
-        this.airPort.set(airPort);
-    }
+
 
     @Override
     public String toString() {
-        return "LuggageRecord2{" + "customerId=" + customerId + ", gender=" + gender + ", surname=" + surname + ", tussenVoegsel=" + tussenVoegsel + ", brandName=" + brandName + ", brandName=" + brandName + ", street=" + street + ", houseNr=" + houseNr + ", town=" + town + ", customerId=" + customerId + ", country=" + country + '}';
+        return "LuggageRecord2{" + "customerId=" + customerId + ", gender=" + gender + ", firstname=" + firstname + ", "
+                + "tussenVoegsel=" + tussenVoegsel + ", surname=" + surname + ", "
+                + "dateOfBirth=" + dateOfBirth + ", street=" + street + ", houseNr=" + houseNr + ", town=" + town + ", "
+                + "country=" + country + ", phoneNr=" + phoneNr + ", eMail=" + eMail +'}';
     }
     
     public SimpleStringProperty[] toArray() {
         SimpleStringProperty[] properties = new SimpleStringProperty[]
-                {this.customerId, this.gender, this.surname, 
-                this.tussenVoegsel, this.brandName, this.dateOfBirth, this.street,
-                this.houseNr, this.street, this.houseNr,
-                this.country, this.eMail, this.brandName};
+                {this.customerId, this.gender, this.firstname, 
+                this.tussenVoegsel, this.surname, this.dateOfBirth, this.street,
+                this.houseNr, this.town, this.zipCode,
+                this.country, this.phoneNr, this.eMail};
         return properties;
     }
 }

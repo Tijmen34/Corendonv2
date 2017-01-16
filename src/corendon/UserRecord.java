@@ -104,7 +104,8 @@ public class UserRecord {
     public void setFunction(String function) {
         this.function.set(function);
     }
-        public String getLostPassword() {
+
+    public String getLostPassword() {
         return lostpassword.get();
     }
 
