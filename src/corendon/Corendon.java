@@ -329,7 +329,7 @@ public class Corendon extends Application {
         forgotPassword.setStyle("-fx-font: 18px UniSansRegular");
         TextField emailInput = new TextField();
         emailInput.setStyle(fieldStyle);
-        Button passwordReset = new Button("Request Password Request");
+        Button passwordReset = new Button("Request New Password");
         emailInput.setPromptText("Fill your E-mail here");
         passwordReset.setStyle(";-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;");
         Label statusRequest = new Label();
