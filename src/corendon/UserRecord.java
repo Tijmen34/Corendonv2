@@ -21,10 +21,13 @@ public class UserRecord {
     private final SimpleStringProperty surname;
     private final SimpleStringProperty email;
     private final SimpleStringProperty function;
+    private final SimpleStringProperty lostpassword;
 
     
         public UserRecord(String user_id, String username, String password,
-            String firstname, String tussenvoegsel, String surname, String email, String function) {
+            String firstname, String tussenvoegsel, String surname, String email, String function, 
+            String lostpassword) {
+    
         this.user_id = new SimpleStringProperty(user_id);
         this.username = new SimpleStringProperty(username);
         this.password = new SimpleStringProperty(password);
@@ -33,6 +36,7 @@ public class UserRecord {
         this.surname = new SimpleStringProperty(surname);
         this.email = new SimpleStringProperty(email);
         this.function = new SimpleStringProperty(function);   
+        this.lostpassword = new SimpleStringProperty(lostpassword);
     }
     
 
@@ -100,13 +104,20 @@ public class UserRecord {
     public void setFunction(String function) {
         this.function.set(function);
     }
+        public String getLostPassword() {
+        return lostpassword.get();
+    }
+
+    public void setLostPassword(String lostpassword) {
+        this.lostpassword.set(lostpassword);
+    }
 
     @Override
     public String toString() {
         return "UserRecord{" + "user_id=" + user_id + ", username="
                 + username + ", firstname=" + firstname + ", tussenvoegsel="
                 + tussenvoegsel + ", surname=" + surname + ", email="+ email +", function="
-                + function + '}';
+                + function + ", lost password="+ lostpassword +'}';
     }
 
 }

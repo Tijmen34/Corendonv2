@@ -71,7 +71,7 @@ public class DbManager {
                 data.add(new UserRecord(rs.getString("user_id"), rs.getString("username"),
                         rs.getString("password"), rs.getString("firstname"),
                         rs.getString("tussenvoegsel"), rs.getString("surname"),
-                        rs.getString("email"), rs.getString("function")));
+                        rs.getString("email"), rs.getString("function"), rs.getString("lost_password")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,6 +167,7 @@ public class DbManager {
         TableColumn surnameCol = new TableColumn("Surname");
         TableColumn emailCol = new TableColumn("Email");
         TableColumn functionCol = new TableColumn("Function");
+        TableColumn lostpwCol = new TableColumn("Lost password");
 
         //table colommen klaarmaken voor gebruik
         userIdCol.setCellValueFactory(
@@ -185,10 +186,11 @@ public class DbManager {
                 new PropertyValueFactory<>("email"));
         functionCol.setCellValueFactory(
                 new PropertyValueFactory<>("function"));
-
+        lostpwCol.setCellValueFactory(
+                new PropertyValueFactory<>("lost_password"));
         //colommen toevoegen aan tabel
         tableView.getColumns().addAll(userIdCol, usernameCol, passwordCol, firstnameCol, tussenvoegselCol,
-                surnameCol, functionCol);
+                surnameCol, emailCol, functionCol, lostpwCol);
 
         return tableView;
     }

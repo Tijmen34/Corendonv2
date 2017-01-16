@@ -103,8 +103,8 @@ public class UsersOverview extends BorderPane {
         xbox.getChildren().addAll(text1, b, refresh, delete);
         text1.setAlignment(Pos.CENTER);
         scroll2.setContent(table3);
-        scroll2.setMinSize(800,674);
-        scroll2.setMaxSize(800,674);
+        scroll2.setMinSize(815,700);
+        scroll2.setMaxSize(1000,800);
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
         refresh.setOnAction((ActionEvent e) -> {
             updateData();
@@ -131,8 +131,8 @@ public class UsersOverview extends BorderPane {
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         //table grootte veranderen en vullen
-        tableView4.setMinSize(800,674);
-        tableView4.setMaxSize(800,674);
+        tableView4.setMinSize(800,700);
+        tableView4.setMaxSize(1000,800);
         tableView4.setItems(this.tableData);
 
     }
@@ -200,10 +200,12 @@ public class UsersOverview extends BorderPane {
         grid1.add(tussenTX, 2, 4);
         grid1.add(surnameLB, 1, 5);
         grid1.add(surnameTX, 2, 5);
-        grid1.add(functionLB, 1, 6);
-        grid1.add(functionTX, 2, 6);
-        grid1.add(addBut, 2, 7);
-        grid1.add(cancel, 3, 7);
+        grid1.add(emailLB, 1, 6);
+        grid1.add(emailTX, 2, 6);
+        grid1.add(functionLB, 1, 7);
+        grid1.add(functionTX, 2, 7);
+        grid1.add(addBut, 2, 8);
+        grid1.add(cancel, 3, 8);
         
 //addBut leest de gegevens in en zet ze in database
         addBut.setOnAction((ActionEvent e) -> {
@@ -213,14 +215,15 @@ public class UsersOverview extends BorderPane {
 
                 String query = "insert into users"
                         + "(username, password, firstname, tussenvoegsel, surname, email,  function) VALUES"
-                        + "(?, ?, ?, ?, ?, ?)";
+                        + "(?, ?, ?, ?, ?, ?, ?)";
                 prepS = conn.prepareStatement(query);
                 prepS.setString(1, usernameTX.getText());
                 prepS.setString(2, passwordTX.getText());
                 prepS.setString(3, firstnameTX.getText());
                 prepS.setString(4, tussenTX.getText());
                 prepS.setString(5, surnameTX.getText());
-                prepS.setString(6, functionTX.getText());
+                prepS.setString(6, emailTX.getText());
+                prepS.setString(7, functionTX.getText());
 
                 if (usernameTX.getText().isEmpty() || passwordTX.getText().isEmpty() || firstnameTX.getText().isEmpty()
                         || surnameTX.getText().isEmpty() || functionTX.getText().isEmpty()) {
@@ -259,7 +262,7 @@ public class UsersOverview extends BorderPane {
         });
 
         //scene bouwen enzo
-        Scene dialogScene = new Scene(grid1, 450, 400);
+        Scene dialogScene = new Scene(grid1, 500, 500);
         adduserStage.setScene(dialogScene);
         adduserStage.show();
 
@@ -292,10 +295,10 @@ tableData.clear();
 
                 try (Connection conn = Sql.DbConnector();) {
 
-                    String query = "delete from users where user_id = ? and username = ?";
+                    String query = "delete from users where user_id = ?";
                     prepS = conn.prepareStatement(query);
                     prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getUser_id());
-                    prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getUsername());
+                    //prepS.setString(2, tableView4.getSelectionModel().getSelectedItem().getUsername());
                     prepS.executeUpdate();
 
                 } catch (Exception e1) {
