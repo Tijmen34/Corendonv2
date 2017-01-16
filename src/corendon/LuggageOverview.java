@@ -90,7 +90,7 @@ public class LuggageOverview extends BorderPane {
     
     private boolean isShowingSearch;
 
-    public void initScreen() {
+    public void initScreen(Stage primaryStage) {
         dbManager = new DbManager();
         this.data = dbManager.getLuggageListFromDB();
         for (int i = 0; i < data.size(); i++) {
