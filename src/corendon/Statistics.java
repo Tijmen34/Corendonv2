@@ -42,7 +42,8 @@ import javafx.stage.Stage;
  * @author Burak
  */
 public class Statistics extends BorderPane {
-
+    
+    static Label caption = new Label("");
     ResultSet rs = null;
     PreparedStatement pst = null;
     Connection conn;
@@ -56,21 +57,20 @@ public class Statistics extends BorderPane {
     Button submitDate = new Button("Retrieve");
     Button chooseinfo = new Button("Submit");
     Button back = new Button("Go back");
-    Label dateChoose = new Label("Select two dates to view statistics of all cases");
+    Label dateChoose = new Label("Enter two years to retrieve information about cases between those years");
     Label label1 = new Label("From: ");
     Label label2 = new Label("To: ");
     Label empty = new Label("");
-    DatePicker date1 = new DatePicker();
-    DatePicker date2 = new DatePicker();
+    TextField date1 = new TextField();
+    TextField date2 = new TextField();
     VBox vbox = new VBox();
     HBox hbox = new HBox();
     HBox hbox1 = new HBox();
-    String pattern = "yyyy-MM-dd";
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
     String date1Formatted;
     String date2Formatted;
     ComboBox statinfo = new ComboBox(FXCollections.observableArrayList("Pie chart", "Graph", "Both"));
     Stage primaryStage;
+    
     
     public void getValues() {
 
@@ -148,7 +148,6 @@ public class Statistics extends BorderPane {
         chart.setLabelLineLength(10);
         chart.setLegendSide(Side.BOTTOM);
 
-        final Label caption = new Label("");
         caption.setTextFill(Color.BLACK);
         caption.setStyle("-fx-font-weight: bold;");
 
@@ -165,7 +164,6 @@ public class Statistics extends BorderPane {
         }
         chart.setMaxSize(500, 500);
         chart.setMinSize(500, 500);
-        this.setTop(caption);
         return chart;
     }
 
@@ -173,14 +171,14 @@ public class Statistics extends BorderPane {
         
         submitDate.setOnAction(e -> {
             addStats();
-            LocalDate date1Unformatted = date1.getValue();
-            LocalDate date2Unformatted = date2.getValue();
-            date1Formatted = formatter.format(date1Unformatted);
-            date2Formatted = formatter.format(date2Unformatted);
+            date1Formatted = date1.getText() + "-01-01";
+            date2Formatted = date2.getText() + "-01-01";
+            System.out.println(date1Formatted + " " + date2Formatted);
 
             statinfo.getSelectionModel().select(0);
             getValues();
             this.setCenter(createChart());
+            this.setTop(caption);
             this.setBottom(hbox1);
         });
 
@@ -192,6 +190,12 @@ public class Statistics extends BorderPane {
         hbox.getChildren().addAll(new Label(""));
         vbox.getChildren().addAll(dateChoose, label1, date1, label2, date2, submitDate);
 
+        date1.setPromptText("ex. 2016");
+        date1.setMaxWidth(75);
+        date1.setAlignment(Pos.CENTER);
+        date2.setPromptText("ex. 2017");
+        date2.setMaxWidth(75);
+        date2.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
         vbox.setPadding(new Insets(10, 50, 50, 50));
 
@@ -211,10 +215,13 @@ public class Statistics extends BorderPane {
                 this.getChildren().removeAll(getCenter(), getRight(), getLeft());
                 
             if (statinfo.getSelectionModel().getSelectedItem() == "Pie chart") {
+                
+                this.setTop(caption);
                 this.setCenter(createChart());
             } else if (statinfo.getSelectionModel().getSelectedItem() == "Graph") {
                 this.setCenter(createGraph());
             } else if (statinfo.getSelectionModel().getSelectedItem() == "Both") {
+                this.setTop(caption);
                 this.setLeft(createChart());
                 this.setRight(createGraph());
             }
