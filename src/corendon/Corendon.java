@@ -83,6 +83,7 @@ public class Corendon extends Application {
          */
         TabPane tabScreen = new TabPane(); //het hoofdscherm
         Tab luggage = new Tab("Luggage");
+        Tab customers = new Tab("Customers");
         Tab missing = new Tab("Missing");
         Tab found   = new Tab("Found");
         Tab users   = new Tab("Users");
@@ -91,6 +92,8 @@ public class Corendon extends Application {
         
         LuggageOverview luggageContent = new LuggageOverview();
         luggageContent.initScreen();
+        CustomerOverview customerContent = new CustomerOverview();
+        customerContent.initScreen();
         MissingForm missingContent = new MissingForm(); //ipv gridpane maken we een instantie onze eigen versie van gridpane.
         missingContent.initScreen(primaryStage); //hier roepen we de methode aan die alle elementen van het formulier toevoegd.
         FoundForm foundContent = new FoundForm();
@@ -277,10 +280,12 @@ public class Corendon extends Application {
         De tabs van het hoofdscherm
          */
         newscene.getStylesheets().add("resources/css/style.css");
-        tabScreen.getTabs().addAll(luggage, missing, found, users, stats, setts);
+        tabScreen.getTabs().addAll(luggage, customers, missing, found, users, stats, setts);
         tabScreen.setSide(Side.LEFT);
         luggage.setContent(luggageContent);
         luggage.setClosable(false);
+        customers.setContent(customerContent);
+        customers.setClosable(false);
         missing.setContent(missingContent);
         missing.setClosable(false);
         found.setContent(foundContent);
