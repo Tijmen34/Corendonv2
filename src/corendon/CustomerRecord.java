@@ -72,7 +72,7 @@ public String getCustomerId() {
         this.firstname.set(firstname);
     }
     
-    public String getTussenvoegsel() {
+    public String getTussenVoegsel() {
         return tussenVoegsel.get();
     }
 
@@ -88,11 +88,11 @@ public String getCustomerId() {
         this.surname.set(surname);
     }
     
-    public String getDateofbirth() {
+    public String getDateOfBirth() {
         return dateOfBirth.get();
     }
 
-    public void setDateofbirth(String dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth.set(dateOfBirth);
     }
     
@@ -104,11 +104,11 @@ public String getCustomerId() {
         this.street.set(street);
     }
     
-    public String getHousenr() {
+    public String getHouseNr() {
         return houseNr.get();
     }
 
-    public void setHousenr(String houseNr) {
+    public void setHouseNr(String houseNr) {
         this.houseNr.set(houseNr);
     }
     
@@ -120,11 +120,11 @@ public String getCustomerId() {
         this.town.set(town);
     }
     
-    public String getZipcode() {
+    public String getZipCode() {
         return zipCode.get();
     }
 
-    public void setzipCode(String zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode.set(zipCode);
     }
     
@@ -136,19 +136,19 @@ public String getCustomerId() {
         this.country.set(country);
     }
     
-    public String getPhonenr() {
+    public String getPhoneNr() {
         return phoneNr.get();
     }
 
-    public void setPhonenr(String phoneNr) {
+    public void setPhoneNr(String phoneNr) {
         this.phoneNr.set(phoneNr);
     }
     
-    public String getEmail() {
+    public String getEMail() {
         return eMail.get();
     }
 
-    public void setEmail(String eMail) {
+    public void setEMail(String eMail) {
         this.eMail.set(eMail);
     }
     
@@ -158,8 +158,8 @@ public String getCustomerId() {
     public String toString() {
         return "LuggageRecord2{" + "customerId=" + customerId + ", gender=" + gender + ", firstname=" + firstname + ", "
                 + "tussenVoegsel=" + tussenVoegsel + ", surname=" + surname + ", "
-                + "dateOfBirth=" + dateOfBirth + ", street=" + street + ", houseNr=" + houseNr + ", town=" + town + ", "
-                + "country=" + country + ", phoneNr=" + phoneNr + ", eMail=" + eMail +'}';
+                + "dateOfBirth=" + dateOfBirth + ", street=" + street + ", houseNr=" + houseNr + ", town=" + town + ", zipCode" + zipCode 
+                + ", country=" + country + ", phoneNr=" + phoneNr + ", eMail=" + eMail +'}';
     }
     
     public SimpleStringProperty[] toArray() {
