@@ -102,7 +102,7 @@ public class Corendon extends Application {
         LuggageOverview luggageContent = new LuggageOverview();
         luggageContent.initScreen(primaryStage);
         CustomerOverview customerContent = new CustomerOverview();
-        customerContent.initScreen();
+        customerContent.initScreen(primaryStage);
         MissingForm missingContent = new MissingForm(); //ipv gridpane maken we een instantie onze eigen versie van gridpane.
         missingContent.initScreen(primaryStage); //hier roepen we de methode aan die alle elementen van het formulier toevoegd.
         FoundForm foundContent = new FoundForm();

@@ -212,7 +212,7 @@ public class LuggageOverview extends BorderPane {
             tableView4.setItems(tableData);
             tableData.removeAll(stickyData);
             tableStatus.setText("Overview:");
-            topBar.getChildren().setAll(tableStatus, searchBar, searchButton);
+            topBar.getChildren().removeAll(back);
         });
         
          delete.setOnAction((ActionEvent e) -> {

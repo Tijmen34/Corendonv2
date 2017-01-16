@@ -23,6 +23,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  *
@@ -53,7 +54,7 @@ private DbManager dbManager;
     private boolean isShowingSearch = false;
 
 
-    public void initScreen() {
+    public void initScreen(Stage primaryStage) {
         dbManager = new DbManager();
         this.data = dbManager.getCustomerListFromDB();
         for (int i = 0; i < data.size(); i++) {
