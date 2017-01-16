@@ -203,11 +203,12 @@ public class Statistics extends BorderPane {
         
         chooseinfo.setOnAction(e -> {
         
-            if (statinfo.getSelectionModel().getSelectedIndex() == 1) {
+            
+            if (statinfo.getSelectionModel().getSelectedIndex() == 0) {
                 createChart();
-            } else if (statinfo.getSelectionModel().getSelectedIndex() == 2) {
+            } else if (statinfo.getSelectionModel().getSelectedIndex() == 1) {
                 createGraph();
-            } else if (statinfo.getSelectionModel().getSelectedIndex() == 3) {
+            } else if (statinfo.getSelectionModel().getSelectedIndex() == 2) {
                 createChart();
                 createGraph();
             }
