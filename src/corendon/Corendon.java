@@ -3,6 +3,23 @@
  */
 package corendon;
 
+
+/*
+ TODO:
+- PDF, pdf producer bij registreer missing
+- Maken Tab "Customer" (copy paste luggage en aanpassen)
+- Update registratie met extra informatie voor klant en bagage
+- Exporteer PDF na oplossing van een case
+- Statistics omzetten naar een chart/graph van gekozen jaar, ipv twee data (bijv. 01-01-2016 t/m 02-02-2016)
+- Verwijderen van vernietigde bagage beschikbaar maken
+- Reset wachtwoord, verander wachtwoord/user gegevens
+- Settings tab maken, hier kan de user zijn gegevens aanpassen
+- Statussen worden missing/solved/delivered
+*/
+
+
+
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
