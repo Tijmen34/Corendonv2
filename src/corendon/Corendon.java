@@ -91,7 +91,7 @@ public class Corendon extends Application {
         Tab setts   = new Tab("Settings");
         
         LuggageOverview luggageContent = new LuggageOverview();
-        luggageContent.initScreen();
+        luggageContent.initScreen(primaryStage);
         CustomerOverview customerContent = new CustomerOverview();
         customerContent.initScreen();
         MissingForm missingContent = new MissingForm(); //ipv gridpane maken we een instantie onze eigen versie van gridpane.
