@@ -19,7 +19,7 @@ import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Side;
+import javafx.geometry.Side;    
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
@@ -53,6 +53,7 @@ public class Statistics extends BorderPane {
     double valueFound = 0.0;
     double valueMissing = 0.0;
     double valueSolved = 0.0;
+    double valueDelivered = 0.0;
 
     Button submitDate = new Button("Retrieve");
     Button chooseinfo = new Button("Submit");
@@ -68,7 +69,7 @@ public class Statistics extends BorderPane {
     HBox hbox1 = new HBox();
     String date1Formatted;
     String date2Formatted;
-    ComboBox statinfo = new ComboBox(FXCollections.observableArrayList("Pie chart", "Graph", "Both"));
+    ComboBox statinfo = new ComboBox(FXCollections.observableArrayList("Pie chart", "Graph"));
     Stage primaryStage;
     
     
@@ -76,16 +77,18 @@ public class Statistics extends BorderPane {
 
         try (Connection conn = Sql.DbConnector();) {
 
-            String SQL1 = "select count(*) total, sum(case when status = 'found' and datum_bevestiging between ? AND ? then 1 else 0 end) found, sum(case when status = 'lost' and datum_bevestiging between ? AND ? then 1 else 0 end) lost, sum(case when status = 'solved' and datum_bevestiging between ? AND ? then 1 else 0 end) solved from bagage";
+            String SQL1 = "select count(*) total, sum(case when status = 'found' and datum_bevestiging between ? AND ? then 1 else 0 end) found, sum(case when status = 'lost' and datum_bevestiging between ? AND ? then 1 else 0 end) lost, sum(case when status = 'solved' and datum_bevestiging between ? AND ? then 1 else 0 end) solved, sum(case when status = 'delivered' and datum_bevestiging between ? AND ? then 1 else 0 end) delivered from bagage";
 
             pst = conn.prepareStatement(SQL1);
             pst.setString(1, date1Formatted);
             pst.setString(3, date1Formatted);
             pst.setString(5, date1Formatted);
+            pst.setString(7, date1Formatted);
             pst.setString(2, date2Formatted);
             pst.setString(4, date2Formatted);
             pst.setString(6, date2Formatted);
-
+            pst.setString(8, date2Formatted);
+            
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
@@ -93,6 +96,7 @@ public class Statistics extends BorderPane {
                 valueFound = rs.getInt("found");
                 valueMissing = rs.getInt("lost");
                 valueSolved = rs.getInt("solved");
+                valueDelivered = rs.getInt("delivered");
             }
 
         } catch (Exception ex) {
@@ -141,44 +145,41 @@ public class Statistics extends BorderPane {
                         new PieChart.Data("Total", valueTotal),
                         new PieChart.Data("Missing", valueMissing),
                         new PieChart.Data("Found", valueFound),
+                        new PieChart.Data("Delivered", valueDelivered),
                         new PieChart.Data("Solved", valueSolved));
 
+        int IntPie1 = (int) pieChartData.get(0).getPieValue();
+        int IntPie2 = (int) pieChartData.get(1).getPieValue();
+        int IntPie3 = (int) pieChartData.get(2).getPieValue();
+        int IntPie4 = (int) pieChartData.get(3).getPieValue();
+        int IntPie5 = (int) pieChartData.get(4).getPieValue();
+        
         final PieChart chart = new PieChart(pieChartData);
-        chart.setTitle("Lost & Found luggage statistics\nClick on a 'slice' to see amount");
+        chart.setTitle("Lost & Found luggage statistics");
         chart.setLabelLineLength(10);
         chart.setLegendSide(Side.BOTTOM);
-
+        chart.setStartAngle(90);
+        chart.setClockwise(true);
         caption.setTextFill(Color.BLACK);
-        caption.setStyle("-fx-font-weight: bold;");
-
-        for (final PieChart.Data data : chart.getData()) {
-            data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED,
-                    new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent e) {
-                    caption.setTranslateX(e.getSceneX() - 100);
-                    caption.setTranslateY(e.getSceneY());
-                    caption.setText(String.valueOf(data.getPieValue()) + " cases");
-                }
-            });
-        }
-        chart.setMaxSize(500, 500);
-        chart.setMinSize(500, 500);
+        caption.setStyle("-fx-font-weight: bold; -fx-font-size: 18;");
+        caption.setText("Total Cases: "     + IntPie1 +
+                        " | Missing Cases: "   + IntPie2 +
+                        " | Found Cases: "     + IntPie3 +
+                        " | Delivered: "       + IntPie4 +
+                        " | Solved: "          + IntPie5);
+        
         return chart;
     }
 
     public void initScreen(Stage primaryStage) {
         
         submitDate.setOnAction(e -> {
-            addStats();
             date1Formatted = date1.getText() + "-01-01";
             date2Formatted = date2.getText() + "-01-01";
-            System.out.println(date1Formatted + " " + date2Formatted);
-
             statinfo.getSelectionModel().select(0);
             getValues();
             this.setCenter(createChart());
-            this.setTop(caption);
+            addStats();
             this.setBottom(hbox1);
         });
 
@@ -187,7 +188,7 @@ public class Statistics extends BorderPane {
         this.setCenter(vbox);
         this.setTop(hbox);
 
-        hbox.getChildren().addAll(new Label(""));
+        hbox.getChildren().addAll(caption);
         vbox.getChildren().addAll(dateChoose, label1, date1, label2, date2, submitDate);
 
         date1.setPromptText("ex. 2016");
@@ -207,23 +208,16 @@ public class Statistics extends BorderPane {
     }
 
     public void addStats() {
-
+        
+        hbox1.setAlignment(Pos.CENTER);
         hbox1.getChildren().addAll(statinfo, chooseinfo, back);
-                
+        
         chooseinfo.setOnAction(e -> {
-            
                 this.getChildren().removeAll(getCenter(), getRight(), getLeft());
-                
             if (statinfo.getSelectionModel().getSelectedItem() == "Pie chart") {
-                
-                this.setTop(caption);
                 this.setCenter(createChart());
             } else if (statinfo.getSelectionModel().getSelectedItem() == "Graph") {
                 this.setCenter(createGraph());
-            } else if (statinfo.getSelectionModel().getSelectedItem() == "Both") {
-                this.setTop(caption);
-                this.setLeft(createChart());
-                this.setRight(createGraph());
             }
         });
         
@@ -234,6 +228,5 @@ public class Statistics extends BorderPane {
             hbox1.getChildren().clear();
             this.initScreen(primaryStage);
         });
-        
     }
 }
