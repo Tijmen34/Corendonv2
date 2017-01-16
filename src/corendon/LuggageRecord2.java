@@ -146,5 +146,14 @@ public class LuggageRecord2 {
         return "LuggageRecord2{" + "lostId=" + lostId + ", labelNr=" + labelNr + ", flightNr=" + flightNr + ", type=" + type + ", brandName=" + brandName + ", primaryColor=" + primaryColor + ", secondaryColor=" + secondaryColor + ", info=" + info + ", customerId=" + customerId + ", status=" + status + '}';
     }
     
+    public SimpleStringProperty[] toArray() {
+        SimpleStringProperty[] properties = new SimpleStringProperty[]
+                {this.brandName, this.customerId, this.date, 
+                this.flightNr, this.info, this.labelNr,
+                this.lostId, this.primaryColor, this.secondaryColor,
+                this.status, this.time, this.type};
+        return properties;
+    }
+    
     
 }
