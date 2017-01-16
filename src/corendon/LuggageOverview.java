@@ -44,6 +44,8 @@ import java.lang.Exception;
 import java.util.Calendar;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.EventType;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 
 /**
@@ -52,7 +54,6 @@ import javafx.scene.layout.VBox;
  */
 public class LuggageOverview extends BorderPane {
 
-    
     private DbManager dbManager;
 
     private ObservableList<LuggageRecord2> data
@@ -79,13 +80,17 @@ public class LuggageOverview extends BorderPane {
 
     private Button back = new Button("back");
     private Button searchButton = new Button("search");
+    private Button delete = new Button("delete");
     private TextField searchBar = new TextField();
     private Label tableStatus = new Label("Overview:");
-
+    
+    
+    
+    
+    
     private boolean isShowingSearch;
 
     public void initScreen() {
-        final int ROW_HEIGHT = 24;
         dbManager = new DbManager();
         this.data = dbManager.getLuggageListFromDB();
         for (int i = 0; i < data.size(); i++) {
@@ -129,13 +134,13 @@ public class LuggageOverview extends BorderPane {
         topBar.setStyle("-fx-background-color:#D81E05");
         // ------------------------------------------
 
-        tableView4.setMinSize(1000, (22 * ROW_HEIGHT) + 26);
-        tableView4.setMaxSize(1000, (22 * ROW_HEIGHT) + 26);
+        tableView4.setMinSize(1000, (22 * 24) + 26);
+        tableView4.setMaxSize(1000, (22 * 24) + 26);
 
         //-------------------------------------------
         //Sticky Tabel
-        tableViewSticky3.setMinSize(1000, ROW_HEIGHT + 26);
-        tableViewSticky3.setPrefSize(1000, ROW_HEIGHT + 26);
+        tableViewSticky3.setMinSize(1000, 24 + 26);
+        tableViewSticky3.setPrefSize(1000, 24 + 26);
         tableViewSticky3.setMaxWidth(1000);
         //--------------------------------------------
         //test record
@@ -154,13 +159,13 @@ public class LuggageOverview extends BorderPane {
             if (isShowingSearch == false) {
                 stickyData.add(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
                 tableData.remove(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
-                stickyBox.setPrefSize(1000, (stickyData.size() * ROW_HEIGHT) + 26);
-                tableViewSticky3.setPrefSize(1000, (stickyData.size() * ROW_HEIGHT) + 26);
+                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
             } else {
                 stickyData.add(searchResults.get(tableView4.getSelectionModel().getSelectedIndex()));
                 searchResults.remove(searchResults.get(tableView4.getSelectionModel().getSelectedIndex()));
-                stickyBox.setPrefSize(1000, (stickyData.size() * ROW_HEIGHT) + 26);
-                tableViewSticky3.setPrefSize(1000, (stickyData.size() * ROW_HEIGHT) + 26);
+                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
             }
         });
 
@@ -168,14 +173,14 @@ public class LuggageOverview extends BorderPane {
             if (isShowingSearch == false) {
                 tableData.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
                 stickyData.remove(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
-                stickyBox.setPrefSize(1000, (stickyData.size() * ROW_HEIGHT) + 26);
-                tableViewSticky3.setPrefSize(1000, (stickyData.size() * ROW_HEIGHT) + 26);
+                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
             } else {
                 searchResults.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
                 tableData.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
                 stickyData.remove(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
-                stickyBox.setPrefSize(1000, (stickyData.size() * ROW_HEIGHT) + 26);
-                tableViewSticky3.setPrefSize(1000, (stickyData.size() * ROW_HEIGHT) + 26);
+                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
+                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
             }
         });
 
@@ -188,6 +193,7 @@ public class LuggageOverview extends BorderPane {
             searchItems();
             tableStatus.setText("Search Results:");
             topBar.getChildren().add(back);
+            topBar.getChildren().add(delete);
         });
 
         back.setOnAction((ActionEvent e) -> {
@@ -196,6 +202,10 @@ public class LuggageOverview extends BorderPane {
             tableData.removeAll(stickyData);
             tableStatus.setText("Overview:");
             topBar.getChildren().setAll(tableStatus, searchBar, searchButton);
+        });
+        
+         delete.setOnAction((ActionEvent e) -> {
+            deleteLuggage();
         });
     }
 
@@ -229,19 +239,16 @@ public class LuggageOverview extends BorderPane {
                 LuggageRecord2 lost;
                 if (stickyData.get(0).getStatus().equals("found")) {
                     found = stickyData.get(0);
-                    lost = stickyData.get(1);
+                    lost =  stickyData.get(1);
                 } else {
                     found = stickyData.get(1);
-                    lost = stickyData.get(0);
+                    lost =  stickyData.get(0);
                 }
-
-                String SQL = "DELETE FROM bagage WHERE lost_id = " + "'" + found.getLostId() + "'" + " OR lost_id = " + "'" + lost.getLostId() + "'";
-                conn.createStatement().executeUpdate(SQL);
+                
                 PreparedStatement pst;
-                SQL = "INSERT INTO bagage"
+                String SQL = "INSERT INTO bagage"
                         + "(lost_id, labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging) VALUES"
-                        + "(?,?,?,?,?,?,?,?,?,'solved',NOW())";
-
+                        + "(?,?,?,?,?,?,?,?,?,?,'solved',NOW())";
                 pst = conn.prepareStatement(SQL);
                 pst.setString(1, found.getLostId());
                 pst.setString(2, found.getLabelNr());
@@ -252,14 +259,15 @@ public class LuggageOverview extends BorderPane {
                 pst.setString(7, found.getPrimaryColor());
                 pst.setString(8, found.getSecondaryColor());
                 pst.setString(9, found.getInfo());
-                //pst.setString(10,lost.getCustomerId());
-                //                LuggageRecord2 solvedCase = new LuggageRecord(found.getLostId(),
-                //                        found.getLabelNr(), lost.getFlightNr(),
-                //                        found.getType(), found.getBrandName(),
-                //                        found.getPrimaryColor(), found.getSecondaryColor(),
-                //                        found.getInfo(), lost.getCustomerId(), "solved", )
-                pst.executeUpdate();
-
+                pst.setString(10,lost.getCustomerId());
+                        //                LuggageRecord2 solvedCase = new LuggageRecord(found.getLostId(),
+                        //                        found.getLabelNr(), lost.getFlightNr(),
+                        //                        found.getType(), found.getBrandName(),
+                        //                        found.getPrimaryColor(), found.getSecondaryColor(),
+                        //                        found.getInfo(), lost.getCustomerId(), "solved", )
+                
+                System.out.println(SQL);
+                conn.createStatement().executeUpdate(SQL);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error on Building Data");
@@ -281,6 +289,41 @@ public class LuggageOverview extends BorderPane {
         tableData.clear();
         for (LuggageRecord2 record : data) {
             tableData.add(record);
+        }
+    }
+    public void deleteLuggage() {
+
+        int selectedIndex = tableView4.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete bagage?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            alert.setHeaderText(null);
+            alert.showAndWait();
+
+            if (alert.getResult() == ButtonType.YES) {
+                PreparedStatement prepS = null;
+
+                try (Connection conn = Sql.DbConnector();) {
+
+                    String query = "delete from bagage where lost_id = ?";
+                    prepS = conn.prepareStatement(query);
+                    prepS.executeUpdate();
+                    tableView4.getItems().remove(selectedIndex);
+                } catch (Exception e1) {
+                    System.out.println("SQL ERROR");
+                    System.err.println(e1);
+
+                }
+
+            }
+
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a luggage item in the table.");
+
+            alert.showAndWait();
         }
     }
 
