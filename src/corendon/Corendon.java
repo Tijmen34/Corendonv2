@@ -116,7 +116,7 @@ public class Corendon extends Application {
         UserSettings settingsContent = new UserSettings();
         settingsContent.initScreen(primaryStage);
         
-        Scene newscene = new Scene(tabScreen, 1500, 800, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven.
+        Scene newscene = new Scene(tabScreen, 1200, 500, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven.
         /*
          */
 
@@ -335,6 +335,10 @@ public class Corendon extends Application {
         Label emailLabel = new Label("E-mail: ");
         emailLabel.setStyle("-fx-text-fill:#D81E05");
         
+        
+       
+        
+        
         helpPage.setStyle("-fx-background-color:white");
         helpPage.setHgap(15);
         helpPage.setVgap(15);
@@ -345,6 +349,7 @@ public class Corendon extends Application {
         helpPage.add(emailLabel,1,3);
         helpPage.add(emailInput, 2,3,5,1);
         helpPage.add(statusRequest, 1, 6,7,1);
+        
         
         
         Scene helpScreen = new Scene(helpPage, 350, 350);
