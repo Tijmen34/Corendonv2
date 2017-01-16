@@ -35,12 +35,9 @@ private DbManager dbManager;
             = FXCollections.observableArrayList();
     private ObservableList<CustomerRecord> tableData
             = FXCollections.observableArrayList();
-    private ObservableList<CustomerRecord> stickyData
-            = FXCollections.observableArrayList();
     private ObservableList<CustomerRecord> searchResults
             = FXCollections.observableArrayList();
 
-    private TableView<CustomerRecord> tableViewSticky3;
     private TableView<CustomerRecord> tableView4;
 
     private VBox controlBox = new VBox();
@@ -50,15 +47,13 @@ private DbManager dbManager;
     private HBox topBar2 = new HBox();
     private BorderPane border1 = new BorderPane();
 
-    private Button selToStickyBtn = new Button("Sticky");
-    private Button selUnStickyBtn = new Button("Unsticky");
-
-    private Button back = new Button("back");
-    private Button searchButton = new Button("search");
+    private Button refresh = new Button("Refresh table");
+    private Button back = new Button("Back");
+    private Button searchButton = new Button("Search");
     private TextField searchBar = new TextField();
-    private Label tableStatus = new Label("Overview:");
+    private Label tableStatus = new Label("Search customers:");
+    private boolean isShowingSearch = false;
 
-    private boolean isShowingSearch;
 
     public void initScreen() {
         dbManager = new DbManager();
@@ -68,35 +63,14 @@ private DbManager dbManager;
         }
 
         tableView4 = dbManager.createCustomerTable();
-        tableViewSticky3 = dbManager.createCustomerTable();
-        isShowingSearch = false;
-
-        //ScrollPane scroll2 = new ScrollPane();
-        /*
-        hierarchie:
-                      LuggageOverview
-        border1,                        topBar1
-        tableSticky2,scroll2
-                      table3
         
-         */
- 
-
         this.setTop(topBar1);
         this.setRight(controlBox);
         this.setCenter(border1);
-        stickyBox.getChildren().add(tableViewSticky3);
-        border1.setTop(stickyBox);
         stickyBox.setAlignment(Pos.CENTER_LEFT);
         border1.setLeft(tableView4);
 
-        //-------------------------------------------
-        //balk met controls voor tabel rechts
-        controlBox.getChildren().addAll(selUnStickyBtn, selToStickyBtn);
-        controlBox.setSpacing(50);
 
-        //-------------------------------------------
-        //Rode balk bovenin het scherm
         searchBar = new TextField();
         Image corLogo = new Image("Corendon.png");
         ImageView logo = new ImageView();
@@ -104,12 +78,9 @@ private DbManager dbManager;
         logo.setFitWidth(300);
         logo.setPreserveRatio(true);
         logo.setSmooth(true);
-        
-        
+        tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-
-
-        topBar1.getChildren().addAll(topBar2, tableStatus, searchBar, searchButton);
+        topBar1.getChildren().addAll(topBar2, tableStatus, searchBar, searchButton, refresh);
         searchButton.setMinSize(20, 25);
         topBar1.setSpacing(30);
         topBar1.setMinHeight(50);
@@ -119,57 +90,22 @@ private DbManager dbManager;
 
         // ------------------------------------------
 
-        tableView4.setMinSize(1000, (22 * 24) + 26);
-        tableView4.setMaxSize(1000, (22 * 24) + 26);
+        tableView4.setMinSize(1115, (25 * 24) + 26);
+        tableView4.setMaxSize(1115, (25 * 24) + 26);
 
-        //-------------------------------------------
-        //Sticky Tabel
-        tableViewSticky3.setMinSize(1025, 24 + 26);
-        tableViewSticky3.setPrefSize(1025, 24 + 26);
-        tableViewSticky3.setMaxWidth(1025);
-        //--------------------------------------------
-        //test record
-//        LuggageRecord2 testRecord = new LuggageRecord2("0001", "3R5F2", "MH370",
-//                "Suitcase", "jemoeder", "Red", "Black",
-//                "NULL", "12324", "Missing", false);
-        //-------------------------------------------
+
         //tabellen vullen
-        tableViewSticky3.setItems(this.stickyData);
         tableView4.setItems(this.tableData);
         //stickyData.clear();
         //--------------------------------------------
 
-        //Buttons functioneel
-        selToStickyBtn.setOnAction((ActionEvent e) -> {
-            if (isShowingSearch == false) {
-                stickyData.add(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
-                tableData.remove(tableData.get(tableView4.getSelectionModel().getSelectedIndex()));
-                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
-                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
-            } else {
-                stickyData.add(searchResults.get(tableView4.getSelectionModel().getSelectedIndex()));
-                searchResults.remove(searchResults.get(tableView4.getSelectionModel().getSelectedIndex()));
-                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
-                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
+        refresh.setOnAction((ActionEvent e) -> {
+            for (int i = 0; i < tableView4.getItems().size(); i++) {
+                tableView4.getItems().clear();
             }
+            updateData();
+
         });
-
-        selUnStickyBtn.setOnAction((ActionEvent e) -> {
-            if (isShowingSearch == false) {
-                tableData.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
-                stickyData.remove(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
-                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
-                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
-            } else {
-                searchResults.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
-                tableData.add(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
-                stickyData.remove(stickyData.get(tableViewSticky3.getSelectionModel().getSelectedIndex()));
-                stickyBox.setPrefSize(1000, (stickyData.size() * 24) + 26);
-                tableViewSticky3.setPrefSize(1000, (stickyData.size() * 24) + 26);
-            }
-        });
-
-
         searchButton.setOnAction((ActionEvent e) -> {
             isShowingSearch = true;
             searchItems();
@@ -180,9 +116,8 @@ private DbManager dbManager;
         back.setOnAction((ActionEvent e) -> {
             isShowingSearch = false;
             tableView4.setItems(tableData);
-            tableData.removeAll(stickyData);
-            tableStatus.setText("Overview:");
-            topBar1.getChildren().setAll(tableStatus, searchBar, searchButton);
+            tableStatus.setText("Search customers:");
+            topBar1.getChildren().removeAll(back);
         });
     }
 
@@ -208,10 +143,10 @@ private DbManager dbManager;
     }
 
     public void updateData() {
-        stickyData.clear();
-        tableData.clear();
-        for (CustomerRecord record : data) {
-            tableData.add(record);
-        }
+        data = dbManager.getCustomerListFromDB();
+       for (int i = 0; i < this.data.size(); i++) {
+           this.tableData.add(this.data.get(i));
+       }
+               tableView4.setItems(this.tableData);
     }
 }

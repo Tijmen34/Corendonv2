@@ -145,12 +145,14 @@ public class LuggageOverview extends BorderPane {
 
         tableView4.setMinSize(1000, (22 * 24) + 26);
         tableView4.setMaxSize(1000, (22 * 24) + 26);
+        tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         //-------------------------------------------
         //Sticky Tabel
         tableViewSticky3.setMinSize(1000, 24 + 26);
         tableViewSticky3.setPrefSize(1000, 24 + 26);
         tableViewSticky3.setMaxWidth(1000);
+        tableViewSticky3.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         //--------------------------------------------
         //test record
 //        LuggageRecord2 testRecord = new LuggageRecord2("0001", "3R5F2", "MH370",

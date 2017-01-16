@@ -103,19 +103,19 @@ public class UsersOverview extends BorderPane {
         xbox.getChildren().addAll(text1, b, refresh, delete);
         text1.setAlignment(Pos.CENTER);
         scroll2.setContent(table3);
-        scroll2.setMinSize(815,700);
-        scroll2.setMaxSize(1000,800);
+        scroll2.setMinSize(815, 700);
+        scroll2.setMaxSize(1000, 800);
         table3.add(tableView4, 2, 0, 10, (tableData.size() + 1));
         refresh.setOnAction((ActionEvent e) -> {
-            for ( int i = 0; i<tableView4.getItems().size(); i++) {
-    tableView4.getItems().clear();
-    
-}
-        data.clear();
-        tableData.clear();
+            for (int i = 0; i < tableView4.getItems().size(); i++) {
+                tableView4.getItems().clear();
+
+            }
+            data.clear();
+            tableData.clear();
             updateData();
         });
-        
+
         delete.setOnAction((ActionEvent e) -> {
             deletePerson();
         });

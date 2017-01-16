@@ -179,7 +179,7 @@ public class DbManager {
     }
 
     public TableView createUserTable() {
-        final TableView<LuggageRecord2> tableView = new TableView();
+        final TableView<UserRecord> tableView = new TableView();
 
         //tabel colummen declareren
         TableColumn userIdCol = new TableColumn("User ID");
