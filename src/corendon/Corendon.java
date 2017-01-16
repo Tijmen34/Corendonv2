@@ -7,7 +7,6 @@ package corendon;
 /*
  TODO:
 
-
 Tijmen:
 - PDF, pdf producer bij registreer missing
 - Maken Tab "Customer" (copy paste luggage en aanpassen)
@@ -19,7 +18,6 @@ Jeroen:
 Burak:
 - Statistics omzetten naar een chart/graph van gekozen jaar, ipv twee data (bijv. 01-01-2016 t/m 02-02-2016)
 - Nieuwe status delivered in chart zetten
-- Settings tab maken, hier kan de user zijn gegevens aanpassen
 
 Zouhar:
 - Verwijderen van vernietigde bagage beschikbaar maken
@@ -73,6 +71,8 @@ public class Corendon extends Application {
     ResultSet rs = null;
     PreparedStatement pst = null;
     
+    static String uname = "";
+    
     @Override
     public void start(Stage primaryStage) {
         CheckConnection(); //de methode CheckConnection() wordt uitgevoerd
@@ -86,6 +86,7 @@ public class Corendon extends Application {
         Tab found   = new Tab("Found");
         Tab users   = new Tab("Users");
         Tab stats   = new Tab("Statistics");
+        Tab setts   = new Tab("Settings");
         
         LuggageOverview luggageContent = new LuggageOverview();
         luggageContent.initScreen();
@@ -97,6 +98,8 @@ public class Corendon extends Application {
         usersContent.initScreen(primaryStage);
         Statistics statsContent = new Statistics();
         statsContent.initScreen(primaryStage);
+        UserSettings settingsContent = new UserSettings();
+        settingsContent.initScreen(primaryStage);
         
         Scene newscene = new Scene(tabScreen, 1200, 700, Color.rgb(0, 0, 0, 0)); //het hoofdscherm wordt hier weergegeven.
         /*
@@ -109,8 +112,10 @@ public class Corendon extends Application {
         Button help = new Button("Help");
 
         //de fields voor username en password
+        
         TextField usrField = new TextField();
         PasswordField pwdField = new PasswordField();
+        
 
         //de default tekst wat in de fields staat
         usrField.setPromptText("Username");
@@ -158,7 +163,7 @@ public class Corendon extends Application {
                             primaryStage.setScene(newscene);                        
                             primaryStage.setTitle("Welcome");
                             primaryStage.show();
-                            
+                            uname = usrField.getText();
                             //als je inlogt als "admin", disable users tab
                          //   if (usrField.getText().contains("admin")) {
                           //      users.setDisable(true);
@@ -193,6 +198,7 @@ public class Corendon extends Application {
                     primaryStage.setScene(newscene);
                     primaryStage.setTitle("Welcome");
                     primaryStage.show();
+                    uname = usrField.getText();
                 } else {
                     loginLabel.setText("Invalid username/password.");
                 }
@@ -270,7 +276,7 @@ public class Corendon extends Application {
         De tabs van het hoofdscherm
          */
         newscene.getStylesheets().add("resources/css/style.css");
-        tabScreen.getTabs().addAll(luggage, missing, found, users, stats);
+        tabScreen.getTabs().addAll(luggage, missing, found, users, stats, setts);
         tabScreen.setSide(Side.LEFT);
         luggage.setContent(luggageContent);
         luggage.setClosable(false);
@@ -282,6 +288,8 @@ public class Corendon extends Application {
         users.setClosable(false);
         stats.setContent(statsContent);
         stats.setClosable(false);
+        setts.setContent(settingsContent);
+        setts.setClosable(false);
         
 //        luggage.getGraphic().setOnMouseClicked(e -> {
 //            luggageContent.getRecordsFromDB();
