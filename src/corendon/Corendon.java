@@ -94,7 +94,7 @@ public class Corendon extends Application {
         MissingForm missingContent = new MissingForm(); //ipv gridpane maken we een instantie onze eigen versie van gridpane.
         missingContent.initScreen(primaryStage); //hier roepen we de methode aan die alle elementen van het formulier toevoegd.
         FoundForm foundContent = new FoundForm();
-        foundContent.initScreen();
+        foundContent.initScreen(primaryStage);
         UsersOverview usersContent = new UsersOverview();
         usersContent.initScreen(primaryStage);
         Statistics statsContent = new Statistics();
