@@ -324,6 +324,7 @@ public class Corendon extends Application {
         
         GridPane helpPage = new GridPane();
         Button back = new Button("<- Back ");
+        Button manual = new Button("User Manual");
         Label forgotPassword = new Label("Forgot Password?");
         forgotPassword.setTextFill(Color.web("#00bce2"));
         forgotPassword.setStyle("-fx-font: 18px UniSansRegular");
@@ -340,6 +341,9 @@ public class Corendon extends Application {
             start(primaryStage);
         });
         
+        manual.setOnAction(e-> {
+            
+        });
         helpPage.setStyle("-fx-background-color:white");
         helpPage.setHgap(15);
         helpPage.setVgap(15);
@@ -351,6 +355,7 @@ public class Corendon extends Application {
         helpPage.add(emailInput, 2,3,5,1);
         helpPage.add(statusRequest, 1, 6,7,1);
         helpPage.add(back, 1, 7,8,1);
+        helpPage.add(manual, 5, 10,11,1);
         
         
         
