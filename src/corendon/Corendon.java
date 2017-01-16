@@ -15,10 +15,8 @@ Jeroen:
 - Exporteer PDF na oplossing van een case
 
 Burak:
-- Statistics omzetten naar een chart/graph van gekozen jaar, ipv twee data (bijv. 01-01-2016 t/m 02-02-2016)
-- Nieuwe status delivered in chart zetten
-- Log in met rights
 - Help knop
+- Grafiek
 
 Zouhar:
 - Verwijderen van vernietigde bagage beschikbaar maken
@@ -375,11 +373,11 @@ public class Corendon extends Application {
                 rs = pst.executeQuery();
 
                 if (rs.next()) {
-                    String query1 = "insert into users (lost_password) values (1)";
-                    
+                    String query1 = "update users set lost_password = (1) where email = ?";
                     pst2 = conn.prepareStatement(query1);
                     mail = emailInput.getText();
-                    statusRequest.setText("An e-mail has been send for a password reset.");
+                    pst2.setString(1, mail);
+                    statusRequest.setText("The admin has been notified for a password reset.");
                     pst2.executeUpdate();
                 } else {
                     statusRequest.setText("E-mail address is not found in the database.");
@@ -394,13 +392,7 @@ public class Corendon extends Application {
                 System.err.println(e1);
             }
         });
-//        luggage.getGraphic().setOnMouseClicked(e -> {
-//            luggageContent.getRecordsFromDB();
-//            //System.out.println("bam jonge");
-//        });
-        
-        /*
-         */
+
     }
 
     //check van tevoren de db verbinding
