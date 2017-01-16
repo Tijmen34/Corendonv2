@@ -49,6 +49,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import corendon.LuggageOverview;
 import corendon.Corendon;
+import java.awt.Desktop;
+import java.io.File;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -58,6 +60,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Callback;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 /**
  *
@@ -477,7 +484,11 @@ public class MissingForm extends GridPane {
             PreparedStatement pst2 = null;
                 try {
                     
-                if(labelInput.getText().isEmpty()|| typeInput.getSelectionModel().isEmpty() || priColorList.getSelectionModel().isEmpty() ||brandList.getSelectionModel().isEmpty() || flightInput.getText().isEmpty() || SurnameInput.getText().isEmpty() || NameInput.getText().isEmpty() || datePick.getEditor().getText().isEmpty() || streetInput.getText().isEmpty() || hnumberInput.getText().isEmpty() || placeInput.getText().isEmpty() || zipcodeInput.getText().isEmpty() || phonenrInput.getText().isEmpty()){               
+                if(labelInput.getText().isEmpty()|| typeInput.getSelectionModel().isEmpty() || 
+                        priColorList.getSelectionModel().isEmpty() ||brandList.getSelectionModel().isEmpty() || flightInput.getText().isEmpty() || 
+                        SurnameInput.getText().isEmpty() || NameInput.getText().isEmpty() || datePick.getEditor().getText().isEmpty() || 
+                        streetInput.getText().isEmpty() || hnumberInput.getText().isEmpty() || placeInput.getText().isEmpty() || zipcodeInput.getText().isEmpty() || 
+                        phonenrInput.getText().isEmpty()){               
                  Alert alert = new Alert(AlertType.WARNING);
                     alert.setTitle("Corendon - Luggage");
                     alert.setHeaderText(null);
@@ -528,6 +539,23 @@ public class MissingForm extends GridPane {
                 pst.executeUpdate();
                 pst2.executeUpdate();
                 
+                                PDDocument pdf = new PDDocument();
+                PDPage pdfPage = new PDPage();
+                pdf.addPage(pdfPage);
+                PDFont font = PDType1Font.TIMES_ROMAN;
+                    PDPageContentStream contentStream = new PDPageContentStream(pdf, pdfPage);
+                    contentStream.beginText();
+                    contentStream.setFont(font, 12);
+                    contentStream.drawString("Hello World");
+                    contentStream.endText();
+
+
+                  contentStream.close();
+
+
+                   pdf.save("Missing.pdf");
+                   pdf.close();
+                   Desktop.getDesktop().open(new File("Missing.pdf"));
                 
                     
                 }
