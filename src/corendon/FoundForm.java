@@ -238,20 +238,20 @@ public class FoundForm extends GridPane{
         destinationInput.setPromptText("Destination");
         destinationInput.setStyle(fieldStyle);
         
-        Label nameTraveler= new Label("Name traveler: ");
-        nameTraveler.setTextFill(Color.web("#333333"));
-        TextField surnameInput = new TextField ();
-        //contactDetails.setFont(OpenSans);
-        surnameInput.setPromptText("Surname");
-        surnameInput.setStyle(fieldStyle);
-        
-        Label firstname = new Label("firstname: ");
-        firstname.setTextFill(Color.web("#333333"));
-        TextField firstNameInput = new TextField ();
-        //email.setFont(OpenSans);
-        firstNameInput.setPromptText("Firstname");
-        firstNameInput.setMaxWidth(400);
-        firstNameInput.setStyle(fieldStyle);
+//        Label nameTraveler= new Label("Name traveler: ");
+//        nameTraveler.setTextFill(Color.web("#333333"));
+//        TextField surnameInput = new TextField ();
+//        //contactDetails.setFont(OpenSans);
+//        surnameInput.setPromptText("Surname");
+//        surnameInput.setStyle(fieldStyle);
+//        
+//        Label firstname = new Label("firstname: ");
+//        firstname.setTextFill(Color.web("#333333"));
+//        TextField firstNameInput = new TextField ();
+//        //email.setFont(OpenSans);
+//        firstNameInput.setPromptText("Firstname");
+//        firstNameInput.setMaxWidth(400);
+//        firstNameInput.setStyle(fieldStyle);
         
         //baggage informatie
         Label bagType= new Label("Luggage Type: ");
@@ -334,9 +334,9 @@ public class FoundForm extends GridPane{
         this.add(flightInput, 2,8);
         this.add(destination, 1, 10);
         this.add(destinationInput, 2,10);
-        this.add(nameTraveler, 1, 11);
-        this.add(firstNameInput, 2,11);
-        this.add(surnameInput, 3,11);
+//        this.add(nameTraveler, 1, 11);
+//        this.add(firstNameInput, 2,11);
+//        this.add(surnameInput, 3,11);
         this.add(separator1,5,2, 10,18);
         //BAGAGEINFO
         this.add(luggageInfo, 7, 4);
@@ -396,7 +396,7 @@ public class FoundForm extends GridPane{
                             pst.setString(4, (String) typeInput.getSelectionModel().getSelectedItem());
                             pst.setString(8, infoInput.getText());
                             pst.setString(9, destinationInput.getText());
-                            pst.setString(10,firstNameInput.getText() + " " + surnameInput.getText());
+                            
 
 
 
