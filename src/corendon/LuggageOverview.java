@@ -47,13 +47,14 @@ import javafx.event.EventType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 
 /**
  *
  * @author iS109-3
  */
 public class LuggageOverview extends BorderPane {
-
+    private Stage primaryStage;
     private DbManager dbManager;
 
     private ObservableList<LuggageRecord2> data
@@ -85,13 +86,16 @@ public class LuggageOverview extends BorderPane {
     private TextField searchBar = new TextField();
     private Label tableStatus = new Label("Overview:");
     
-    
+    private Button cancelEdit;
+    private Button confirmEdit;
+    private Button resetEdit;
     
     
     
     private boolean isShowingSearch;
 
     public void initScreen(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         dbManager = new DbManager();
         this.data = dbManager.getLuggageListFromDB();
         for (int i = 0; i < data.size(); i++) {
@@ -322,11 +326,8 @@ public class LuggageOverview extends BorderPane {
                 } catch (Exception e1) {
                     System.out.println("SQL ERROR");
                     System.err.println(e1);
-
                 }
-
             }
-
         } else {
             // Nothing selected.
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -336,6 +337,57 @@ public class LuggageOverview extends BorderPane {
 
             alert.showAndWait();
         }
+    }
+    
+    
+    public void editLuggageRecord(Stage primaryStage) {
+        
+        //niewe popup, de rest van de app bevriest.
+        final Stage checkPopup = new Stage();
+        checkPopup.initModality(Modality.APPLICATION_MODAL);
+        checkPopup.initOwner(primaryStage);
+        GridPane form = new GridPane();
+        this.cancelEdit = new Button("Cancel");
+        this.confirmEdit = new Button("Ok");
+        this.resetEdit = new Button("Reset");
+        //lost_id, labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging
+        Label title = new Label("Edit record");
+        Label labelnr = new Label("Label nr");
+        Label vlucht = new Label("Flight nr");
+        Label iata = new Label("IATA");
+        Label lugType = new Label("Type");
+        Label merk = new Label("Brand");
+        Label prikleur = new Label("Primary color");
+        Label seckleur = new Label("Secondary color");
+        Label extraInfo = new Label("Extra info");
+        Label status = new Label("status");
+        Label datumBevestiging = new Label("Date and Time");
+        
+        TextField titleField = new TextField("Edit record");
+        TextField labelnrField = new TextField("Label nr");
+        TextField vluchtField = new TextField("Flight nr");
+        TextField iataField = new TextField("IATA");
+        TextField lugTypeField = new TextField("Type");
+        TextField merkField = new TextField("Brand");
+        TextField prikleurField = new TextField("Primary color");
+        TextField seckleurField = new TextField("Secondary color");
+        TextField extraInfoField = new TextField("Extra info");
+        TextField statusField = new TextField("status");
+        TextField datumBevestigingField = new TextField("Date and Time");
+        
+        
+        
+        
+        
+        
+        form.setPadding(new Insets(0, 0, 0, 0));
+        form.getChildren().addAll();
+        
+        
+        
+        Scene dialogScene = new Scene(form, 800, 1000);
+        checkPopup.setScene(dialogScene);
+        checkPopup.show();
     }
 
 }
