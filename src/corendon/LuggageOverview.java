@@ -421,9 +421,10 @@ public class LuggageOverview extends BorderPane {
             try (Connection conn = Sql.DbConnector();) {
 
                 PreparedStatement pst;
-                String SQL = "UPDATE bagage SET"
-                        + " labelnr= ?, vlucht= ?, iata= ?, lugType= ?, merk= ?, Prikleur= ?, SecKleur= ?, extra_info= ?, status= ?, datum_bevestiging= ?"
-                        + " WHERE lost_id= ?";
+                String SQL = "UPDATE bagage "
+                        + "SET labelnr= ?, vlucht= ?, iata= ?, lugType= ?, merk= ?, Prikleur= ?, SecKleur= ?, "
+                        + "extra_info= ?, status= ?, datum_bevestiging= ? "
+                        + "WHERE lost_id= ?";
 
                 pst = conn.prepareStatement(SQL);
                 pst.setString(1, labelnrField.getText());
