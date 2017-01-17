@@ -54,6 +54,7 @@ import javafx.stage.Modality;
  * @author iS109-3
  */
 public class LuggageOverview extends BorderPane {
+
     private Stage primaryStage;
     private DbManager dbManager;
 
@@ -76,25 +77,29 @@ public class LuggageOverview extends BorderPane {
     private HBox topBar2 = new HBox();
     private BorderPane border1 = new BorderPane();
 
-    private Button selToStickyBtn = new Button("^^");
-    private Button selUnStickyBtn = new Button("vv");
-    private Button stickyMatchBtn = new Button("Match!");
+    private Button selToStickyBtn = new Button("Select");
+    private Button selUnStickyBtn = new Button("Deselect");
+    private Button stickyMatchBtn = new Button("Solve");
+
+    private Button editRecord = new Button("Ëdit");
 
     private Button back = new Button("back");
     private Button searchButton = new Button("search");
     private Button delete = new Button("delete");
     private TextField searchBar = new TextField();
     private Label tableStatus = new Label("Overview:");
-    
+
     private Button cancelEdit;
     private Button confirmEdit;
     private Button resetEdit;
-    
-    
-    
+
     private boolean isShowingSearch;
 
     public void initScreen(Stage primaryStage) {
+        this.selToStickyBtn.setPrefSize(100, 20);
+        this.selUnStickyBtn.setPrefSize(100, 20);
+        this.stickyMatchBtn.setPrefSize(100, 20);
+
         this.primaryStage = primaryStage;
         dbManager = new DbManager();
         this.data = dbManager.getLuggageListFromDB();
@@ -124,7 +129,7 @@ public class LuggageOverview extends BorderPane {
 
         //-------------------------------------------
         //balk met controls voor tabel rechts
-        controlBox.getChildren().addAll(selUnStickyBtn, stickyMatchBtn, selToStickyBtn);
+        controlBox.getChildren().addAll(selUnStickyBtn, stickyMatchBtn, selToStickyBtn, editRecord);
         controlBox.setSpacing(50);
 
         //-------------------------------------------
@@ -136,7 +141,6 @@ public class LuggageOverview extends BorderPane {
         logo.setFitWidth(300);
         logo.setPreserveRatio(true);
         logo.setSmooth(true);
-        
 
         topBar.getChildren().addAll(topBar2, tableStatus, searchBar, searchButton);
         searchButton.setMinSize(20, 25);
@@ -218,9 +222,13 @@ public class LuggageOverview extends BorderPane {
             tableStatus.setText("Overview:");
             topBar.getChildren().removeAll(back);
         });
-        
-         delete.setOnAction((ActionEvent e) -> {
+
+        delete.setOnAction((ActionEvent e) -> {
             deleteLuggage();
+        });
+
+        editRecord.setOnAction((ActionEvent e) -> {
+            editLuggageRecord(primaryStage);
         });
     }
 
@@ -254,12 +262,12 @@ public class LuggageOverview extends BorderPane {
                 LuggageRecord2 lost;
                 if (stickyData.get(0).getStatus().equals("found")) {
                     found = stickyData.get(0);
-                    lost =  stickyData.get(1);
+                    lost = stickyData.get(1);
                 } else {
                     found = stickyData.get(1);
-                    lost =  stickyData.get(0);
+                    lost = stickyData.get(0);
                 }
-                
+
                 PreparedStatement pst;
                 String SQL = "INSERT INTO bagage"
                         + "(lost_id, labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging) VALUES"
@@ -274,13 +282,8 @@ public class LuggageOverview extends BorderPane {
                 pst.setString(7, found.getPrimaryColor());
                 pst.setString(8, found.getSecondaryColor());
                 pst.setString(9, found.getInfo());
-                pst.setString(10,lost.getCustomerId());
-                        //                LuggageRecord2 solvedCase = new LuggageRecord(found.getLostId(),
-                        //                        found.getLabelNr(), lost.getFlightNr(),
-                        //                        found.getType(), found.getBrandName(),
-                        //                        found.getPrimaryColor(), found.getSecondaryColor(),
-                        //                        found.getInfo(), lost.getCustomerId(), "solved", )
-                
+                pst.setString(10, lost.getCustomerId());
+
                 System.out.println(SQL);
                 conn.createStatement().executeUpdate(SQL);
             } catch (Exception e) {
@@ -306,6 +309,7 @@ public class LuggageOverview extends BorderPane {
             tableData.add(record);
         }
     }
+
     public void deleteLuggage() {
 
         int selectedIndex = tableView4.getSelectionModel().getSelectedIndex();
@@ -338,11 +342,12 @@ public class LuggageOverview extends BorderPane {
             alert.showAndWait();
         }
     }
-    
-    
+
     public void editLuggageRecord(Stage primaryStage) {
-        
+
         //niewe popup, de rest van de app bevriest.
+        LuggageRecord2 recordToEdit = tableView4.getSelectionModel().getSelectedItem();
+
         final Stage checkPopup = new Stage();
         checkPopup.initModality(Modality.APPLICATION_MODAL);
         checkPopup.initOwner(primaryStage);
@@ -350,7 +355,7 @@ public class LuggageOverview extends BorderPane {
         this.cancelEdit = new Button("Cancel");
         this.confirmEdit = new Button("Ok");
         this.resetEdit = new Button("Reset");
-        //lost_id, labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging
+
         Label title = new Label("Edit record");
         Label labelnr = new Label("Label nr");
         Label vlucht = new Label("Flight nr");
@@ -362,29 +367,108 @@ public class LuggageOverview extends BorderPane {
         Label extraInfo = new Label("Extra info");
         Label status = new Label("status");
         Label datumBevestiging = new Label("Date and Time");
+
+        TextField labelnrField = new TextField(recordToEdit.getLabelNr());
+        TextField vluchtField = new TextField(recordToEdit.getFlightNr());
+        TextField iataField = new TextField(recordToEdit.getIata());
+        TextField lugTypeField = new TextField(recordToEdit.getType());
+        TextField merkField = new TextField(recordToEdit.getBrandName());
+        TextField prikleurField = new TextField(recordToEdit.getPrimaryColor());
+        TextField seckleurField = new TextField(recordToEdit.getSecondaryColor());
+        TextField extraInfoField = new TextField(recordToEdit.getInfo());
+        TextField statusField = new TextField(recordToEdit.getStatus());
+        TextField datumBevestigingField = new TextField(recordToEdit.getDate());
+
+        form.add(title, 1, 1);
+
+        form.add(labelnr, 1, 2);
+        form.add(labelnrField, 2, 2, 2, 1);
+        form.add(vlucht, 1, 3);
+        form.add(vluchtField, 2, 3, 2, 1);
+        form.add(iata, 1, 4);
+        form.add(iataField, 2, 4, 2, 1);
+        form.add(lugType, 1, 5);
+        form.add(lugTypeField, 2, 5, 2, 1);
+        form.add(merk, 1, 6);
+        form.add(merkField, 2, 6, 2, 1);
+        form.add(prikleur, 1, 7);
+        form.add(prikleurField, 2, 7, 2, 1);
+        form.add(seckleur, 1, 8);
+        form.add(seckleurField, 2, 8, 2, 1);
+        form.add(extraInfo, 1, 9);
+        form.add(extraInfoField, 2, 9, 2, 1);
+        form.add(status, 1, 10);
+        form.add(statusField, 2, 10, 2, 1);
+        form.add(datumBevestiging, 1, 11);
+        form.add(datumBevestigingField, 2, 11, 2, 1);
+
+        //labelnrField.setText(recordToEdit.getLabelNr());
+        //vluchtField.setText(recordToEdit.getFlightNr());
+        //iataField.setText
+//        resetEdit.setOnAction((ActionEvent e) -> {
+//            deleteLuggage();
+//        });
+        form.add(confirmEdit, 1, 12);
+        form.add(resetEdit, 2, 12);
+        form.add(cancelEdit, 3, 12);
+
+//        confirmEdit.setOnAction((ActionEvent e) -> {
+//            try (Connection conn = Sql.DbConnector();) {
+//                PreparedStatement pst;
+//                String SQL = "UPDATE bagage set"
+//                        + "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging) VALUES"
+//                        + "(?,?,?,?,?,?,?,?,?,?)";
+//
+//                pst = conn.prepareStatement(SQL);
+//                pst.setString(1, labelnrField.getText());
+//                pst.setString(2, vluchtField.getText());
+//                pst.setString(3, iataField.getText());
+//                pst.setString(4, lugTypeField.getText());
+//                pst.setString(5, merkField.getText());
+//                pst.setString(6, prikleurField.getText());
+//                pst.setString(7, seckleurField.getText());
+//                pst.setString(8, extraInfoField.getText());
+//                pst.setString(9, statusField.getText());
+//                pst.setString(10, datumBevestigingField.getText());
+//
+//                System.out.println(SQL);
+//                conn.createStatement().executeUpdate(SQL);
+//            } catch (Exception e2) {
+//                e2.printStackTrace();
+//                System.out.println("Error on Building Data");
+//            }
+//            this.data.clear();
+//            this.tableData.clear();
+//            this.data = dbManager.getLuggageListFromDB();
+//            for (int i = 0; i < data.size(); i++) {
+//                tableData.add(data.get(i));
+//            }
+//            checkPopup.close();
+//            
+//            
+//        });
+
+        resetEdit.setOnAction((ActionEvent e) -> {
+            labelnrField.setText(recordToEdit.getLabelNr());
+            vluchtField.setText(recordToEdit.getFlightNr());
+            iataField.setText(recordToEdit.getIata());
+            lugTypeField.setText(recordToEdit.getType());
+            merkField.setText(recordToEdit.getBrandName());
+            prikleurField.setText(recordToEdit.getPrimaryColor());
+            seckleurField.setText(recordToEdit.getSecondaryColor());
+            extraInfoField.setText(recordToEdit.getInfo());
+            statusField.setText(recordToEdit.getStatus());
+            datumBevestigingField.setText(recordToEdit.getDate());
+        });
         
-        TextField titleField = new TextField("Edit record");
-        TextField labelnrField = new TextField("Label nr");
-        TextField vluchtField = new TextField("Flight nr");
-        TextField iataField = new TextField("IATA");
-        TextField lugTypeField = new TextField("Type");
-        TextField merkField = new TextField("Brand");
-        TextField prikleurField = new TextField("Primary color");
-        TextField seckleurField = new TextField("Secondary color");
-        TextField extraInfoField = new TextField("Extra info");
-        TextField statusField = new TextField("status");
-        TextField datumBevestigingField = new TextField("Date and Time");
-        
-        
-        
-        
-        
-        
+        cancelEdit.setOnAction((ActionEvent e) -> {
+            checkPopup.close();
+            
+        });
+
         form.setPadding(new Insets(0, 0, 0, 0));
         form.getChildren().addAll();
-        
-        
-        
+
         Scene dialogScene = new Scene(form, 800, 1000);
         checkPopup.setScene(dialogScene);
         checkPopup.show();
