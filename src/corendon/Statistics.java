@@ -253,7 +253,7 @@ public class Statistics extends BorderPane {
         final LineChart<Number, Number> lineChart
                 = new LineChart<Number, Number>(xAxis, yAxis);
 
-        lineChart.setTitle("Total cases");
+        lineChart.setTitle("Total cases of year: " + date1.getText());
         //defining a series
         XYChart.Series series = new XYChart.Series();
         series.setName("Total cases");
