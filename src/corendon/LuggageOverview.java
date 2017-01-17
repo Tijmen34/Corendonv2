@@ -410,6 +410,7 @@ public class LuggageOverview extends BorderPane {
 //        });
         form.add(confirmEdit, 1, 12);
         form.add(resetEdit, 2, 12);
+        
         form.add(cancelEdit, 3, 12);
 
 //        confirmEdit.setOnAction((ActionEvent e) -> {
