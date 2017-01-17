@@ -329,7 +329,7 @@ public class FoundForm extends GridPane{
         this.add(luggageLabelInfo, 1, 6, 2, 1);
         this.add(bagLabel, 1, 7);
         this.add(labelInput, 2,7);
-        this.add(labelCheck, 2, 7,1,5);
+        this.add(labelCheck, 2, 8,1,3);
         this.add(flightNr, 1, 8);
         this.add(flightInput, 2,8);
         this.add(destination, 1, 10);
