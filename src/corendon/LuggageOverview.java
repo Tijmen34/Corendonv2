@@ -86,6 +86,7 @@ public class LuggageOverview extends BorderPane {
     private Button back = new Button("back");
     private Button searchButton = new Button("search");
     private Button delete = new Button("delete");
+    private Button deleteExpired = new Button("delete expired");
     private TextField searchBar = new TextField();
     private Label tableStatus = new Label("Overview:");
 
@@ -129,7 +130,7 @@ public class LuggageOverview extends BorderPane {
 
         //-------------------------------------------
         //balk met controls voor tabel rechts
-        controlBox.getChildren().addAll(selUnStickyBtn, stickyMatchBtn, selToStickyBtn, editRecord);
+        controlBox.getChildren().addAll(selUnStickyBtn, stickyMatchBtn, selToStickyBtn, editRecord, delete, deleteExpired);
         controlBox.setSpacing(50);
 
         //-------------------------------------------
@@ -224,11 +225,15 @@ public class LuggageOverview extends BorderPane {
         });
 
         delete.setOnAction((ActionEvent e) -> {
-            deleteLuggage();
+            deleteLuggage(false);
+        });
+
+        deleteExpired.setOnAction((ActionEvent e) -> {
+            deleteLuggage(true);
         });
 
         editRecord.setOnAction((ActionEvent e) -> {
-            editLuggageRecord(primaryStage);
+            editLuggageRecord(primaryStage, tableView4.getSelectionModel().getSelectedItem());
         });
     }
 
@@ -310,7 +315,7 @@ public class LuggageOverview extends BorderPane {
         }
     }
 
-    public void deleteLuggage() {
+    public void deleteLuggage(boolean deleteAllExpired) {
 
         int selectedIndex = tableView4.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
@@ -322,8 +327,12 @@ public class LuggageOverview extends BorderPane {
                 PreparedStatement prepS = null;
 
                 try (Connection conn = Sql.DbConnector();) {
-
-                    String query = "delete from bagage where lost_id = ?";
+                    String query;
+                    if (deleteAllExpired == false) {
+                        query = "delete from bagage where lost_id = ?";
+                    } else {
+                        query = "delete form bagage where datum_bevestiging = ?";
+                    }
                     prepS = conn.prepareStatement(query);
                     prepS.executeUpdate();
                     tableView4.getItems().remove(selectedIndex);
@@ -343,11 +352,10 @@ public class LuggageOverview extends BorderPane {
         }
     }
 
-    public void editLuggageRecord(Stage primaryStage) {
+    public void editLuggageRecord(Stage primaryStage, LuggageRecord2 recordToEdit) {
 
         //niewe popup, de rest van de app bevriest.
-        LuggageRecord2 recordToEdit = tableView4.getSelectionModel().getSelectedItem();
-
+        //LuggageRecord2 recordToEdit = tableView4.getSelectionModel().getSelectedItem();
         final Stage checkPopup = new Stage();
         checkPopup.initModality(Modality.APPLICATION_MODAL);
         checkPopup.initOwner(primaryStage);
@@ -365,7 +373,7 @@ public class LuggageOverview extends BorderPane {
         Label prikleur = new Label("Primary color");
         Label seckleur = new Label("Secondary color");
         Label extraInfo = new Label("Extra info");
-        Label status = new Label("status");
+        Label status = new Label("Status");
         Label datumBevestiging = new Label("Date and Time");
 
         TextField labelnrField = new TextField(recordToEdit.getLabelNr());
@@ -402,52 +410,51 @@ public class LuggageOverview extends BorderPane {
         form.add(datumBevestiging, 1, 11);
         form.add(datumBevestigingField, 2, 11, 2, 1);
 
-        //labelnrField.setText(recordToEdit.getLabelNr());
-        //vluchtField.setText(recordToEdit.getFlightNr());
-        //iataField.setText
-//        resetEdit.setOnAction((ActionEvent e) -> {
-//            deleteLuggage();
-//        });
+        
         form.add(confirmEdit, 1, 12);
         form.add(resetEdit, 2, 12);
-        
+
         form.add(cancelEdit, 3, 12);
 
-//        confirmEdit.setOnAction((ActionEvent e) -> {
-//            try (Connection conn = Sql.DbConnector();) {
-//                PreparedStatement pst;
-//                String SQL = "UPDATE bagage set"
-//                        + "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging) VALUES"
-//                        + "(?,?,?,?,?,?,?,?,?,?)";
-//
-//                pst = conn.prepareStatement(SQL);
-//                pst.setString(1, labelnrField.getText());
-//                pst.setString(2, vluchtField.getText());
-//                pst.setString(3, iataField.getText());
-//                pst.setString(4, lugTypeField.getText());
-//                pst.setString(5, merkField.getText());
-//                pst.setString(6, prikleurField.getText());
-//                pst.setString(7, seckleurField.getText());
-//                pst.setString(8, extraInfoField.getText());
-//                pst.setString(9, statusField.getText());
-//                pst.setString(10, datumBevestigingField.getText());
-//
-//                System.out.println(SQL);
-//                conn.createStatement().executeUpdate(SQL);
-//            } catch (Exception e2) {
-//                e2.printStackTrace();
-//                System.out.println("Error on Building Data");
-//            }
-//            this.data.clear();
-//            this.tableData.clear();
-//            this.data = dbManager.getLuggageListFromDB();
-//            for (int i = 0; i < data.size(); i++) {
-//                tableData.add(data.get(i));
-//            }
-//            checkPopup.close();
-//            
-//            
-//        });
+        // OK button sends Update
+        confirmEdit.setOnAction((ActionEvent e) -> {
+            try (Connection conn = Sql.DbConnector();) {
+
+                PreparedStatement pst;
+                String SQL = "UPDATE bagage SET"
+                        + " labelnr= ?, vlucht= ?, iata= ?, lugType= ?, merk= ?, Prikleur= ?, SecKleur= ?, extra_info= ?, status= ?, datum_bevestiging= ?"
+                        + " WHERE lost_id= ?";
+
+                pst = conn.prepareStatement(SQL);
+                pst.setString(1, labelnrField.getText());
+                pst.setString(2, vluchtField.getText());
+                pst.setString(3, iataField.getText());
+                pst.setString(4, lugTypeField.getText());
+                pst.setString(5, merkField.getText());
+                pst.setString(6, prikleurField.getText());
+                pst.setString(7, seckleurField.getText());
+                pst.setString(8, extraInfoField.getText());
+                pst.setString(9, statusField.getText());
+                pst.setString(10, datumBevestigingField.getText());
+                pst.setString(11, recordToEdit.getLostId());
+
+                pst.executeUpdate();
+                //conn.createStatement().executeUpdate(SQL);
+                System.out.println(SQL);
+
+            } catch (Exception e2) {
+                e2.printStackTrace();
+                System.out.println("Error on Building Data");
+            }
+            this.data.clear();
+            this.tableData.clear();
+            this.data = dbManager.getLuggageListFromDB();
+            for (int i = 0; i < data.size(); i++) {
+                tableData.add(data.get(i));
+            }
+            checkPopup.close();
+
+        });
 
         resetEdit.setOnAction((ActionEvent e) -> {
             labelnrField.setText(recordToEdit.getLabelNr());
@@ -461,16 +468,16 @@ public class LuggageOverview extends BorderPane {
             statusField.setText(recordToEdit.getStatus());
             datumBevestigingField.setText(recordToEdit.getDate());
         });
-        
+
         cancelEdit.setOnAction((ActionEvent e) -> {
             checkPopup.close();
-            
+
         });
 
         form.setPadding(new Insets(0, 0, 0, 0));
         form.getChildren().addAll();
 
-        Scene dialogScene = new Scene(form, 800, 1000);
+        Scene dialogScene = new Scene(form, 500, 600);
         checkPopup.setScene(dialogScene);
         checkPopup.show();
     }
