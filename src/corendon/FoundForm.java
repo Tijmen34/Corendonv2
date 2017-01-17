@@ -52,6 +52,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import corendon.LuggageOverview;
 import corendon.Corendon;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -96,7 +98,7 @@ public class FoundForm extends GridPane{
         HBox hbox = new HBox();
         hbox.setStyle("-fx-background-color: white;");
         hbox.setSpacing(0);
-        hbox.setAlignment(Pos.TOP_RIGHT);
+        hbox.setAlignment(Pos.TOP_LEFT);
         Image corLogo = new Image("Corendon.png");
         ImageView logo = new ImageView();
         logo.setImage(corLogo);
@@ -185,6 +187,16 @@ public class FoundForm extends GridPane{
         iataSearch.setPromptText("IATA");
         iataSearch.setMaxWidth(55);
         iataSearch.setStyle(fieldStyle);
+        final int IATALIMIT = 3;
+        
+        iataSearch.textProperty().addListener(new ChangeListener<String>() {
+        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+            if (iataSearch.getText().length() > IATALIMIT) {
+                String s = iataSearch.getText().substring(0, IATALIMIT);
+                iataSearch.setText(s);
+            }
+        }
+    });
         
         
         // Algemene informatie  
@@ -197,13 +209,6 @@ public class FoundForm extends GridPane{
         datePick.setPromptText("DD-MM-JJJJ");
         datePick.setStyle(fieldStyle);
 
-        
-        Label airport= new Label("Airport: ");
-        airport.setTextFill(Color.web("#333333"));
-        TextField airportInput = new TextField ();
-        //airport.setFont(OpenSans);
-        airportInput.setPromptText("Airport");
-        airportInput.setStyle(fieldStyle);
         
         
         
@@ -231,12 +236,24 @@ public class FoundForm extends GridPane{
         flightInput.setMaxWidth(400);
         flightInput.setStyle(fieldStyle);
         
-         Label destination= new Label("Destination: ");
+         Label destination= new Label("Destination IATA: ");
         //name.setFont(OpenSans);
         destination.setTextFill(Color.web("#333333"));
         TextField destinationInput = new TextField ();
-        destinationInput.setPromptText("Destination");
+        destinationInput.setPromptText("IATA");
         destinationInput.setStyle(fieldStyle);
+        destinationInput.setMaxWidth(55);
+        
+        
+        
+        destinationInput.textProperty().addListener(new ChangeListener<String>() {
+        public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+            if (destinationInput.getText().length() > IATALIMIT) {
+                String s = destinationInput.getText().substring(0, IATALIMIT);
+                destinationInput.setText(s);
+            }
+        }
+    });
         
 //        Label nameTraveler= new Label("Name traveler: ");
 //        nameTraveler.setTextFill(Color.web("#333333"));
@@ -292,7 +309,7 @@ public class FoundForm extends GridPane{
         moreInfo.setTextFill(Color.web("#333333"));
         TextArea infoInput = new TextArea();
         //moreInfo.setFont(OpenSans);
-        infoInput.setPromptText("Further Luggage Information...");
+        infoInput.setPromptText("Further Luggage Information...            ");
         infoInput.setMaxWidth(240);
         
         
@@ -305,20 +322,19 @@ public class FoundForm extends GridPane{
         
         this.setHgap(15);
         this.setVgap(15);
-        this.setPadding(new Insets(50, 30, 50, 30));
+        this.setPadding(new Insets(30, 30, 30, 30));
         
         //ONDERDELEN TOEVOEGEN
-        this.add(hbox,17, 0);
-        this.add(title,1,1,2,1);
+        this.add(hbox,0, 0,17,1);
         this.add(titleBox,1,1,18,1);
+        this.add(title,1,1,1,1);
+        
         //this.add(separator, 1, 1);
         this.add(next,8, 15);
         //ALGEMEEN
         
-        this.add(airport,1,4);
-        this.add(airportInput,2,4);
-        this.add(iata, 1, 5);
-        this.add(iataSearch, 2,5);
+        this.add(iata, 1, 4);
+        this.add(iataSearch, 3,4);
         
         //this.add(date,1,6);
        //this.add(datePick, 2, 6);
@@ -328,12 +344,12 @@ public class FoundForm extends GridPane{
         //BAGAGELABEL
         this.add(luggageLabelInfo, 1, 6, 2, 1);
         this.add(bagLabel, 1, 7);
-        this.add(labelInput, 2,7);
-        this.add(labelCheck, 2, 8,1,3);
-        this.add(flightNr, 1, 8);
-        this.add(flightInput, 2,8);
+        this.add(labelInput, 3,7);
+        this.add(labelCheck, 3, 8);
+        this.add(flightNr, 1, 9);
+        this.add(flightInput, 3,9);
         this.add(destination, 1, 10);
-        this.add(destinationInput, 2,10);
+        this.add(destinationInput, 3,10);
 //        this.add(nameTraveler, 1, 11);
 //        this.add(firstNameInput, 2,11);
 //        this.add(surnameInput, 3,11);
@@ -341,15 +357,15 @@ public class FoundForm extends GridPane{
         //BAGAGEINFO
         this.add(luggageInfo, 7, 4);
         this.add(bagType,7,5);
-        this.add(typeInput,8,5);
+        this.add(typeInput,9,5);
         this.add(brandName,7,6);
-        this.add(brandList,8,6);
+        this.add(brandList,9,6);
         this.add(primaryColor,7,7);
-        this.add(priColorList,8,7);
-        this.add(secondaryColor,7,8);
-        this.add(secColorList,8,8);
+        this.add(priColorList,9,7);
+        this.add(secondaryColor,9,8);
+        this.add(secColorList,9,8);
         this.add(moreInfo,7,9);
-        this.add(infoInput,8,9,1,6);
+        this.add(infoInput,9,9,1,4);
         
         
         
@@ -357,7 +373,7 @@ public class FoundForm extends GridPane{
        
         this.setStyle("-fx-background-color: white");
        
-            labelCheck.setOnAction((ActionEvent e) -> {
+        labelCheck.setOnAction((ActionEvent e) -> {
                 checkLabel(primaryStage, labelInput.getText());
             });
         
@@ -365,7 +381,7 @@ public class FoundForm extends GridPane{
             //PreparedStatement pst2 = null;
                 try {
                         if(labelInput.getText().isEmpty()|| typeInput.getSelectionModel().isEmpty() || priColorList.getSelectionModel().isEmpty() 
-                         ||brandList.getSelectionModel().isEmpty() || flightInput.getText().isEmpty() ||  datePick.getEditor().getText().isEmpty() ||destinationInput.getText().isEmpty() ){               
+                         ||brandList.getSelectionModel().isEmpty() || flightInput.getText().isEmpty() ||destinationInput.getText().isEmpty() ){               
                         Alert alert = new Alert(AlertType.WARNING);
                         alert.setTitle("Corendon - Luggage");
                         alert.setHeaderText(null);
@@ -443,7 +459,7 @@ public class FoundForm extends GridPane{
 
             //jeroen wat doe je kil
             this.luggageData.clear();
-           while (rs.next()) {
+            while (rs.next()) {
                 System.out.println("test 1: " + rs.getString("lost_id"));
                 //if (rs.getString("lost_id").equals(labelnr)) {
                 this.luggageData.add(new LuggageRecord2(rs.getString("lost_id"),
