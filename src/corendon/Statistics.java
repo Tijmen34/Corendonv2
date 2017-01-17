@@ -19,11 +19,12 @@ import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Side;    
+import javafx.geometry.Side;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -42,7 +43,7 @@ import javafx.stage.Stage;
  * @author Burak
  */
 public class Statistics extends BorderPane {
-    
+
     static Label caption = new Label("");
     ResultSet rs = null;
     PreparedStatement pst = null;
@@ -54,7 +55,20 @@ public class Statistics extends BorderPane {
     double valueMissing = 0.0;
     double valueSolved = 0.0;
     double valueDelivered = 0.0;
-
+    
+    int valueJan = 0;
+    int valueFeb = 0;
+    int valueMar = 0;
+    int valueApr = 0;
+    int valueMay = 0;
+    int valueJun = 0;
+    int valueJul = 0;
+    int valueAug = 0;
+    int valueSep = 0;
+    int valueOct = 0;
+    int valueNov = 0;
+    int valueDec = 0;
+    
     Button submitDate = new Button("Retrieve");
     Button chooseinfo = new Button("Submit");
     Button back = new Button("Go back");
@@ -72,12 +86,42 @@ public class Statistics extends BorderPane {
     ComboBox statinfo = new ComboBox(FXCollections.observableArrayList("Pie chart", "Graph"));
     Stage primaryStage;
     
+    String date1jan;
+    String date1feb;
+    String date1mar;
+    String date1apr;
+    String date1may;
+    String date1jun;
+    String date1jul;
+    String date1aug;
+    String date1sep;
+    String date1oct;
+    String date1nov;
+    String date1dec;
+    
+    String date2jan;
+    String date2feb;
+    String date2mar;
+    String date2apr;
+    String date2may;
+    String date2jun;
+    String date2jul;
+    String date2aug;
+    String date2sep;
+    String date2oct;
+    String date2nov;
+    String date2dec;
     
     public void getValues() {
-
+        
         try (Connection conn = Sql.DbConnector();) {
-
-            String SQL1 = "select count(*) total, sum(case when status = 'found' and datum_bevestiging between ? AND ? then 1 else 0 end) found, sum(case when status = 'lost' and datum_bevestiging between ? AND ? then 1 else 0 end) lost, sum(case when status = 'solved' and datum_bevestiging between ? AND ? then 1 else 0 end) solved, sum(case when status = 'delivered' and datum_bevestiging between ? AND ? then 1 else 0 end) delivered from bagage";
+                            
+            String SQL1 = "select count(*) total, "
+                    + "sum(case when status = 'found' and datum_bevestiging between ? AND ? then 1 else 0 end) found, "
+                    + "sum(case when status = 'lost' and datum_bevestiging between ? AND ? then 1 else 0 end) lost, "
+                    + "sum(case when status = 'solved' and datum_bevestiging between ? AND ? then 1 else 0 end) solved, "
+                    + "sum(case when status = 'delivered' and datum_bevestiging between ? AND ? then 1 else 0 end) delivered "
+                    + "from bagage";
 
             pst = conn.prepareStatement(SQL1);
             pst.setString(1, date1Formatted);
@@ -88,7 +132,7 @@ public class Statistics extends BorderPane {
             pst.setString(4, date2Formatted);
             pst.setString(6, date2Formatted);
             pst.setString(8, date2Formatted);
-            
+
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
@@ -97,6 +141,101 @@ public class Statistics extends BorderPane {
                 valueMissing = rs.getInt("lost");
                 valueSolved = rs.getInt("solved");
                 valueDelivered = rs.getInt("delivered");
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+    }
+    
+    public void getValuesGraph() {
+        
+        date1jan = date1.getText() + "-01-01";
+        date1feb = date1.getText() + "-02-01";
+        date1mar = date1.getText() + "-03-01";
+        date1apr = date1.getText() + "-04-01";
+        date1may = date1.getText() + "-05-01";
+        date1jun = date1.getText() + "-06-01";
+        date1jul = date1.getText() + "-07-01";
+        date1aug = date1.getText() + "-08-01";
+        date1sep = date1.getText() + "-09-01";
+        date1oct = date1.getText() + "-10-01";
+        date1nov = date1.getText() + "-11-01";
+        date1dec = date1.getText() + "-12-01";
+
+        date2jan = date1.getText() + "-01-31";
+        date2feb = date1.getText() + "-02-31";
+        date2mar = date1.getText() + "-03-31";
+        date2apr = date1.getText() + "-04-31";
+        date2may = date1.getText() + "-05-31";
+        date2jun = date1.getText() + "-06-31";
+        date2jul = date1.getText() + "-07-31";
+        date2aug = date1.getText() + "-08-31";
+        date2sep = date1.getText() + "-09-31";
+        date2oct = date1.getText() + "-10-31";
+        date2nov = date1.getText() + "-11-31";
+        date2dec = date1.getText() + "-12-31";
+        
+        try (Connection conn = Sql.DbConnector();) {
+
+            String SQL1 = "select count(*) total," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) jan," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) feb," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) mar," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) apr," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) may," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) jun," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) jul," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) aug," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) sep," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) oct," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) nov," +
+                "sum(case when datum_bevestiging between ? and ? then 1 else 0 end) 'dec'" +
+
+                "from bagage";
+
+            pst = conn.prepareStatement(SQL1);
+            pst.setString(1, date1jan);
+            pst.setString(2, date2jan);
+            pst.setString(3, date1feb);
+            pst.setString(4, date2feb);
+            pst.setString(5, date1mar);
+            pst.setString(6, date2mar);
+            pst.setString(7, date1apr);
+            pst.setString(8, date2apr);
+            pst.setString(9, date1may);
+            pst.setString(10, date2may);
+            pst.setString(11, date1jun);
+            pst.setString(12, date2jun);
+            pst.setString(13, date1jul);
+            pst.setString(14, date2jul);
+            pst.setString(15, date1aug);
+            pst.setString(16, date2aug);
+            pst.setString(17, date1sep);
+            pst.setString(18, date2sep);
+            pst.setString(19, date1oct);
+            pst.setString(20, date2oct);
+            pst.setString(21, date1nov);
+            pst.setString(22, date2nov);
+            pst.setString(23, date1dec);
+            pst.setString(24, date2dec);
+
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                valueJan = rs.getInt("jan");
+                valueFeb = rs.getInt("feb");
+                valueMar = rs.getInt("mar");
+                valueApr = rs.getInt("apr");
+                valueMay = rs.getInt("may");
+                valueJun = rs.getInt("jun");
+                valueJul = rs.getInt("jul");
+                valueAug = rs.getInt("aug");
+                valueSep = rs.getInt("sep");
+                valueOct = rs.getInt("oct");
+                valueNov = rs.getInt("nov");
+                valueDec = rs.getInt("dec");
             }
 
         } catch (Exception ex) {
@@ -117,27 +256,26 @@ public class Statistics extends BorderPane {
         lineChart.setTitle("Total cases");
         //defining a series
         XYChart.Series series = new XYChart.Series();
-        series.setName("Test");
+        series.setName("Total cases");
         //populating the series with data
-        series.getData().add(new XYChart.Data(1, 23));
-        series.getData().add(new XYChart.Data(2, 14));
-        series.getData().add(new XYChart.Data(3, 15));
-        series.getData().add(new XYChart.Data(4, 24));
-        series.getData().add(new XYChart.Data(5, 34));
-        series.getData().add(new XYChart.Data(6, 36));
-        series.getData().add(new XYChart.Data(7, 22));
-        series.getData().add(new XYChart.Data(8, 45));
-        series.getData().add(new XYChart.Data(9, 43));
-        series.getData().add(new XYChart.Data(10, 17));
-        series.getData().add(new XYChart.Data(11, 29));
-        series.getData().add(new XYChart.Data(12, 25));
+        series.getData().add(new XYChart.Data(1, valueJan));
+        series.getData().add(new XYChart.Data(2, valueFeb));
+        series.getData().add(new XYChart.Data(3, valueMar));
+        series.getData().add(new XYChart.Data(4, valueApr));
+        series.getData().add(new XYChart.Data(5, valueMay));
+        series.getData().add(new XYChart.Data(6, valueJun));
+        series.getData().add(new XYChart.Data(7, valueJul));
+        series.getData().add(new XYChart.Data(8, valueAug));
+        series.getData().add(new XYChart.Data(9, valueSep));
+        series.getData().add(new XYChart.Data(10, valueOct));
+        series.getData().add(new XYChart.Data(11, valueNov));
+        series.getData().add(new XYChart.Data(12, valueDec));
 
         lineChart.getData().add(series);
-        
+
         return lineChart;
 
     }
-
 
     public PieChart createChart() {
         ObservableList<PieChart.Data> pieChartData
@@ -153,7 +291,7 @@ public class Statistics extends BorderPane {
         int IntPie3 = (int) pieChartData.get(2).getPieValue();
         int IntPie4 = (int) pieChartData.get(3).getPieValue();
         int IntPie5 = (int) pieChartData.get(4).getPieValue();
-        
+
         final PieChart chart = new PieChart(pieChartData);
         chart.setTitle("Lost & Found luggage statistics");
         chart.setLabelLineLength(10);
@@ -162,25 +300,38 @@ public class Statistics extends BorderPane {
         chart.setClockwise(true);
         caption.setTextFill(Color.BLACK);
         caption.setStyle("-fx-font-weight: bold; -fx-font-size: 18;");
-        caption.setText("Total Cases: "     + IntPie1 +
-                        " | Missing Cases: "   + IntPie2 +
-                        " | Found Cases: "     + IntPie3 +
-                        " | Delivered: "       + IntPie4 +
-                        " | Solved: "          + IntPie5);
-        
+        caption.setText("Total Cases: " + IntPie1
+                + " | Missing Cases: " + IntPie2
+                + " | Found Cases: " + IntPie3
+                + " | Delivered: " + IntPie4
+                + " | Solved: " + IntPie5);
+
         return chart;
     }
 
     public void initScreen(Stage primaryStage) {
-        
+
         submitDate.setOnAction(e -> {
-            date1Formatted = date1.getText() + "-01-01";
-            date2Formatted = date2.getText() + "-01-01";
-            statinfo.getSelectionModel().select(0);
-            getValues();
-            this.setCenter(createChart());
-            addStats();
-            this.setBottom(hbox1);
+            if (date1.getText().isEmpty() == true
+                    || date2.getText().isEmpty() == true
+                    || Integer.valueOf(date1.getText()) >= Integer.valueOf(date2.getText())) {
+                
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Corendon - Luggage");
+                alert.setHeaderText(null);
+                alert.setContentText("Please make sure your input is correct.");
+                alert.showAndWait();
+            } else {
+                date1Formatted = date1.getText() + "-01-01";
+                date2Formatted = date2.getText() + "-01-01";
+                
+                statinfo.getSelectionModel().select(0);
+                getValues();
+                this.setCenter(createChart());
+                addStats();
+                this.setBottom(hbox1);
+
+            }
         });
 
         hbox.setStyle("-fx-background-color:#D81E05");
@@ -208,19 +359,20 @@ public class Statistics extends BorderPane {
     }
 
     public void addStats() {
-        
+
         hbox1.setAlignment(Pos.CENTER);
         hbox1.getChildren().addAll(statinfo, chooseinfo, back);
-        
+
         chooseinfo.setOnAction(e -> {
-                this.getChildren().removeAll(getCenter(), getRight(), getLeft());
+            this.getChildren().removeAll(getCenter(), getRight(), getLeft());
             if (statinfo.getSelectionModel().getSelectedItem() == "Pie chart") {
                 this.setCenter(createChart());
             } else if (statinfo.getSelectionModel().getSelectedItem() == "Graph") {
+                getValuesGraph();
                 this.setCenter(createGraph());
             }
         });
-        
+
         back.setOnAction(e -> {
             this.getChildren().clear();
             hbox.getChildren().clear();

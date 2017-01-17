@@ -26,6 +26,8 @@ import javafx.stage.Stage;
  */
 public class UserSettings extends BorderPane {
     
+    String query;
+    
     ResultSet rs = null;
     PreparedStatement pst = null;
     Connection conn;
@@ -64,13 +66,29 @@ public class UserSettings extends BorderPane {
     public void submit() {
         submit.setOnAction(e-> {
         try (Connection conn = Sql.DbConnector();) {
-
-                String query = "UPDATE users SET email=?,password=? WHERE username=?";
+                
+            if ((mail.getText().isEmpty() == false) && (pwd.getText().isEmpty() == false)) {
+                query = "UPDATE users SET email=?,password=? WHERE username=?";
                 pst = conn.prepareStatement(query);
                 pst.setString(1, mail.getText());
                 pst.setString(2, pwd.getText());
                 pst.setString(3, Corendon.uname);
                 pst.executeUpdate();
+            } else if (pwd.getText().isEmpty() == true) {
+                query = "UPDATE users SET email=? WHERE username=?";
+                pst = conn.prepareStatement(query);
+                pst.setString(1, mail.getText());
+                pst.setString(2, Corendon.uname);
+                pst.executeUpdate();
+            } else if (mail.getText().isEmpty() == true) {
+                query = "UPDATE users SET password=? WHERE username=?";
+                pst = conn.prepareStatement(query);
+                pst.setString(1, pwd.getText());
+                pst.setString(2, Corendon.uname);
+                pst.executeUpdate();
+            }
+                System.out.println(mail.getText() + pwd.getText() + " " + query);
+                
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText(null);
@@ -78,6 +96,7 @@ public class UserSettings extends BorderPane {
                 alert.showAndWait();
                 mail.clear();
                 pwd.clear();
+            
                 } catch (Exception e1) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Corendon - Luggage");
