@@ -67,11 +67,12 @@ public class LuggageOverview extends BorderPane {
 
     private final Button editRecord = new Button("Edit");
 
-    private final Button back = new Button("back");
-    private final Button searchButton = new Button("search");
+    private final Button back = new Button("Back");
+    private final Button refresh = new Button("Refresh");
+    private final Button searchButton = new Button("Search");
     private final Label space = new Label(" ");
-    private final Button delete = new Button("delete");
-    private final Button deleteExpired = new Button("delete expired");
+    private final Button delete = new Button("Delete");
+    private final Button deleteExpired = new Button("Delete expired");
     private TextField searchBar = new TextField();
     private final Label tableStatus = new Label("Overview:");
 
@@ -114,7 +115,7 @@ public class LuggageOverview extends BorderPane {
 
         //-------------------------------------------
         //balk met controls voor tabel rechts
-        controlBox.getChildren().addAll(selUnStickyBtn, stickyMatchBtn, selToStickyBtn, space, editRecord, delete, deleteExpired);
+        controlBox.getChildren().addAll(selUnStickyBtn, stickyMatchBtn, selToStickyBtn, space, editRecord, deleteExpired, delete);
         controlBox.setSpacing(50);
 
         //-------------------------------------------
@@ -127,7 +128,7 @@ public class LuggageOverview extends BorderPane {
         logo.setPreserveRatio(true);
         logo.setSmooth(true);
 
-        topBar.getChildren().addAll(topBar2, tableStatus, searchBar, searchButton);
+        topBar.getChildren().addAll(topBar2, tableStatus, searchBar, searchButton, refresh);
         searchButton.setMinSize(20, 25);
         topBar.setSpacing(30);
         topBar.setMinHeight(50);
@@ -201,7 +202,8 @@ public class LuggageOverview extends BorderPane {
             tableView4.setItems(tableData);
             tableData.removeAll(stickyData);
             tableStatus.setText("Overview:");
-            topBar.getChildren().removeAll(back);
+            topBar.getChildren().removeAll(back, delete);
+            controlBox.getChildren().add(delete);
         });
 
         delete.setOnAction((ActionEvent e) -> {
@@ -210,6 +212,15 @@ public class LuggageOverview extends BorderPane {
 
         deleteExpired.setOnAction((ActionEvent e) -> {
             deleteLuggage(true);
+        });
+        
+
+        refresh.setOnAction((ActionEvent e) -> {
+            for (int i = 0; i < tableView4.getItems().size(); i++) {
+                tableView4.getItems().clear();
+            }
+            updateData();
+
         });
 
         editRecord.setOnAction((ActionEvent e) -> {
@@ -470,6 +481,16 @@ public class LuggageOverview extends BorderPane {
         Scene dialogScene = new Scene(form, 250, 300);
         checkPopup.setScene(dialogScene);
         checkPopup.show();
+    }
+    
+        public void updateData() {
+
+        data = dbManager.getLuggageListFromDB();
+        for (int i = 0; i < this.data.size(); i++) {
+            this.tableData.add(this.data.get(i));
+        }
+        tableView4.setItems(this.tableData);
+
     }
 
 }
