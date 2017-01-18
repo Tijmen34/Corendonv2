@@ -1,7 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 package corendon;
 
@@ -54,13 +51,16 @@ public class MissingForm extends GridPane {
     private ObservableList<LuggageRecord2> luggageData
             = FXCollections.observableArrayList();
 
+    //Knoppen voor de labelcheck
     private Button solve = new Button("Solve");
     private Button cancel = new Button("Cancel");
 
+    //logo
     private Image corLogo = new Image("Corendon.png");
     private ImageView logo = new ImageView();
     private HBox hbox = new HBox();
     
+    //Invoer limieten voor een aantal textfields
     private final int PREFIXLIMIT = 10;
     private final int IATALIMIT = 3;
     private final int HNUMBERLIMIT = 6;
@@ -102,14 +102,17 @@ public class MissingForm extends GridPane {
         titleBox.setHeight(50);
         titleBox.setFill(Color.web("#D81E05"));
 
+        //Titel passagier info
         Label PassInfo = new Label("Passenger Information");
         PassInfo.setTextFill(Color.web("#00bce2"));
         PassInfo.setStyle("-fx-font: 18px UniSansRegular");
 
+        //Titel bagage info
         Label luggageInfo = new Label("Luggage Information");
         luggageInfo.setTextFill(Color.web("#00bce2"));
         luggageInfo.setStyle("-fx-font: 18px UniSansRegular");
 
+        //Scheiding tussen passagier en bagage info
         Separator separator1 = new Separator();
         separator1.setOrientation(Orientation.VERTICAL);
 
@@ -141,7 +144,7 @@ public class MissingForm extends GridPane {
         iataSearch.setMaxWidth(55);
         iataSearch.setStyle(fieldStyle);
 
-        //iata niet meer dan 3  tekens
+        //iata niet meer dan 3 tekens
         iataSearch.textProperty().addListener(new ChangeListener<String>() {
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
                 if (iataSearch.getText().length() > IATALIMIT) {
@@ -151,7 +154,7 @@ public class MissingForm extends GridPane {
             }
         });
 
-        Label blank = new Label("");
+    
 
         // Informatie passagier
         //deze spreken voor zichzelf
@@ -184,17 +187,20 @@ public class MissingForm extends GridPane {
             }
         });
 
+        //Adres van passagier
         Label address = new Label("Address: ");
 
+            //straat
         TextField streetInput = new TextField();
         streetInput.setPromptText("Street");
         streetInput.setStyle(fieldStyle);
 
+            //huisnummer
         TextField hnumberInput = new TextField();
         hnumberInput.setPromptText("Housenr.");
         hnumberInput.setStyle(fieldStyle);
         hnumberInput.setMaxWidth(90);
-
+            //limiet huisnummer
         hnumberInput.textProperty().addListener(new ChangeListener<String>() {
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
                 if (hnumberInput.getText().length() > HNUMBERLIMIT) {
@@ -204,17 +210,20 @@ public class MissingForm extends GridPane {
             }
         });
 
+        //Woonplaats van passagier
         Label place = new Label("Town/Place: ");
         TextField placeInput = new TextField();
         placeInput.setPromptText("Town/Place");
         placeInput.setStyle(fieldStyle);
 
+        //Postcode van passagier
         Label zipcode = new Label("Zip-code: ");
         TextField zipcodeInput = new TextField();
         zipcodeInput.setMaxWidth(100);
         zipcodeInput.setPromptText("Zipcode");
         zipcodeInput.setStyle(fieldStyle);
 
+            //limiet van postcode invoeren
         zipcodeInput.textProperty().addListener(new ChangeListener<String>() {
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
                 if (zipcodeInput.getText().length() > ZIPCODELIMIT) {
@@ -224,6 +233,7 @@ public class MissingForm extends GridPane {
             }
         });
 
+        //Land van woonplek passagier
         Label country = new Label("Country: ");
         country.setTextFill(Color.web("#333333"));
         ComboBox countryList = new ComboBox(FXCollections.observableArrayList("Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", 
@@ -241,17 +251,19 @@ public class MissingForm extends GridPane {
         countryList.setPromptText("Country");
         countryList.setStyle(fieldStyle);
 
+        //Contact info passagier
         Label contactDetails = new Label("Contact Details: ");
 
+            //telefoonnummer
         TextField phonenrInput = new TextField();
         phonenrInput.setPromptText("Phonenumber");
         phonenrInput.setStyle(fieldStyle);
-
+            //email adres
         TextField emailInput = new TextField();
         emailInput.setPromptText("E-mail (optional)");
         emailInput.setStyle(fieldStyle);
         emailInput.setMaxWidth(400);
-
+            //limiet telefoonnummer 
         phonenrInput.textProperty().addListener(new ChangeListener<String>() {
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
                 if (phonenrInput.getText().length() > PHONELIMIT) {
@@ -261,12 +273,14 @@ public class MissingForm extends GridPane {
             }
         });
 
+        //Labelnummer van passagier
         Label bagLabel = new Label("Label number: ");
         TextField labelInput = new TextField();
         labelInput.setPromptText("Label number");
         labelInput.setStyle(fieldStyle);
         labelInput.setMaxWidth(120);
 
+            //limiet labelnummer
         labelInput.textProperty().addListener(new ChangeListener<String>() {
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
                 if (labelInput.getText().length() > LABELLIMIT) {
@@ -276,12 +290,13 @@ public class MissingForm extends GridPane {
             }
         });
 
+        //Vluchtnummer die met het verloren bagage te maken heeft
         Label flightNr = new Label("Flight number: ");
         TextField flightInput = new TextField("CND");
         flightInput.setPromptText("Flight number");
         flightInput.setStyle(fieldStyle);
         flightInput.setMaxWidth(100);
-
+            //limiet vluchtnummer
         flightInput.textProperty().addListener(new ChangeListener<String>() {
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
                 if (flightInput.getText().length() > FLIGHTLIMIT) {
@@ -290,25 +305,29 @@ public class MissingForm extends GridPane {
                 }
             }
         });
-
+        
+        //Type bagage
         Label bagType = new Label("Luggage Type: ");
         ComboBox typeInput = new ComboBox(FXCollections.observableArrayList("Carry-on", "Wheeled Luggage", "Suitcase",
                 "Duffel Bag", "Water Container", "Other"));
         typeInput.setPromptText("Luggage Type");
         typeInput.setStyle(fieldStyle);
 
+        //Merknaam van bagage
         Label brandName = new Label("Brand name: ");
         ComboBox brandList = new ComboBox(FXCollections.observableArrayList("Samsonite", "American Tourister", "Princess", "Eastpak",
                 "Delsey", "JanSport", "Pierre Cardin", "Rimowa", "Other", "Brandless", "Unknown"));
         brandList.setPromptText("Brand name");
         brandList.setStyle(fieldStyle);
-
+        
+        //Hoofdkleur van bagage
         Label primaryColor = new Label("Primary Color: ");
         ComboBox priColorList = new ComboBox(FXCollections.observableArrayList("Black", "White", "Blue", "Red", "Silver",
                 "Grey", "Green", "Yellow", "Purple", "Multicolor", "Other"));
         priColorList.setPromptText("Primary Color");
         priColorList.setStyle(fieldStyle);
-
+        
+        //Tweede kleur van bagage
         Label secondaryColor = new Label("Secondary Color (optional): ");
         ComboBox secColorList = new ComboBox(FXCollections.observableArrayList("Black", "White", "Blue", "Red",
                 "Silver", "Grey", "Green", "Yellow", "Purple"));
@@ -316,24 +335,26 @@ public class MissingForm extends GridPane {
         secColorList.setStyle("-fx-base:white;");
         secColorList.setStyle(fieldStyle);
 
+        //Geboortedatum van passagier
         Label birthDate = new Label("Date of Birth: ");
         DatePicker datePick = new DatePicker();
         datePick.setValue(LocalDate.now().minusYears(18));
         datePick.setShowWeekNumbers(false);
-
-        Label dateSet = new Label("(MM-DD-YYYY)");
+            //Aanduiding hoe het datum is geformatteerd
+        Label dateSet = new Label("(DD-MM-YYYY)");
         dateSet.setTextFill(Color.web("#D81E05"));
         datePick.setStyle("-fx-base:white;");
         datePick.setPromptText("Date of Birth");
         datePick.setStyle(fieldStyle);
 
+        //Extra info van verloren bagage
         Label moreInfo = new Label("Further Luggage Information: ");
         TextArea infoInput = new TextArea();
         infoInput.setPromptText("Further Luggage Information... (optional)");
         infoInput.setMaxWidth(240);
         infoInput.setMaxHeight(150);
         infoInput.setStyle("");
-
+            //limiet van extra info
         infoInput.textProperty().addListener(new ChangeListener<String>() {
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
                 if (infoInput.getText().length() > INFOLIMIT) {
@@ -343,10 +364,11 @@ public class MissingForm extends GridPane {
             }
         });
 
+        //Instellingen van layout pane
         this.setHgap(15);
         this.setVgap(15);
         this.setPadding(new Insets(30, 30, 30, 30));
-        this.add(blank, 8, 1);
+    
 
         //onderdelen toevoegen
         this.add(hbox, 0, 0, 16, 1);
@@ -395,23 +417,27 @@ public class MissingForm extends GridPane {
         this.add(moreInfo, 7, 12);
         this.add(infoInput, 9, 12, 1, 4);
 
+        //Style van formulier
         this.setStyle("-fx-background-color: white;"
                 + "-fx-font-family: Open Sans;"
                 + "-fx-fill: red");
 
+        //Actie als "Check" wordt geselecteerd
         labelCheck.setOnAction((ActionEvent e) -> {
             checkLabel(primaryStage, labelInput.getText());
         });
 
+        //Actie als "Submit" wordt geselecteerd
         submit.setOnAction((ActionEvent e) -> {
             PreparedStatement pst2 = null;
             try {
-
+                //Als iets niet is ingevuld wordt er een alertbox geopend
                 if (labelInput.getText().isEmpty() || typeInput.getSelectionModel().isEmpty()
                         || priColorList.getSelectionModel().isEmpty() || brandList.getSelectionModel().isEmpty() || flightInput.getText().isEmpty()
                         || SurnameInput.getText().isEmpty() || NameInput.getText().isEmpty() || datePick.getEditor().getText().isEmpty()
                         || streetInput.getText().isEmpty() || hnumberInput.getText().isEmpty() || placeInput.getText().isEmpty() 
                         || zipcodeInput.getText().isEmpty() || phonenrInput.getText().isEmpty()) {
+                        //Alertbox
                     Alert alert = new Alert(AlertType.WARNING);
                     alert.setTitle("Corendon - Luggage");
                     alert.setHeaderText(null);
@@ -419,14 +445,14 @@ public class MissingForm extends GridPane {
                     alert.showAndWait();
                     System.out.println("Some information is not filled in");
                 } else {
-
+                    //Alertbox als het succesvol is opgeslagen in de DB
                     Alert alert1 = new Alert(AlertType.INFORMATION);
                     alert1.setTitle("Corendon - Luggage");
                     alert1.setHeaderText(null);
                     alert1.setContentText("Information successfully submitted");
                     alert1.showAndWait();
                     System.out.println("Information submitted.");
-
+                    //Queries die er voor zorgen dat het ingevulde info wordt opgeslagen in de DB
                     String query = "INSERT INTO bagage"
                             + "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging) VALUES"
                             + "(?,?,?,?,?,?,?,?,'lost',NOW())";
@@ -464,6 +490,7 @@ public class MissingForm extends GridPane {
                 }
 
             } catch (Exception e1) {
+                //Laat Alertbox zien als er iets mis is met de DB
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Corendon - Luggage");
                 alert.setHeaderText(null);
@@ -485,6 +512,7 @@ public class MissingForm extends GridPane {
         }
     }
 
+    //Gehele checklabel
     public void checkLabel(Stage primaryStage, String labelnr) {
         DbManager dbManager = new DbManager();
 
@@ -503,6 +531,7 @@ public class MissingForm extends GridPane {
         VBox controls = new VBox(20);
         controls.setPadding(new Insets(5, 5, 5, 5));
         
+        //Knop solve Styling
         solve.setMinSize(90, 30);
         solve.setStyle("-fx-base:#56ad3e;"
                 + "-fx-border-color:transparent;"
@@ -513,6 +542,7 @@ public class MissingForm extends GridPane {
         solve.setTextFill(Color.web("#ffffff"));
         solve.setText("Solve");
         
+        //Knop cancel Styling
         cancel.setMinSize(70, 20);
         cancel.setStyle("-fx-base:white;"
                 + "-fx-border-color:transparent;"
@@ -529,10 +559,11 @@ public class MissingForm extends GridPane {
         checkPopup.setScene(dialogScene);
         checkPopup.show();
 
+        //Als op Solve wordt geklikt... (1/2)
         solve.setOnAction((ActionEvent e) -> {
             solveFromPrompt(tableView);
         });
-
+        //Als op cancel wordt geklikt zal het venster worden gesloten
         cancel.setOnAction((ActionEvent e) -> {
             checkPopup.close();
         });
@@ -544,8 +575,9 @@ public class MissingForm extends GridPane {
     }
 
     public void solveFromPrompt(TableView tableView) {
-
+        
         if (tableView.getSelectionModel().getSelectedCells().size() > 0) {
+            // ...zal de geselecteerde bagage van lost naar solved veranderd worden. (2/2)
             try (Connection conn = Sql.DbConnector();) {
                 String id = luggageData.get(tableView.getSelectionModel().getSelectedIndex()).getLostId();
                 String SQL = "UPDATE bagage SET status = 'solved' WHERE lost_id = " + "'" + id + "'";
@@ -553,6 +585,7 @@ public class MissingForm extends GridPane {
                 conn.createStatement().executeUpdate(SQL);
 
                 luggageData.remove(tableView.getSelectionModel().getSelectedIndex());
+            // Bij fout in db
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error on Building Data");

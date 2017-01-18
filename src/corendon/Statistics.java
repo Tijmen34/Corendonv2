@@ -35,18 +35,17 @@ import javafx.stage.Stage;
  */
 public class Statistics extends BorderPane {
 
-    private static Label caption = new Label("");
     private ResultSet rs = null;
     private PreparedStatement pst = null;
-    private Connection conn;
-    private Statement stmt;
 
+    //de waardes voor de piechart
     private double valueTotal = 0.0;
     private double valueFound = 0.0;
     private double valueMissing = 0.0;
     private double valueSolved = 0.0;
     private double valueDelivered = 0.0;
     
+    //de waardes voor de graph
     private int valueJan = 0;
     private int valueFeb = 0;
     private int valueMar = 0;
@@ -60,23 +59,39 @@ public class Statistics extends BorderPane {
     private int valueNov = 0;
     private int valueDec = 0;
     
+    //alle buttons in dit scherm
     private Button submitDate = new Button("Retrieve");
     private Button chooseinfo = new Button("Submit");
     private Button back = new Button("Go back");
+    
+    //alle labels
     private Label dateChoose = new Label("Enter two years to retrieve information about cases between those years");
     private Label label1 = new Label("From: ");
     private Label label2 = new Label("To: ");
     private Label empty = new Label("");
+    private Label caption = new Label("");
+    
+    //textfields
     private TextField date1 = new TextField();
     private TextField date2 = new TextField();
+    
+    //vbox is voor date submit
+    //hboxen zijn voor de bovenkant van het scherm
     private VBox vbox = new VBox();
     private HBox hbox = new HBox();
     private HBox hbox1 = new HBox();
+    
+    //format de ingevoerde date van jaar naar yyyy-mm-dd
     private String date1Formatted;
     private String date2Formatted;
+    
     private ComboBox statinfo = new ComboBox(FXCollections.observableArrayList("Pie chart", "Graph"));
     private Stage primaryStage;
     
+    /*
+    * de omgezette data die worden geinsert in de query voor de graph 
+    * date1 = van date2 = tot
+    */
     private String date1jan;
     private String date1feb;
     private String date1mar;
@@ -103,6 +118,7 @@ public class Statistics extends BorderPane {
     private String date2nov;
     private String date2dec;
     
+    //haalt de waardes uit de DB voor piechart; zie query
     public void getValues() {
         
         try (Connection conn = Sql.DbConnector();) {
@@ -140,6 +156,7 @@ public class Statistics extends BorderPane {
         }
     }
     
+    //deze keer voor grafiek
     public void getValuesGraph() {
         
         date1jan = date1.getText() + "-01-01";
@@ -235,20 +252,21 @@ public class Statistics extends BorderPane {
         }
     }
 
+    //maakt grafiek
     public LineChart createGraph() {
-        //defining the axes
+        //definieert de assen
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Number of Month");
-        //creating the chart
+        //create de grafiek
         final LineChart<Number, Number> lineChart
                 = new LineChart<Number, Number>(xAxis, yAxis);
 
         lineChart.setTitle("Total cases of year: " + date1.getText());
-        //defining a series
+        //definieer de naam van een as
         XYChart.Series series = new XYChart.Series();
         series.setName("Total cases");
-        //populating the series with data
+        //voeg data toe an assen
         series.getData().add(new XYChart.Data(1, valueJan));
         series.getData().add(new XYChart.Data(2, valueFeb));
         series.getData().add(new XYChart.Data(3, valueMar));
@@ -268,7 +286,9 @@ public class Statistics extends BorderPane {
 
     }
 
+    //methode voor de piechart
     public PieChart createChart() {
+        //voeg data toe aan de piechart
         ObservableList<PieChart.Data> pieChartData
                 = FXCollections.observableArrayList(
                         new PieChart.Data("Total", valueTotal),
@@ -277,12 +297,14 @@ public class Statistics extends BorderPane {
                         new PieChart.Data("Delivered", valueDelivered),
                         new PieChart.Data("Solved", valueSolved));
 
+        //deze vars worden gebruikt om de waardes van een 'slice' te returnen
         int IntPie1 = (int) pieChartData.get(0).getPieValue();
         int IntPie2 = (int) pieChartData.get(1).getPieValue();
         int IntPie3 = (int) pieChartData.get(2).getPieValue();
         int IntPie4 = (int) pieChartData.get(3).getPieValue();
         int IntPie5 = (int) pieChartData.get(4).getPieValue();
 
+        //maakt een object van type piechart
         final PieChart chart = new PieChart(pieChartData);
         chart.setTitle("Lost & Found luggage statistics");
         chart.setLabelLineLength(10);
@@ -300,9 +322,11 @@ public class Statistics extends BorderPane {
         return chart;
     }
 
+    //het hele scherm
     public void initScreen(Stage primaryStage) {
 
         submitDate.setOnAction(e -> {
+            //checkt eerst of schermen zijn ingevoerd
             if (date1.getText().isEmpty() == true
                     || date2.getText().isEmpty() == true
                     || Integer.valueOf(date1.getText()) >= Integer.valueOf(date2.getText())) {
@@ -349,11 +373,13 @@ public class Statistics extends BorderPane {
 
     }
 
+    //de methode voor de back, submit en combobox
     public void addStats() {
 
         hbox1.setAlignment(Pos.CENTER);
         hbox1.getChildren().addAll(statinfo, chooseinfo, back);
 
+        //de submit knop voor de combobox
         chooseinfo.setOnAction(e -> {
             this.getChildren().removeAll(getCenter(), getRight(), getLeft());
             if (statinfo.getSelectionModel().getSelectedItem() == "Pie chart") {
@@ -364,6 +390,7 @@ public class Statistics extends BorderPane {
             }
         });
 
+        //de back knop backend, na klik ga terug naar input scherm
         back.setOnAction(e -> {
             this.getChildren().clear();
             hbox.getChildren().clear();
