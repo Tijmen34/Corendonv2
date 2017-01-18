@@ -360,6 +360,7 @@ public class Corendon extends Application {
                 }
             }
         });
+        
         helpPage.setStyle("-fx-background-color:white");
         helpPage.setHgap(15);
         helpPage.setVgap(15);
