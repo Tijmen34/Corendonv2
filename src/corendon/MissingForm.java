@@ -83,7 +83,7 @@ public class MissingForm extends GridPane {
 
         //Corendon Logo in hbox
         hbox.setSpacing(0);
-        hbox.setAlignment(Pos.TOP_RIGHT);
+        hbox.setAlignment(Pos.TOP_LEFT);
         logo.setImage(corLogo);
         logo.setFitWidth(200);
         logo.setPreserveRatio(true);
