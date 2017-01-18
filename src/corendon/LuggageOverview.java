@@ -81,6 +81,9 @@ public class LuggageOverview extends BorderPane {
     
     private boolean isShowingSearch; //true als zoekresultaten worden laten zien
 
+    //in plaats van een constructor hebben wij een andere methode die we meteen aanroepen
+    //na het instanciëren van deze class. De constructor van BorderPane zal wel worden
+    //uitgevoerd
     public void initScreen(Stage primaryStage) {
         this.selToStickyBtn.setPrefSize(100, 20);
         this.selUnStickyBtn.setPrefSize(100, 20);
