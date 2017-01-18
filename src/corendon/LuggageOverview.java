@@ -33,7 +33,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 
 /**
- *
+ * Deze class regeld te tab met het bagage overzicht.
+ * 
  * @author iS109-3
  */
 public class LuggageOverview extends BorderPane {
@@ -53,26 +54,26 @@ public class LuggageOverview extends BorderPane {
     private TableView<LuggageRecord2> tableViewSticky3; //grote tabel
     private TableView<LuggageRecord2> tableView4;       //kleine tabel voor de selectie
 
-    private VBox controlBox = new VBox();
-    private ScrollPane tableScroll = new ScrollPane();
-    private StackPane stickyBox = new StackPane();
-    private HBox topBar = new HBox();
-    private HBox topBar2 = new HBox();
-    private BorderPane border1 = new BorderPane();
+    private final VBox controlBox = new VBox();
+    private final ScrollPane tableScroll = new ScrollPane();
+    private final StackPane stickyBox = new StackPane();
+    private final HBox topBar = new HBox();
+    private final HBox topBar2 = new HBox();
+    private final BorderPane border1 = new BorderPane();
 
-    private Button selToStickyBtn = new Button("Select");
-    private Button selUnStickyBtn = new Button("Deselect");
-    private Button stickyMatchBtn = new Button("Solve");
+    private final Button selToStickyBtn = new Button("Select");
+    private final Button selUnStickyBtn = new Button("Deselect");
+    private final Button stickyMatchBtn = new Button("Solve");
 
-    private Button editRecord = new Button("Edit");
+    private final Button editRecord = new Button("Edit");
 
-    private Button back = new Button("back");
-    private Button searchButton = new Button("search");
-    private Label space = new Label(" ");
-    private Button delete = new Button("delete");
-    private Button deleteExpired = new Button("delete expired");
+    private final Button back = new Button("back");
+    private final Button searchButton = new Button("search");
+    private final Label space = new Label(" ");
+    private final Button delete = new Button("delete");
+    private final Button deleteExpired = new Button("delete expired");
     private TextField searchBar = new TextField();
-    private Label tableStatus = new Label("Overview:");
+    private final Label tableStatus = new Label("Overview:");
 
     //deze buttons worden pas geinstanciëerd als de popup tevoorschijn komt
     private Button cancelEdit;
