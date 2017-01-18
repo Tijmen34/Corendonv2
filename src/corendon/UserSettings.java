@@ -30,8 +30,6 @@ public class UserSettings extends BorderPane {
     
     ResultSet rs = null;
     PreparedStatement pst = null;
-    Connection conn;
-    Statement stmt;
     
     Label settings = new Label("On this page you can change your e-mail and password.");
     Label labelPwd = new Label("New password");
@@ -45,6 +43,7 @@ public class UserSettings extends BorderPane {
     
     Stage primaryStage;
     
+    //het hele scherm
     public void initScreen(Stage primaryStage) {
         submit();
         this.setTop(settings);
@@ -63,10 +62,12 @@ public class UserSettings extends BorderPane {
         pwd.setMaxWidth(200);
     }
     
+    //de submit knop
     public void submit() {
         submit.setOnAction(e-> {
         try (Connection conn = Sql.DbConnector();) {
                 
+            //check eerst of er dingen zijn ingevoerd, voer het vervolgens uit
             if ((mail.getText().isEmpty() == false) && (pwd.getText().isEmpty() == false)) {
                 query = "UPDATE users SET email=?,password=? WHERE username=?";
                 pst = conn.prepareStatement(query);
@@ -87,7 +88,6 @@ public class UserSettings extends BorderPane {
                 pst.setString(2, Corendon.uname);
                 pst.executeUpdate();
             }
-                System.out.println(mail.getText() + pwd.getText() + " " + query);
                 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
