@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 public class CustomerOverview extends BorderPane {
 
     private DbManager dbManager;
+    private Stage primaryStage;
 
     private ObservableList<CustomerRecord> data
             = FXCollections.observableArrayList();
@@ -42,6 +43,8 @@ public class CustomerOverview extends BorderPane {
     private HBox topBar1 = new HBox();
     private HBox topBar2 = new HBox();
     private BorderPane border1 = new BorderPane();
+          private  Image corLogo = new Image("Corendon.png");
+      private  ImageView logo = new ImageView();
 
     private Button refresh = new Button("Refresh table");
     private Button back = new Button("Back");
@@ -51,13 +54,15 @@ public class CustomerOverview extends BorderPane {
     private boolean isShowingSearch = false;
 
     public void initScreen(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         dbManager = new DbManager();
 
+        //alle data uit database in tabledata
         this.data = dbManager.getCustomerListFromDB();
         for (int i = 0; i < data.size(); i++) {
             tableData.add(data.get(i));
         }
-
+        //tableview maken van de dbmanager table
         tableView4 = dbManager.createCustomerTable();
 
         this.setTop(topBar1);
@@ -65,15 +70,16 @@ public class CustomerOverview extends BorderPane {
         this.setCenter(border1);
         border1.setCenter(tableView4);
 
-        searchBar = new TextField();
-        Image corLogo = new Image("Corendon.png");
-        ImageView logo = new ImageView();
+        //corendon logo
         logo.setImage(corLogo);
         logo.setFitWidth(300);
         logo.setPreserveRatio(true);
         logo.setSmooth(true);
+        
+        //tablekolommen vullen de hele breedte van de tabel
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
+        
+        //topbar vullen met logo, zoekfunctie en refresh functie
         topBar1.getChildren().addAll(topBar2, tableStatus, searchBar, searchButton, refresh);
         searchButton.setMinSize(20, 25);
         topBar1.setSpacing(30);
@@ -82,12 +88,12 @@ public class CustomerOverview extends BorderPane {
         topBar2.getChildren().addAll(logo);
         topBar2.setAlignment(Pos.CENTER_RIGHT);
 
-        // ------------------------------------------
+        //grootte van table en table vullen met de database data
         tableView4.setMinSize(1300, (25 * 24) + 26);
         tableView4.setMaxSize(1300, (25 * 24) + 26);
-
         tableView4.setItems(this.tableData);
-
+        
+        //refresh knop voert refresh methode uit
         refresh.setOnAction((ActionEvent e) -> {
             for (int i = 0; i < tableView4.getItems().size(); i++) {
                 tableView4.getItems().clear();
@@ -95,13 +101,14 @@ public class CustomerOverview extends BorderPane {
             updateData();
 
         });
+        //de searchknop voert ook de seach methode uit
         searchButton.setOnAction((ActionEvent e) -> {
             isShowingSearch = true;
             searchItems();
             tableStatus.setText("Search Results:");
             topBar1.getChildren().add(back);
         });
-
+        //zet alles terug op zijn oude plek
         back.setOnAction((ActionEvent e) -> {
             isShowingSearch = false;
             tableView4.setItems(tableData);
@@ -109,7 +116,7 @@ public class CustomerOverview extends BorderPane {
             topBar1.getChildren().removeAll(back);
         });
     }
-
+    //methode om te zoeken naar klanten in de database
     public void searchItems() {
         searchResults.clear();
         String keyword = searchBar.getText();
@@ -130,7 +137,7 @@ public class CustomerOverview extends BorderPane {
         tableView4.setItems(searchResults);
         System.out.println(searchResults.toString());
     }
-
+    //refresht de data in table
     public void updateData() {
         data = dbManager.getCustomerListFromDB();
         for (int i = 0; i < this.data.size(); i++) {

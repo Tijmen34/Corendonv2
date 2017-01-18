@@ -33,10 +33,18 @@ Kenan:
 
 
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -340,9 +348,6 @@ public class Corendon extends Application {
         
         manual.setOnAction(e-> {
 
-         //   Desktop.getDesktop().open(ReadMe.txt);
-            
-           
             
         });
         helpPage.setStyle("-fx-background-color:white");

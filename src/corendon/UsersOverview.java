@@ -112,7 +112,7 @@ public class UsersOverview extends BorderPane {
         delete.setMinSize(200, 75);
         b.setMinSize(200, 75);
 
-        //refresh knop
+        //refresh knop voert methode uit
         refresh.setOnAction((ActionEvent e) -> {
             for (int i = 0; i < tableView4.getItems().size(); i++) {
                 tableView4.getItems().clear();
@@ -123,12 +123,12 @@ public class UsersOverview extends BorderPane {
             updateData();
         });
 
-        //delete knop
+        //delete knop voert methode uit
         delete.setOnAction((ActionEvent e) -> {
             deletePerson();
         });
 
-        //search knop
+        //search knop voert methode uit
         searchButton.setOnAction((ActionEvent e) -> {
             isShowingSearch = true;
             searchItems();
@@ -143,7 +143,7 @@ public class UsersOverview extends BorderPane {
             tableStatus.setText("Search customers:");
             topBar.getChildren().removeAll(back);
         });
-
+        // opent venster om usert toe te voegen
         b.setOnAction((ActionEvent e) -> {
             addUser(primaryStage);
         });
@@ -158,6 +158,7 @@ public class UsersOverview extends BorderPane {
 
     }
 
+    //de stage voor toevoegen user
     public void addUser(Stage primaryStage) {
 
         final GridPane grid1 = new GridPane();
@@ -292,7 +293,7 @@ public class UsersOverview extends BorderPane {
 
     }
 
-    //onuitgewerkte refreshknop
+    //refresh methode voor de table
     public void updateData() {
 
         data = dbManager.getUserListFromDB();
@@ -302,8 +303,8 @@ public class UsersOverview extends BorderPane {
         tableView4.setItems(this.tableData);
 
     }
-//functie voor zoeken in database
 
+//functie voor zoeken in database
     public void searchItems() {
         searchResults.clear();
         String keyword = searchBar.getText();
@@ -324,8 +325,8 @@ public class UsersOverview extends BorderPane {
         tableView4.setItems(searchResults);
         System.out.println(searchResults.toString());
     }
-    //functie voor deleten uit database
 
+    //methode voor deleten uit database
     public void deletePerson() {
 
         int selectedIndex = tableView4.getSelectionModel().getSelectedIndex();
