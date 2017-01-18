@@ -12,7 +12,8 @@ import javafx.beans.property.SimpleStringProperty;
  * @author JerryJerr
  */
 public class LuggageRecord2 {
-
+    //SimpleStringProperty ipv String omdat deze waarden observable moeten zijn
+    //voor de tabel
     private final SimpleStringProperty lostId;
     private final SimpleStringProperty labelNr;
     private final SimpleStringProperty flightNr;
@@ -45,7 +46,10 @@ public class LuggageRecord2 {
         this.time = new SimpleStringProperty(time);
 
     }
-
+    
+    //ook de getters en setters gaan volgens een speciale conventie voor de 
+    //tabel.
+    
     public String getLostId() {
         return lostId.get();
     }
@@ -158,6 +162,7 @@ public class LuggageRecord2 {
                 + customerId + ", status=" + status + '}';
     }
 
+    //alle velden in een array stoppen zodat de zoek methode er makkelijk in kan zoeken
     public SimpleStringProperty[] toArray() {
         SimpleStringProperty[] properties = new SimpleStringProperty[]{this.brandName, this.customerId, this.date,
             this.flightNr, this.iata, this.info, this.labelNr,
