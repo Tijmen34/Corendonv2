@@ -26,7 +26,6 @@ public class LuggageRecord2 {
     private final SimpleStringProperty status;
     private final SimpleStringProperty date;
     private final SimpleStringProperty time;
-    
 
     public LuggageRecord2(String lostId, String labelNr, String flightNr, String iata,
             String type, String brandName, String primaryColor, String secondaryColor,
@@ -44,7 +43,7 @@ public class LuggageRecord2 {
         this.status = new SimpleStringProperty(status);
         this.date = new SimpleStringProperty(date);
         this.time = new SimpleStringProperty(time);
-        
+
     }
 
     public String getLostId() {
@@ -70,7 +69,7 @@ public class LuggageRecord2 {
     public void setFlightNr(String flightNr) {
         this.flightNr.set(flightNr);
     }
-    
+
     public String getIata() {
         return iata.get();
     }
@@ -78,7 +77,7 @@ public class LuggageRecord2 {
     public void setIata(String iata) {
         this.iata.set(iata);
     }
-    
+
     public String getType() {
         return type.get();
     }
@@ -86,7 +85,7 @@ public class LuggageRecord2 {
     public void setType(String type) {
         this.type.set(type);
     }
-    
+
     public String getBrandName() {
         return brandName.get();
     }
@@ -94,7 +93,7 @@ public class LuggageRecord2 {
     public void setBrandName(String brandName) {
         this.brandName.set(brandName);
     }
-    
+
     public String getPrimaryColor() {
         return primaryColor.get();
     }
@@ -102,7 +101,7 @@ public class LuggageRecord2 {
     public void setPrimaryColor(String primaryColor) {
         this.primaryColor.set(primaryColor);
     }
-    
+
     public String getSecondaryColor() {
         return secondaryColor.get();
     }
@@ -110,7 +109,7 @@ public class LuggageRecord2 {
     public void setSecondaryColor(String secondaryColor) {
         this.secondaryColor.set(secondaryColor);
     }
-    
+
     public String getInfo() {
         return info.get();
     }
@@ -118,7 +117,7 @@ public class LuggageRecord2 {
     public void setInfo(String info) {
         this.info.set(info);
     }
-    
+
     public String getCustomerId() {
         return customerId.get();
     }
@@ -126,7 +125,7 @@ public class LuggageRecord2 {
     public void setCustomerId(String customerId) {
         this.customerId.set(customerId);
     }
-    
+
     public String getStatus() {
         return status.get();
     }
@@ -134,7 +133,7 @@ public class LuggageRecord2 {
     public void setStatus(String status) {
         this.status.set(status);
     }
-    
+
     public String getDate() {
         return date.get();
     }
@@ -142,7 +141,7 @@ public class LuggageRecord2 {
     public void setDate(String date) {
         this.date.set(date);
     }
-    
+
     public String getTime() {
         return time.get();
     }
@@ -153,17 +152,18 @@ public class LuggageRecord2 {
 
     @Override
     public String toString() {
-        return "LuggageRecord2{" + "lostId=" + lostId + ", labelNr=" + labelNr + ", flightNr=" + flightNr + ", iata=" + iata + ", type=" + type + ", brandName=" + brandName + ", primaryColor=" + primaryColor + ", secondaryColor=" + secondaryColor + ", info=" + info + ", customerId=" + customerId + ", status=" + status + '}';
+        return "LuggageRecord2{" + "lostId=" + lostId + ", labelNr=" + labelNr + ", flightNr=" + flightNr 
+                + ", iata=" + iata + ", type=" + type + ", brandName=" + brandName + ", primaryColor=" 
+                + primaryColor + ", secondaryColor=" + secondaryColor + ", info=" + info + ", customerId=" 
+                + customerId + ", status=" + status + '}';
     }
-    
+
     public SimpleStringProperty[] toArray() {
-        SimpleStringProperty[] properties = new SimpleStringProperty[]
-                {this.brandName, this.customerId, this.date, 
-                this.flightNr, this.iata, this.info, this.labelNr,
-                this.lostId, this.primaryColor, this.secondaryColor,
-                this.status, this.time, this.type};
+        SimpleStringProperty[] properties = new SimpleStringProperty[]{this.brandName, this.customerId, this.date,
+            this.flightNr, this.iata, this.info, this.labelNr,
+            this.lostId, this.primaryColor, this.secondaryColor,
+            this.status, this.time, this.type};
         return properties;
     }
-    
-    
+
 }

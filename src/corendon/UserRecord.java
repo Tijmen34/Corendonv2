@@ -23,11 +23,10 @@ public class UserRecord {
     private final SimpleStringProperty function;
     private final SimpleStringProperty lost_password;
 
-    
-        public UserRecord(String user_id, String username, String password,
-            String firstname, String tussenvoegsel, String surname, String email, String function, 
+    public UserRecord(String user_id, String username, String password,
+            String firstname, String tussenvoegsel, String surname, String email, String function,
             String lost_password) {
-    
+
         this.user_id = new SimpleStringProperty(user_id);
         this.username = new SimpleStringProperty(username);
         this.password = new SimpleStringProperty(password);
@@ -35,10 +34,9 @@ public class UserRecord {
         this.tussenvoegsel = new SimpleStringProperty(tussenvoegsel);
         this.surname = new SimpleStringProperty(surname);
         this.email = new SimpleStringProperty(email);
-        this.function = new SimpleStringProperty(function);   
+        this.function = new SimpleStringProperty(function);
         this.lost_password = new SimpleStringProperty(lost_password);
     }
-    
 
     public String getUser_id() {
         return user_id.get();
@@ -87,7 +85,7 @@ public class UserRecord {
     public void setSurname(String surname) {
         this.surname.set(surname);
     }
-    
+
     public String getEmail() {
         return email.get();
     }
@@ -95,7 +93,6 @@ public class UserRecord {
     public void setEmail(String email) {
         this.email.set(email);
     }
-    
 
     public String getFunction() {
         return function.get();
@@ -117,15 +114,14 @@ public class UserRecord {
     public String toString() {
         return "UserRecord{" + "user_id=" + user_id + ", username="
                 + username + ", firstname=" + firstname + ", tussenvoegsel="
-                + tussenvoegsel + ", surname=" + surname + ", email="+ email +", function="
-                + function + ", lost_password="+ lost_password +'}';
+                + tussenvoegsel + ", surname=" + surname + ", email=" + email + ", function="
+                + function + ", lost_password=" + lost_password + '}';
     }
-    
-        public SimpleStringProperty[] toArray() {
-        SimpleStringProperty[] properties = new SimpleStringProperty[]
-                {this.user_id, this.username, this.firstname, 
-                this.tussenvoegsel, this.surname, this.email, this.function,
-                this.lost_password};
+
+    public SimpleStringProperty[] toArray() {
+        SimpleStringProperty[] properties = new SimpleStringProperty[]{this.user_id, this.username, this.firstname,
+            this.tussenvoegsel, this.surname, this.email, this.function,
+            this.lost_password};
         return properties;
     }
 

@@ -7,13 +7,10 @@ package corendon;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -22,28 +19,16 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javax.swing.GroupLayout;
 
 /**
  *
@@ -52,6 +37,7 @@ import javax.swing.GroupLayout;
 public class UsersOverview extends BorderPane {
 
     private DbManager dbManager;
+
     private Button addBut = new Button("Submit");
     private Button cancel = new Button("Cancel");
     private Button refresh = new Button("Refresh table");
@@ -59,62 +45,74 @@ public class UsersOverview extends BorderPane {
     private Button back = new Button("Back");
     private Button b = new Button("Add user");
     private Button searchButton = new Button("Search");
+
+    private Image corLogo = new Image("Corendon.png");
+    private ImageView logo = new ImageView();
+
+    private HBox topBar = new HBox();
+    private HBox topBar2 = new HBox();
+    private VBox sideBar = new VBox();
+    private BorderPane border1 = new BorderPane();
+
     private TextField searchBar = new TextField();
     private Label tableStatus = new Label("Search:");
     private Stage primaryStage;
+
     private ObservableList<UserRecord> data
             = FXCollections.observableArrayList();
     private ObservableList<UserRecord> tableData
             = FXCollections.observableArrayList();
     private ObservableList<UserRecord> searchResults
             = FXCollections.observableArrayList();
+
     private Connection conn;
     private PreparedStatement prepS = null;
-    public  TableView<UserRecord> tableView4 = new TableView();
+    private TableView<UserRecord> tableView4 = new TableView();
     private boolean isShowingSearch = false;
 
     public void initScreen(Stage primaryStage) {
         this.primaryStage = primaryStage;
+
         dbManager = new DbManager();
 
-
-
-
+        // informatie uit de database halen en in tabledata stoppen
         data = dbManager.getUserListFromDB();
         for (int i = 0; i < this.data.size(); i++) {
             this.tableData.add(this.data.get(i));
         }
 
-        Image corLogo = new Image("Corendon.png");
-        ImageView logo = new ImageView();
+        //Corendon logo top
         logo.setImage(corLogo);
         logo.setFitWidth(300);
         logo.setPreserveRatio(true);
         logo.setSmooth(true);
 
-
-        HBox topBar = new HBox();
-        HBox topBar2 = new HBox();
-        VBox xbox = new VBox();
-        BorderPane border1 = new BorderPane();
+        //usertabel tableview halen uit dbManager
         tableView4 = dbManager.createUserTable();
-        topBar2.getChildren().addAll(logo);
-
 
         this.setTop(topBar);
-        this.setRight(xbox);
+        this.setRight(sideBar);
         this.setCenter(border1);
         border1.setCenter(tableView4);
-        xbox.setPadding(new Insets(10,10,10,10));
-        xbox.getChildren().addAll( b, delete, refresh); 
+
+        //logo toevoegen aan de topbar
+        topBar2.getChildren().addAll(logo);
+
+        // topbar voor corendon logo + zoeken in de table
+        topBar.getChildren().addAll(topBar2, tableStatus, searchBar, searchButton);
+        topBar.setSpacing(30);
+        topBar.setAlignment(Pos.CENTER);
+
+        //ruimte tussen sidebar en table + knoppen toevoegen
+        sideBar.setPadding(new Insets(10, 10, 10, 10));
+        sideBar.getChildren().addAll(b, delete, refresh);
+
+        //grootte van de buttons
         refresh.setMinSize(200, 75);
         delete.setMinSize(200, 75);
         b.setMinSize(200, 75);
-        //b.setPadding(new Insets(10,10,10,10));
-                refresh.setPadding(new Insets(10,10,10,10));
-              //  delete.setPadding(new Insets(10,10,10,10));
-        
-        
+
+        //refresh knop
         refresh.setOnAction((ActionEvent e) -> {
             for (int i = 0; i < tableView4.getItems().size(); i++) {
                 tableView4.getItems().clear();
@@ -125,10 +123,12 @@ public class UsersOverview extends BorderPane {
             updateData();
         });
 
+        //delete knop
         delete.setOnAction((ActionEvent e) -> {
             deletePerson();
         });
-        
+
+        //search knop
         searchButton.setOnAction((ActionEvent e) -> {
             isShowingSearch = true;
             searchItems();
@@ -136,36 +136,24 @@ public class UsersOverview extends BorderPane {
             topBar.getChildren().add(back);
         });
 
+        //back knop
         back.setOnAction((ActionEvent e) -> {
             isShowingSearch = false;
             tableView4.setItems(tableData);
             tableStatus.setText("Search customers:");
             topBar.getChildren().removeAll(back);
         });
-    
 
-
-
-
-
-
-        // topbar voor corendon logo
-        topBar.getChildren().addAll(topBar2,tableStatus,  searchBar, searchButton);
-        topBar.setSpacing(30);
-        topBar.setAlignment(Pos.CENTER);
-
-            b.setOnAction((ActionEvent e) -> {
+        b.setOnAction((ActionEvent e) -> {
             addUser(primaryStage);
         });
-            
-            
 
         //table niet resizable
         tableView4.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         //table grootte veranderen en vullen
-        tableView4.setMinSize(1000,700);
-        tableView4.setMaxSize(1200,800);
+        tableView4.setMinSize(1000, 700);
+        tableView4.setMaxSize(1200, 800);
         tableView4.setItems(this.tableData);
 
     }
@@ -180,43 +168,47 @@ public class UsersOverview extends BorderPane {
         Label firstnameLB = new Label("First name:    ");
         Label tussenLB = new Label("Prefix:    ");
         Label surnameLB = new Label("Surname:   ");
-        Label emailLB = new Label ("Email:    ");
+        Label emailLB = new Label("Email:    ");
         Label functionLB = new Label("Function:    ");
-
-
 
         //spreekt voor zich
         TextField usernameTX = new TextField();
-                usernameTX.setPromptText("Username");
+        usernameTX.setPromptText("Username");
         TextField passwordTX = new TextField();
-                passwordTX.setPromptText("Password");
+        passwordTX.setPromptText("Password");
         TextField firstnameTX = new TextField();
-                firstnameTX.setPromptText("First name");
+        firstnameTX.setPromptText("First name");
         TextField tussenTX = new TextField();
-                tussenTX.setPromptText("Prefix");
+        tussenTX.setPromptText("Prefix");
         TextField surnameTX = new TextField();
-                surnameTX.setPromptText("Surname");
+        surnameTX.setPromptText("Surname");
         TextField emailTX = new TextField();
-                emailTX.setPromptText("Email");
+        emailTX.setPromptText("Email");
         TextField functionTX = new TextField();
-                functionTX.setPromptText("Function");
+        functionTX.setPromptText("Function");
 
-
+        //stage voor het scherm
         final Stage adduserStage = new Stage();
+
+        // zorgt ervoor dat er nergens anders behalve het main venster gedrukt kan worden
         adduserStage.initModality(Modality.APPLICATION_MODAL);
         adduserStage.initOwner(primaryStage);
+
+        //logisch deze
         cancel.setMinSize(70, 20);
         addBut.setMinSize(70, 20);
+        // boxen (getal is voor spacing)
         VBox useraddVragen = new VBox(10);
         VBox useraddAntwoorden = new VBox(10);
         HBox buttonBox = new HBox(10);
+
         useraddVragen.setPadding(new Insets(10, 10, 10, 10));
 
         // buttons toevoegen aan een hbox, toevoegen aan grid en de padding aanpassen
         buttonBox.getChildren().addAll(addBut, cancel);
         grid1.getChildren().addAll(useraddVragen, useraddAntwoorden, buttonBox);
         addBut.setPadding(new Insets(1, 1, 1, 1));
-        cancel.setPadding(new Insets(1, 1 ,1, 1));
+        cancel.setPadding(new Insets(1, 1, 1, 1));
         cancel.setAlignment(Pos.CENTER);
 
         // plaatsen van alle labels, buttons en textfields
@@ -238,7 +230,7 @@ public class UsersOverview extends BorderPane {
         grid1.add(functionTX, 2, 7);
         grid1.add(addBut, 2, 8);
         grid1.add(cancel, 3, 8);
-        
+
 //addBut leest de gegevens in en zet ze in database
         addBut.setOnAction((ActionEvent e) -> {
             PreparedStatement prepS = null;
@@ -302,18 +294,17 @@ public class UsersOverview extends BorderPane {
 
     //onuitgewerkte refreshknop
     public void updateData() {
-        
 
         data = dbManager.getUserListFromDB();
-       for (int i = 0; i < this.data.size(); i++) {
-           this.tableData.add(this.data.get(i));
-       }
-               tableView4.setItems(this.tableData);
+        for (int i = 0; i < this.data.size(); i++) {
+            this.tableData.add(this.data.get(i));
+        }
+        tableView4.setItems(this.tableData);
 
-       
     }
+//functie voor zoeken in database
 
-        public void searchItems() {
+    public void searchItems() {
         searchResults.clear();
         String keyword = searchBar.getText();
         for (UserRecord record : tableData) {
@@ -333,7 +324,8 @@ public class UsersOverview extends BorderPane {
         tableView4.setItems(searchResults);
         System.out.println(searchResults.toString());
     }
-        
+    //functie voor deleten uit database
+
     public void deletePerson() {
 
         int selectedIndex = tableView4.getSelectionModel().getSelectedIndex();
@@ -349,8 +341,7 @@ public class UsersOverview extends BorderPane {
 
                     String query = "delete from users where user_id = ?";
                     prepS = conn.prepareStatement(query);
-                   prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getUser_id());
-                    //prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getUsername());
+                    prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getUser_id());
                     prepS.executeUpdate();
                     System.out.println(tableView4.getSelectionModel().getSelectedItem().getUser_id());
                     tableView4.getItems().remove(selectedIndex);
@@ -363,7 +354,7 @@ public class UsersOverview extends BorderPane {
             }
 
         } else {
-            // Nothing selected.
+
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("No Selection");
             alert.setHeaderText(null);

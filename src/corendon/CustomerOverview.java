@@ -5,8 +5,6 @@
  */
 package corendon;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,14 +12,12 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -30,7 +26,8 @@ import javafx.stage.Stage;
  * @author Tijmen
  */
 public class CustomerOverview extends BorderPane {
-private DbManager dbManager;
+
+    private DbManager dbManager;
 
     private ObservableList<CustomerRecord> data
             = FXCollections.observableArrayList();
@@ -53,21 +50,20 @@ private DbManager dbManager;
     private Label tableStatus = new Label("Search customers:");
     private boolean isShowingSearch = false;
 
-
     public void initScreen(Stage primaryStage) {
         dbManager = new DbManager();
+
         this.data = dbManager.getCustomerListFromDB();
         for (int i = 0; i < data.size(); i++) {
             tableData.add(data.get(i));
         }
 
         tableView4 = dbManager.createCustomerTable();
-        
+
         this.setTop(topBar1);
         this.setRight(controlBox);
         this.setCenter(border1);
         border1.setCenter(tableView4);
-
 
         searchBar = new TextField();
         Image corLogo = new Image("Corendon.png");
@@ -87,15 +83,10 @@ private DbManager dbManager;
         topBar2.setAlignment(Pos.CENTER_RIGHT);
 
         // ------------------------------------------
-
         tableView4.setMinSize(1300, (25 * 24) + 26);
         tableView4.setMaxSize(1300, (25 * 24) + 26);
 
-
-        //tabellen vullen
         tableView4.setItems(this.tableData);
-        //stickyData.clear();
-        //--------------------------------------------
 
         refresh.setOnAction((ActionEvent e) -> {
             for (int i = 0; i < tableView4.getItems().size(); i++) {
@@ -142,9 +133,9 @@ private DbManager dbManager;
 
     public void updateData() {
         data = dbManager.getCustomerListFromDB();
-       for (int i = 0; i < this.data.size(); i++) {
-           this.tableData.add(this.data.get(i));
-       }
-               tableView4.setItems(this.tableData);
+        for (int i = 0; i < this.data.size(); i++) {
+            this.tableData.add(this.data.get(i));
+        }
+        tableView4.setItems(this.tableData);
     }
 }

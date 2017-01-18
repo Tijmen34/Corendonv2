@@ -31,11 +31,6 @@ public class DbManager {
     public DbManager() {
     }
 
-    // 2e constructor voor methodes die de primaryStage nodig hebben.
-    public DbManager(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
-
     public ObservableList<LuggageRecord2> getLuggageListFromDB() {
 
         ObservableList<LuggageRecord2> data = FXCollections.observableArrayList();
@@ -63,7 +58,7 @@ public class DbManager {
     public ObservableList<UserRecord> getUserListFromDB() {
 
         ObservableList<UserRecord> data = FXCollections.observableArrayList();
-        
+
         try (Connection conn = Sql.DbConnector();) {
             String SQL = "SELECT * FROM users";
             ResultSet rs = conn.createStatement().executeQuery(SQL);
@@ -80,26 +75,27 @@ public class DbManager {
         return data;
     }
 
-        public ObservableList<CustomerRecord> getCustomerListFromDB() {
+    public ObservableList<CustomerRecord> getCustomerListFromDB() {
 
         ObservableList<CustomerRecord> data = FXCollections.observableArrayList();
- 
-            try (Connection conn = Sql.DbConnector();) {
-                String SQL = "SELECT * FROM klant";
-                ResultSet rs = conn.createStatement().executeQuery(SQL);
-                while (rs.next()) {
-                    data.add(new CustomerRecord(rs.getString("klant_id"), rs.getString("geslacht"),
-                            rs.getString("naam"), rs.getString("tussenvoegsel"),
-                            rs.getString("achternaam"), rs.getString("gebdatum"),
-                            rs.getString("straat"), rs.getString("huisnummer"), rs.getString("plaats"), rs.getString("postcode"), 
-                            rs.getString("land"), rs.getString("telnr"), rs.getString("mail")));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Error on Building Data");
+
+        try (Connection conn = Sql.DbConnector();) {
+            String SQL = "SELECT * FROM klant";
+            ResultSet rs = conn.createStatement().executeQuery(SQL);
+            while (rs.next()) {
+                data.add(new CustomerRecord(rs.getString("klant_id"), rs.getString("geslacht"),
+                        rs.getString("naam"), rs.getString("tussenvoegsel"),
+                        rs.getString("achternaam"), rs.getString("gebdatum"),
+                        rs.getString("straat"), rs.getString("huisnummer"), rs.getString("plaats"), rs.getString("postcode"),
+                        rs.getString("land"), rs.getString("telnr"), rs.getString("mail")));
             }
-            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        return data;
     }
+
     public ObservableList<LuggageRecord2> checkLabel(String labelnr) {
 
         ObservableList<LuggageRecord2> data = FXCollections.observableArrayList();
@@ -217,8 +213,8 @@ public class DbManager {
 
         return tableView;
     }
-    
-       public TableView createCustomerTable() {
+
+    public TableView createCustomerTable() {
         final TableView<CustomerRecord> tableView = new TableView();
 
         TableColumn clientidCol = new TableColumn("Client ID");
@@ -267,5 +263,5 @@ public class DbManager {
                 zipCol, countryCol, phonenrCol, emailCol);
 
         return tableView;
-       }
+    }
 }

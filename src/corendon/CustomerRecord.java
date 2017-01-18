@@ -12,8 +12,8 @@ import javafx.beans.property.SimpleStringProperty;
  * @author Jeroen de Jong
  */
 public class CustomerRecord {
-    
-   private final SimpleStringProperty customerId;
+
+    private final SimpleStringProperty customerId;
     private final SimpleStringProperty gender;
     private final SimpleStringProperty firstname;
     private final SimpleStringProperty tussenVoegsel;
@@ -26,8 +26,6 @@ public class CustomerRecord {
     private final SimpleStringProperty country;
     private final SimpleStringProperty phoneNr;
     private final SimpleStringProperty eMail;
-
-    
 
     public CustomerRecord(String customerId, String gender, String firstname, String tussenVoegsel,
             String surname, String dateOfBirth, String street, String houseNr,
@@ -46,9 +44,9 @@ public class CustomerRecord {
         this.phoneNr = new SimpleStringProperty(phoneNr);
         this.eMail = new SimpleStringProperty(eMail);
 
-        
     }
-public String getCustomerId() {
+
+    public String getCustomerId() {
         return customerId.get();
     }
 
@@ -71,7 +69,7 @@ public String getCustomerId() {
     public void setFirstname(String firstname) {
         this.firstname.set(firstname);
     }
-    
+
     public String getTussenVoegsel() {
         return tussenVoegsel.get();
     }
@@ -79,7 +77,7 @@ public String getCustomerId() {
     public void setTussenVoegsel(String tussenVoegsel) {
         this.tussenVoegsel.set(tussenVoegsel);
     }
-    
+
     public String getSurname() {
         return surname.get();
     }
@@ -87,7 +85,7 @@ public String getCustomerId() {
     public void setSurname(String surname) {
         this.surname.set(surname);
     }
-    
+
     public String getDateOfBirth() {
         return dateOfBirth.get();
     }
@@ -95,7 +93,7 @@ public String getCustomerId() {
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth.set(dateOfBirth);
     }
-    
+
     public String getStreet() {
         return street.get();
     }
@@ -103,7 +101,7 @@ public String getCustomerId() {
     public void setStreet(String street) {
         this.street.set(street);
     }
-    
+
     public String getHouseNr() {
         return houseNr.get();
     }
@@ -111,7 +109,7 @@ public String getCustomerId() {
     public void setHouseNr(String houseNr) {
         this.houseNr.set(houseNr);
     }
-    
+
     public String getTown() {
         return town.get();
     }
@@ -119,7 +117,7 @@ public String getCustomerId() {
     public void setTown(String town) {
         this.town.set(town);
     }
-    
+
     public String getZipCode() {
         return zipCode.get();
     }
@@ -127,7 +125,7 @@ public String getCustomerId() {
     public void setZipCode(String zipCode) {
         this.zipCode.set(zipCode);
     }
-    
+
     public String getCountry() {
         return country.get();
     }
@@ -135,7 +133,7 @@ public String getCustomerId() {
     public void setCountry(String country) {
         this.country.set(country);
     }
-    
+
     public String getPhoneNr() {
         return phoneNr.get();
     }
@@ -143,7 +141,7 @@ public String getCustomerId() {
     public void setPhoneNr(String phoneNr) {
         this.phoneNr.set(phoneNr);
     }
-    
+
     public String getEMail() {
         return eMail.get();
     }
@@ -151,23 +149,20 @@ public String getCustomerId() {
     public void setEMail(String eMail) {
         this.eMail.set(eMail);
     }
-    
-
 
     @Override
     public String toString() {
         return "LuggageRecord2{" + "customerId=" + customerId + ", gender=" + gender + ", firstname=" + firstname + ", "
                 + "tussenVoegsel=" + tussenVoegsel + ", surname=" + surname + ", "
-                + "dateOfBirth=" + dateOfBirth + ", street=" + street + ", houseNr=" + houseNr + ", town=" + town + ", zipCode" + zipCode 
-                + ", country=" + country + ", phoneNr=" + phoneNr + ", eMail=" + eMail +'}';
+                + "dateOfBirth=" + dateOfBirth + ", street=" + street + ", houseNr=" + houseNr + ", town=" + town + ", zipCode" + zipCode
+                + ", country=" + country + ", phoneNr=" + phoneNr + ", eMail=" + eMail + '}';
     }
-    
+
     public SimpleStringProperty[] toArray() {
-        SimpleStringProperty[] properties = new SimpleStringProperty[]
-                {this.customerId, this.gender, this.firstname, 
-                this.tussenVoegsel, this.surname, this.dateOfBirth, this.street,
-                this.houseNr, this.town, this.zipCode,
-                this.country, this.phoneNr, this.eMail};
+        SimpleStringProperty[] properties = new SimpleStringProperty[]{this.customerId, this.gender, this.firstname,
+            this.tussenVoegsel, this.surname, this.dateOfBirth, this.street,
+            this.houseNr, this.town, this.zipCode,
+            this.country, this.phoneNr, this.eMail};
         return properties;
     }
 }

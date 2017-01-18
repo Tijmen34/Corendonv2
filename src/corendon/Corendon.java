@@ -32,19 +32,11 @@ Kenan:
 
 
 
-import java.awt.Desktop;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -66,11 +58,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 /**
@@ -342,6 +330,7 @@ public class Corendon extends Application {
         emailInput.setPromptText("Fill your E-mail here");
         passwordReset.setStyle(";-fx-border-color:transparent;-fx-focus-color: transparent;-fx-faint-focus-color: transparent;");
         Label statusRequest = new Label();
+        
         Label emailLabel = new Label("E-mail: ");
         emailLabel.setStyle("-fx-text-fill:#D81E05");
         
