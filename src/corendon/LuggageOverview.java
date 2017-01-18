@@ -86,6 +86,10 @@ public class LuggageOverview extends BorderPane {
     //na het instanciëren van deze class. De constructor van BorderPane zal wel worden
     //uitgevoerd
     public void initScreen(Stage primaryStage) {
+        
+        /**
+         * @param Stage de stage van deze applicatie
+         */
         this.selToStickyBtn.setPrefSize(100, 20);
         this.selUnStickyBtn.setPrefSize(100, 20);
         this.stickyMatchBtn.setPrefSize(100, 20);
@@ -294,6 +298,10 @@ public class LuggageOverview extends BorderPane {
     //bagage die delivered is en ouder dan een jaar is verwijderd worden.
     //Anders: verwijder alleen de selectie
     public void deleteLuggage(boolean deleteAllExpired) {
+        /**
+         * @param boolean om te bepalen of alleen de selectie of alle 
+         * oude afgehandelde records verwijderd moeten worden.
+         */
 
         int selectedIndex = tableView4.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
@@ -343,6 +351,10 @@ public class LuggageOverview extends BorderPane {
     //methode die een popup tevrooschijn haalt waarin de details van een 
     //bagage record aangepast kunnen worden.
     public void editLuggageRecord(Stage primaryStage, LuggageRecord2 recordToEdit) {
+        /**
+         * @param Stage de stage van de applicatie
+         * @param LuggageRecord2 de record die aangepast moet worden
+         */
 
         //niewe popup, de rest van de app bevriest.
         //LuggageRecord2 recordToEdit = tableView4.getSelectionModel().getSelectedItem();
