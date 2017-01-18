@@ -7,43 +7,26 @@ package corendon;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.lang.Exception;
-import java.util.Calendar;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.EventType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
@@ -58,17 +41,17 @@ public class LuggageOverview extends BorderPane {
     private Stage primaryStage;
     private DbManager dbManager;
 
-    private ObservableList<LuggageRecord2> data
+    private ObservableList<LuggageRecord2> data          //In deze lijst komt de data binnen uit de db
             = FXCollections.observableArrayList();
-    private ObservableList<LuggageRecord2> tableData
+    private ObservableList<LuggageRecord2> tableData     //deze lijst is wat de grote tabel laat zien
             = FXCollections.observableArrayList();
-    private ObservableList<LuggageRecord2> stickyData
+    private ObservableList<LuggageRecord2> stickyData    //deze lijst is wat de bovenste tabel laat zien
             = FXCollections.observableArrayList();
-    private ObservableList<LuggageRecord2> searchResults
+    private ObservableList<LuggageRecord2> searchResults //deze lijst bevat wat er in de grote tabel komt als zoekresultaat
             = FXCollections.observableArrayList();
 
-    private TableView<LuggageRecord2> tableViewSticky3;
-    private TableView<LuggageRecord2> tableView4;
+    private TableView<LuggageRecord2> tableViewSticky3; //grote tabel
+    private TableView<LuggageRecord2> tableView4;       //kleine tabel voor de selectie
 
     private VBox controlBox = new VBox();
     private ScrollPane tableScroll = new ScrollPane();
@@ -81,46 +64,43 @@ public class LuggageOverview extends BorderPane {
     private Button selUnStickyBtn = new Button("Deselect");
     private Button stickyMatchBtn = new Button("Solve");
 
-    private Button editRecord = new Button("Ëdit");
+    private Button editRecord = new Button("Edit");
 
     private Button back = new Button("back");
     private Button searchButton = new Button("search");
+    private Label space = new Label(" ");
     private Button delete = new Button("delete");
     private Button deleteExpired = new Button("delete expired");
     private TextField searchBar = new TextField();
     private Label tableStatus = new Label("Overview:");
 
+    //deze buttons worden pas geinstanciëerd als de popup tevoorschijn komt
     private Button cancelEdit;
     private Button confirmEdit;
     private Button resetEdit;
-
-    private boolean isShowingSearch;
+    
+    private boolean isShowingSearch; //true als zoekresultaten worden laten zien
 
     public void initScreen(Stage primaryStage) {
         this.selToStickyBtn.setPrefSize(100, 20);
         this.selUnStickyBtn.setPrefSize(100, 20);
         this.stickyMatchBtn.setPrefSize(100, 20);
-
+        
         this.primaryStage = primaryStage;
+        
+        //haal bagage records uit de db en stop ze in de lijst die de tabel gaat vullen
         dbManager = new DbManager();
         this.data = dbManager.getLuggageListFromDB();
         for (int i = 0; i < data.size(); i++) {
             tableData.add(data.get(i));
         }
-
+        
+        //roep methodes aan om de volledig klaargemaakte tabellen te krijgen
         tableView4 = dbManager.createLuggageTable();
         tableViewSticky3 = dbManager.createLuggageTable();
         isShowingSearch = false;
 
-        //ScrollPane scroll2 = new ScrollPane();
-        /*
-        hierarchie:
-                      LuggageOverview
-        border1,                        topBar
-        tableSticky2,scroll2
-                      table3
-        
-         */
+        //zorg dat de juiste panes en boxes elkaar vasthouden
         this.setTop(topBar);
         this.setRight(controlBox);
         this.setCenter(border1);
@@ -130,7 +110,7 @@ public class LuggageOverview extends BorderPane {
 
         //-------------------------------------------
         //balk met controls voor tabel rechts
-        controlBox.getChildren().addAll(selUnStickyBtn, stickyMatchBtn, selToStickyBtn, editRecord, delete, deleteExpired);
+        controlBox.getChildren().addAll(selUnStickyBtn, stickyMatchBtn, selToStickyBtn, space, editRecord, delete, deleteExpired);
         controlBox.setSpacing(50);
 
         //-------------------------------------------
@@ -162,16 +142,12 @@ public class LuggageOverview extends BorderPane {
         tableViewSticky3.setPrefSize(1000, 24 + 26);
         tableViewSticky3.setMaxWidth(1000);
         tableViewSticky3.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        //--------------------------------------------
-        //test record
-//        LuggageRecord2 testRecord = new LuggageRecord2("0001", "3R5F2", "MH370",
-//                "Suitcase", "jemoeder", "Red", "Black",
-//                "NULL", "12324", "Missing", false);
+
         //-------------------------------------------
         //tabellen vullen
         tableViewSticky3.setItems(this.stickyData);
         tableView4.setItems(this.tableData);
-        //stickyData.clear();
+        
         //--------------------------------------------
 
         //Buttons functioneel
@@ -233,10 +209,11 @@ public class LuggageOverview extends BorderPane {
         });
 
         editRecord.setOnAction((ActionEvent e) -> {
-            editLuggageRecord(primaryStage, tableView4.getSelectionModel().getSelectedItem());
+            editLuggageRecord(this.primaryStage, tableView4.getSelectionModel().getSelectedItem());
         });
     }
-
+    
+    //methode om te zoeken in de tabel en de resultaten te laten zien in de tabel
     public void searchItems() {
         searchResults.clear();
         String keyword = searchBar.getText();
@@ -257,7 +234,9 @@ public class LuggageOverview extends BorderPane {
         tableView4.setItems(searchResults);
         System.out.println(searchResults.toString());
     }
-
+    
+    //methode om 2 items in de bovenste tabel aan te merken als match,
+    //om daarna 1 item terug te stoppen met de stauts 'solved'
     public void solveStickyItems() {
         if ((this.stickyData.size() == 2)
                 && ((stickyData.get(0).getStatus().equals("lost") && stickyData.get(1).getStatus().equals("found"))
@@ -307,14 +286,9 @@ public class LuggageOverview extends BorderPane {
         }
     }
 
-    public void updateData() {
-        stickyData.clear();
-        tableData.clear();
-        for (LuggageRecord2 record : data) {
-            tableData.add(record);
-        }
-    }
-
+    //methode voor het deleten van bagage, als de boolean true is zal alle
+    //bagage die delivered is en ouder dan een jaar is verwijderd worden.
+    //Anders: verwijder alleen de selectie
     public void deleteLuggage(boolean deleteAllExpired) {
 
         int selectedIndex = tableView4.getSelectionModel().getSelectedIndex();
@@ -329,13 +303,23 @@ public class LuggageOverview extends BorderPane {
                 try (Connection conn = Sql.DbConnector();) {
                     String query;
                     if (deleteAllExpired == false) {
-                        query = "delete from bagage where lost_id = ?";
+                        query = "DELETE from bagage WHERE lost_id = ?";
+                        prepS = conn.prepareStatement(query);
+                        prepS.setString(1, tableView4.getSelectionModel().getSelectedItem().getLostId());
+                        tableView4.getItems().remove(selectedIndex);
                     } else {
-                        query = "delete form bagage where datum_bevestiging = ?";
+                        query = "DELETE form bagage WHERE status = 'Solved' AND DATE(date_time) < DATE(NOW() - INTERVAL 1 YEAR)";
+                        prepS = conn.prepareStatement(query);
+                        this.data.clear();
+                        this.tableData.clear();
+                        this.data = dbManager.getLuggageListFromDB();
+                        for (int i = 0; i < data.size(); i++) {
+                            tableData.add(data.get(i));
+                        }
                     }
-                    prepS = conn.prepareStatement(query);
+
                     prepS.executeUpdate();
-                    tableView4.getItems().remove(selectedIndex);
+
                 } catch (Exception e1) {
                     System.out.println("SQL ERROR");
                     System.err.println(e1);
@@ -351,7 +335,9 @@ public class LuggageOverview extends BorderPane {
             alert.showAndWait();
         }
     }
-
+    
+    //methode die een popup tevrooschijn haalt waarin de details van een 
+    //bagage record aangepast kunnen worden.
     public void editLuggageRecord(Stage primaryStage, LuggageRecord2 recordToEdit) {
 
         //niewe popup, de rest van de app bevriest.
@@ -410,13 +396,12 @@ public class LuggageOverview extends BorderPane {
         form.add(datumBevestiging, 1, 11);
         form.add(datumBevestigingField, 2, 11, 2, 1);
 
-        
         form.add(confirmEdit, 1, 12);
         form.add(resetEdit, 2, 12);
 
         form.add(cancelEdit, 3, 12);
 
-        // OK button sends Update
+        // OK button verzend de update
         confirmEdit.setOnAction((ActionEvent e) -> {
             try (Connection conn = Sql.DbConnector();) {
 
@@ -442,7 +427,7 @@ public class LuggageOverview extends BorderPane {
                 pst.executeUpdate();
                 //conn.createStatement().executeUpdate(SQL);
                 System.out.println(SQL);
-
+                System.out.println("test " + recordToEdit.getDate());
             } catch (Exception e2) {
                 e2.printStackTrace();
                 System.out.println("Error on Building Data");
@@ -456,7 +441,7 @@ public class LuggageOverview extends BorderPane {
             checkPopup.close();
 
         });
-
+        //reset button zet de textvelden weer op default
         resetEdit.setOnAction((ActionEvent e) -> {
             labelnrField.setText(recordToEdit.getLabelNr());
             vluchtField.setText(recordToEdit.getFlightNr());
@@ -469,7 +454,7 @@ public class LuggageOverview extends BorderPane {
             statusField.setText(recordToEdit.getStatus());
             datumBevestigingField.setText(recordToEdit.getDate());
         });
-
+        //cancel button sluit de popup
         cancelEdit.setOnAction((ActionEvent e) -> {
             checkPopup.close();
 
@@ -478,7 +463,7 @@ public class LuggageOverview extends BorderPane {
         form.setPadding(new Insets(0, 0, 0, 0));
         form.getChildren().addAll();
 
-        Scene dialogScene = new Scene(form, 500, 600);
+        Scene dialogScene = new Scene(form, 250, 300);
         checkPopup.setScene(dialogScene);
         checkPopup.show();
     }
