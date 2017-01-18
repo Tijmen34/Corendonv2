@@ -42,20 +42,29 @@ import javafx.scene.shape.Rectangle;
  * @author Zouhar Alladien
  */
 public class FoundForm extends GridPane {
-
+    
+    //private DbManager dbManager;
+    private ObservableList<LuggageRecord2> luggageData
+    = FXCollections.observableArrayList();
     private ResultSet rs = null;
     private PreparedStatement pst = null;
     private Connection conn;
-
+    
+    //logo rechtsboven
     private Image corLogo = new Image("Corendon.png");
     private ImageView logo = new ImageView();
+    
+    //hbox voor logo
     private HBox hbox = new HBox();
+    
+    //CONSTANTE voor styling
+    //border formulier
     final String fieldStyle = "-fx-border-width: 1;\n"
             + "-fx-border-radius: 5;\n"
             + "-fx-border-color: #cccccc;\n"
             + "-fx-background-color: #ffffff;"
             + "-fx-text-inner-color: #555555;";
-
+    //buttonstyle "submit, checklabel"
     final String buttonStyle = "-fx-font: 20px UniSansBoldItalic;"
             + "-fx-base:#56ad3e;"
             + "-fx-border-color:transparent;"
@@ -64,21 +73,20 @@ public class FoundForm extends GridPane {
 
     private Stage primaryStage;
 
-    private ObservableList<LuggageRecord2> luggageData
-            = FXCollections.observableArrayList();
 
+    //button voor labelcheck
     private Button solve = new Button("Solve");
     private Button cancel = new Button("Cancel");
     private final int IATALIMIT = 3;
-
+    
+    
     public void initScreen(Stage primaryStage) {
         this.primaryStage = primaryStage;
         CheckConnection();
-
+        //Hbox posistie
         hbox.setStyle("-fx-background-color: white;");
         hbox.setSpacing(0);
         hbox.setAlignment(Pos.TOP_LEFT);
-
         logo.setImage(corLogo);
         logo.setFitWidth(200);
         logo.setPreserveRatio(true);
@@ -86,27 +94,18 @@ public class FoundForm extends GridPane {
         logo.setCache(true);
         hbox.getChildren().addAll(logo);
 
-        //Titel Form
+        //Titel Formulier
         Label title = new Label("\tForm Luggage Found");
         title.setTextFill(Color.web("#FFFFFF"));
         title.setStyle("-fx-font: 20px UniSansSemiBold");
-
+        
+        //rode titelbalk
         Rectangle titleBox = new Rectangle();
         titleBox.setWidth(2000);
         titleBox.setHeight(50);
         titleBox.setFill(Color.web("#D81E05"));
-
-        Label luggageLabelInfo = new Label("Label information");
-        luggageLabelInfo.setTextFill(Color.web("#00bce2"));
-        luggageLabelInfo.setStyle("-fx-font: 18px UniSansRegular");
-
-        Label luggageInfo = new Label("Luggage Information");
-        luggageInfo.setTextFill(Color.web("#00bce2"));
-        luggageInfo.setStyle("-fx-font: 18px UniSansRegular");
-
-        Separator separator1 = new Separator();
-        separator1.setOrientation(Orientation.VERTICAL);
-
+        
+        
         // Submit knop
         Button submit = new Button("Submit");
         submit.setStyle(buttonStyle);
@@ -129,7 +128,8 @@ public class FoundForm extends GridPane {
         iataSearch.setPromptText("IATA");
         iataSearch.setMaxWidth(55);
         iataSearch.setStyle(fieldStyle);
-
+        
+        //limiet 3 characters
         iataSearch.textProperty().addListener(new ChangeListener<String>() {
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
                 if (iataSearch.getText().length() > IATALIMIT) {
@@ -138,26 +138,40 @@ public class FoundForm extends GridPane {
                 }
             }
         });
+        
+        //kopje "labelinformation"
+        Label luggageLabelInfo = new Label("Label information");
+        luggageLabelInfo.setTextFill(Color.web("#00bce2"));
+        luggageLabelInfo.setStyle("-fx-font: 18px UniSansRegular");
+        //kopje "luggage information"
+        Label luggageInfo = new Label("Luggage Information");
+        luggageInfo.setTextFill(Color.web("#00bce2"));
+        luggageInfo.setStyle("-fx-font: 18px UniSansRegular");
 
-        // Algemene informatie  
-        //Label informatie
+        //lijn midden van formulier
+        Separator separator1 = new Separator();
+        separator1.setOrientation(Orientation.VERTICAL);
+
+        // Algemene informatie (label + textfield/combobox) 
         Label bagLabel = new Label("Label number: ");
         TextField labelInput = new TextField();
         labelInput.setPromptText("Label number");
         labelInput.setStyle(fieldStyle);
-
+        
+        
         Label flightNr = new Label("Flight number: ");
         TextField flightInput = new TextField("CND");
         flightInput.setPromptText("Flight number");
         flightInput.setMaxWidth(400);
         flightInput.setStyle(fieldStyle);
-
+        
         Label destination = new Label("Destination IATA: ");
         TextField destinationInput = new TextField();
         destinationInput.setPromptText("IATA");
         destinationInput.setStyle(fieldStyle);
         destinationInput.setMaxWidth(55);
-
+        
+        //limiet 3 characters
         destinationInput.textProperty().addListener(new ChangeListener<String>() {
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
                 if (destinationInput.getText().length() > IATALIMIT) {
@@ -167,7 +181,7 @@ public class FoundForm extends GridPane {
             }
         });
 
-        //baggage informatie
+        //baggage informatie (label + textfield/combobox)
         Label bagType = new Label("Luggage Type: ");
         ComboBox typeInput = new ComboBox(FXCollections.observableArrayList("Carry-on", "Wheeled Luggage",
                 "Suitcase", "Duffel Bag", "Water Container", "Other"));
@@ -200,6 +214,7 @@ public class FoundForm extends GridPane {
         infoInput.setPromptText("Further Luggage Information...            ");
         infoInput.setMaxWidth(240);
 
+        //layout gridpane
         this.setHgap(15);
         this.setVgap(15);
         this.setPadding(new Insets(30, 30, 30, 30));
@@ -240,15 +255,20 @@ public class FoundForm extends GridPane {
         this.add(infoInput, 9, 9, 1, 4);
 
         this.setStyle("-fx-background-color: white");
-
+        
+        //voert dit uit zodra "checklabel" is aan geklikt
         labelCheck.setOnAction((ActionEvent e) -> {
             checkLabel(primaryStage, labelInput.getText());
         });
 
+        //zodra er op submit wordt geklikt
         submit.setOnAction((ActionEvent e) -> {
+            
             try {
+                //checkt of deze label zijn ingevuld, anders melding dat er nog wat moet worden ingevuld
                 if (labelInput.getText().isEmpty() || typeInput.getSelectionModel().isEmpty() || priColorList.getSelectionModel().isEmpty()
                         || brandList.getSelectionModel().isEmpty() || flightInput.getText().isEmpty() || destinationInput.getText().isEmpty()) {
+                    //alert niet alles is ingevuld
                     Alert alert = new Alert(AlertType.WARNING);
                     alert.setTitle("Corendon - Luggage");
                     alert.setHeaderText(null);
@@ -256,14 +276,14 @@ public class FoundForm extends GridPane {
                     alert.showAndWait();
                     System.out.println("Some information is not filled in");
                 } else {
-
+                    //alert alles ingevuld
                     Alert alert1 = new Alert(AlertType.INFORMATION);
                     alert1.setTitle("Corendon - Luggage");
                     alert1.setHeaderText(null);
                     alert1.setContentText("Information successfully submitted");
                     alert1.showAndWait();
                     System.out.println("Information submitted.");
-                    //vult tabel bagage
+                    //QUERY vult bagage in database onder "bagage"
                     String query = "INSERT INTO bagage"
                             + "(labelnr, vlucht, iata, lugType, merk, Prikleur, SecKleur, extra_info, status, datum_bevestiging, destination) VALUES"
                             + "(?,?,?,?,?,?,?,?,'found',NOW(),?)";
@@ -283,6 +303,7 @@ public class FoundForm extends GridPane {
                     pst.executeUpdate();
 
                 }
+                //alert als er iets mis is met database
             } catch (Exception e1) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Corendon - Luggage");
@@ -295,7 +316,7 @@ public class FoundForm extends GridPane {
             }
         });
     }
-
+    //checkt connectie van database
     public void CheckConnection() {
         conn = Sql.DbConnector();
         if (conn == null) {
@@ -303,7 +324,7 @@ public class FoundForm extends GridPane {
             System.exit(1);
         }
     }
-
+    //methode voor checklabel
     public void checkLabel(Stage primaryStage, String labelnr) {
         DbManager dbManager = new DbManager();
 
@@ -317,11 +338,12 @@ public class FoundForm extends GridPane {
         final Stage checkPopup = new Stage();
         checkPopup.initModality(Modality.APPLICATION_MODAL);
         checkPopup.initOwner(primaryStage);
-
+        
         HBox prompt = new HBox(20);
         VBox controls = new VBox(20);
         controls.setPadding(new Insets(5, 5, 5, 5));
-
+        
+        //knop style "Solve"
         solve.setMinSize(90, 30);
         solve.setStyle("-fx-base:#56ad3e;"
                 + "-fx-border-color:transparent;"
@@ -331,7 +353,7 @@ public class FoundForm extends GridPane {
                 + "-fx-font-weight: bold;");
         solve.setTextFill(Color.web("#ffffff"));
         solve.setText("Solve");
-
+        //knop style "Cancel"
         cancel.setMinSize(70, 20);
         cancel.setStyle("-fx-base:white;"
                 + "-fx-border-color:transparent;"
@@ -347,11 +369,12 @@ public class FoundForm extends GridPane {
         Scene dialogScene = new Scene(prompt, 1200, 200);
         checkPopup.setScene(dialogScene);
         checkPopup.show();
-
+        
+        //Als op Solve wordt geklikt... (1/2)
         solve.setOnAction((ActionEvent e) -> {
             solveFromPrompt(tableView);
         });
-
+        //sluit checklabel af 
         cancel.setOnAction((ActionEvent e) -> {
             checkPopup.close();
         });
@@ -366,12 +389,14 @@ public class FoundForm extends GridPane {
 
         if (tableView.getSelectionModel().getSelectedCells().size() > 0) {
             try (Connection conn = Sql.DbConnector();) {
+                // ...zal de geselecteerde bagage van lost naar solved veranderd worden. (2/2)
                 String id = luggageData.get(tableView.getSelectionModel().getSelectedIndex()).getLostId();
                 String SQL = "UPDATE bagage SET status = 'solved' WHERE lost_id = " + "'" + id + "'";
                 System.out.println(SQL);
                 conn.createStatement().executeUpdate(SQL);
 
                 luggageData.remove(tableView.getSelectionModel().getSelectedIndex());
+            // bij fout
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error on Building Data");
