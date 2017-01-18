@@ -17,12 +17,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 /**
- *
+ * Deze class is bedoeld om dubbele code te voorkomen en de andere classes te 
+ * verlossen van lange stukken code.
+ * 
  * @author iS109-3
  */
 public class DbManager {
 
-    private Stage primaryStage;
+    
     private ResultSet rs = null;
     private PreparedStatement pst = null;
     private Connection conn;
@@ -31,6 +33,7 @@ public class DbManager {
     public DbManager() {
     }
 
+    //geeft een lijst terug met de bagage records uit de database
     public ObservableList<LuggageRecord2> getLuggageListFromDB() {
 
         ObservableList<LuggageRecord2> data = FXCollections.observableArrayList();
@@ -55,6 +58,7 @@ public class DbManager {
         return data;
     }
 
+    //geeft een lijst terug met de user records uit de database
     public ObservableList<UserRecord> getUserListFromDB() {
 
         ObservableList<UserRecord> data = FXCollections.observableArrayList();
@@ -75,6 +79,7 @@ public class DbManager {
         return data;
     }
 
+    //geeft een lijst terug met de klant records uit de database
     public ObservableList<CustomerRecord> getCustomerListFromDB() {
 
         ObservableList<CustomerRecord> data = FXCollections.observableArrayList();
@@ -96,6 +101,8 @@ public class DbManager {
         return data;
     }
 
+    //geeft een lijst terug met records waarvan het label nummer overeenkomt
+    //met het opgegeven label nummer
     public ObservableList<LuggageRecord2> checkLabel(String labelnr) {
 
         ObservableList<LuggageRecord2> data = FXCollections.observableArrayList();
@@ -123,6 +130,7 @@ public class DbManager {
         return data;
     }
 
+    //zet een tabel klaar om bagage in te laten zien
     public TableView createLuggageTable() {
         final TableView<LuggageRecord2> tableView = new TableView();
 
@@ -173,7 +181,8 @@ public class DbManager {
 
         return tableView;
     }
-
+    
+    //zet een tabel klaar om users te laten zien
     public TableView createUserTable() {
         final TableView<UserRecord> tableView = new TableView();
 
@@ -213,7 +222,8 @@ public class DbManager {
 
         return tableView;
     }
-
+    
+    //zet een tabel klaar om klanten te laten zien
     public TableView createCustomerTable() {
         final TableView<CustomerRecord> tableView = new TableView();
 
