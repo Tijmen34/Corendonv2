@@ -33,7 +33,9 @@ Kenan:
 
 
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -348,7 +350,15 @@ public class Corendon extends Application {
         
         manual.setOnAction(e-> {
 
-            
+            File file = new File("src\\resources\\ReadMe.txt");
+            Desktop desktop = Desktop.getDesktop();
+            if (file.exists()) {
+                try {
+                    desktop.open(file);
+                } catch (IOException ex) {
+                    Logger.getLogger(Corendon.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         });
         helpPage.setStyle("-fx-background-color:white");
         helpPage.setHgap(15);
